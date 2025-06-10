@@ -14,6 +14,7 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import ConservationSection from '@/components/ConservationSection'
 import HomePageProjects from '@/components/HomePageProjects'
+import HomePageImpact, { ImpactBlock } from '@/components/HomePageImpact'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -103,6 +104,7 @@ export default async function Page({ params: paramsPromise }: Args) {
           })}
         />
       )}
+
       {page.homePageProjects && (
         <HomePageProjects
           sectionLabel={page.homePageProjects.sectionLabel || ''}
@@ -118,6 +120,38 @@ export default async function Page({ params: paramsPromise }: Args) {
                 : '',
             bgColor: block.bgColor || '',
           }))}
+        />
+      )}
+      {page.homePageImpact && (
+        <HomePageImpact
+          sectionLabel={page.homePageImpact.sectionLabel || ''}
+          heading={page.homePageImpact.heading || ''}
+          description={page.homePageImpact.description || ''}
+          buttonText={page.homePageImpact.buttonText || ''}
+          buttonLink={page.homePageImpact.buttonLink || ''}
+          blocks={(page.homePageImpact.blocks || []).map((block): ImpactBlock => {
+            // Debug: log the icon field to check its structure
+            // Remove or comment out after debugging
+            // console.log('block.icon:', block.icon);
+            let icon: string | { url: string } = ''
+            if (block.icon && typeof block.icon === 'object' && block.icon !== null) {
+              if ('url' in block.icon && typeof block.icon.url === 'string') {
+                icon = { url: block.icon.url }
+              } else if ('filename' in block.icon && typeof block.icon.filename === 'string') {
+                icon = { url: `/media/${block.icon.filename}` }
+              } else {
+                icon = ''
+              }
+            } else if (typeof block.icon === 'string') {
+              icon = block.icon
+            }
+            return {
+              icon,
+              value: block.value || '',
+              label: block.label || '',
+              bgColor: block.bgColor || '',
+            }
+          })}
         />
       )}
       <RenderBlocks blocks={layout} />

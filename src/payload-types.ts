@@ -228,6 +228,22 @@ export interface Page {
         }[]
       | null;
   };
+  homePageImpact?: {
+    sectionLabel?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+    blocks?:
+      | {
+          icon?: (string | null) | Media;
+          value?: string | null;
+          label?: string | null;
+          bgColor?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   meta?: {
     title?: string | null;
     /**
@@ -1091,6 +1107,24 @@ export interface PagesSelect<T extends boolean = true> {
               description?: T;
               value?: T;
               image?: T;
+              bgColor?: T;
+              id?: T;
+            };
+      };
+  homePageImpact?:
+    | T
+    | {
+        sectionLabel?: T;
+        heading?: T;
+        description?: T;
+        buttonText?: T;
+        buttonLink?: T;
+        blocks?:
+          | T
+          | {
+              icon?: T;
+              value?: T;
+              label?: T;
               bgColor?: T;
               id?: T;
             };

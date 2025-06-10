@@ -92,6 +92,10 @@ const config = {
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
+        mainGreen: '#DDEB9D',
+        mainBlue: '#143D60',
+        mainOrange: '#EB5B00',
+        mainLime: '#A0C878',
       },
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
