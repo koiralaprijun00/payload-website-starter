@@ -35,8 +35,52 @@ export const hero: Field = {
           label: 'Low Impact',
           value: 'lowImpact',
         },
+        {
+          label: 'Home Page V1',
+          value: 'homePageV1',
+        },
       ],
       required: true,
+    },
+    {
+      name: 'category',
+      type: 'text',
+      label: 'Category',
+      admin: {
+        condition: (_, { type }) => type === 'homePageV1',
+      },
+    },
+    {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+      admin: {
+        condition: (_, { type }) => type === 'homePageV1',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+      admin: {
+        condition: (_, { type }) => type === 'homePageV1',
+      },
+    },
+    {
+      name: 'buttonText',
+      type: 'text',
+      label: 'Button Text',
+      admin: {
+        condition: (_, { type }) => type === 'homePageV1',
+      },
+    },
+    {
+      name: 'buttonLink',
+      type: 'text',
+      label: 'Button Link',
+      admin: {
+        condition: (_, { type }) => type === 'homePageV1',
+      },
     },
     {
       name: 'richText',
@@ -62,7 +106,8 @@ export const hero: Field = {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        condition: (_, { type } = {}) =>
+          ['highImpact', 'mediumImpact', 'homePageV1'].includes(type),
       },
       relationTo: 'media',
       required: true,

@@ -12,6 +12,8 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import ConservationSection from '@/components/ConservationSection'
+import HomePageProjects from '@/components/HomePageProjects'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -74,6 +76,50 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
+      {page.conservationSection && (
+        <ConservationSection
+          sectionHeading={page.conservationSection.sectionHeading || ''}
+          sectionDescription={page.conservationSection.sectionDescription || ''}
+          buttonText={page.conservationSection.buttonText || ''}
+          buttonLink={page.conservationSection.buttonLink || ''}
+          tabs={(page.conservationSection.tabs || []).map((tab) => {
+            let image: string | { url: string } | undefined = ''
+            if (typeof tab.image === 'string') {
+              image = tab.image
+            } else if (
+              tab.image &&
+              typeof tab.image === 'object' &&
+              typeof tab.image.url === 'string'
+            ) {
+              image = { url: tab.image.url || '' }
+            }
+            return {
+              label: tab.label || '',
+              title: tab.title || '',
+              text: tab.text || '',
+              link: tab.link || '',
+              image,
+            }
+          })}
+        />
+      )}
+      {page.homePageProjects && (
+        <HomePageProjects
+          sectionLabel={page.homePageProjects.sectionLabel || ''}
+          heading={page.homePageProjects.heading || ''}
+          subheading={page.homePageProjects.subheading || ''}
+          blocks={(page.homePageProjects.blocks || []).map((block) => ({
+            title: block.title || '',
+            description: block.description || '',
+            value: block.value || '',
+            image:
+              block.image && typeof block.image === 'object' && block.image.url
+                ? { url: block.image.url || '' }
+                : '',
+            bgColor: block.bgColor || '',
+          }))}
+        />
+      )}
       <RenderBlocks blocks={layout} />
     </article>
   )
