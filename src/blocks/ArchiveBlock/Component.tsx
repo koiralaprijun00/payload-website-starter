@@ -1,5 +1,3 @@
-'use client'
-
 import type { Post, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
 
 import configPromise from '@payload-config'
@@ -8,10 +6,6 @@ import React from 'react'
 import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import { Navigation } from 'swiper/modules'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
@@ -66,23 +60,11 @@ export const ArchiveBlock: React.FC<
         </div>
       )}
       <div className="container">
-        <Swiper
-          modules={[Navigation]}
-          navigation
-          spaceBetween={32}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            1024: { slidesPerView: 2 },
-            1280: { slidesPerView: 3 },
-          }}
-        >
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {posts.map((post) => (
-            <SwiperSlide key={post.id}>
-              <CollectionArchive posts={[post]} />
-            </SwiperSlide>
+            <CollectionArchive key={post.id} posts={[post]} />
           ))}
-        </Swiper>
+        </div>
       </div>
     </div>
   )
