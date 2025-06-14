@@ -12,6 +12,9 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import ConservationSection from '@/components/ConservationSection'
+import HomePageProjects from '@/components/HomePageProjects'
+import HomePageImpact, { ImpactBlock } from '@/components/HomePageImpact'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -74,6 +77,83 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
+      {page.conservationSection && (
+        <ConservationSection
+          sectionHeading={page.conservationSection.sectionHeading || ''}
+          sectionDescription={page.conservationSection.sectionDescription || ''}
+          buttonText={page.conservationSection.buttonText || ''}
+          buttonLink={page.conservationSection.buttonLink || ''}
+          tabs={(page.conservationSection.tabs || []).map((tab) => {
+            let image: string | { url: string } | undefined = ''
+            if (typeof tab.image === 'string') {
+              image = tab.image
+            } else if (
+              tab.image &&
+              typeof tab.image === 'object' &&
+              typeof tab.image.url === 'string'
+            ) {
+              image = { url: tab.image.url || '' }
+            }
+            return {
+              label: tab.label || '',
+              title: tab.title || '',
+              text: tab.text || '',
+              link: tab.link || '',
+              image,
+            }
+          })}
+        />
+      )}
+
+      {page.homePageProjects && (
+        <HomePageProjects
+          sectionLabel={page.homePageProjects.sectionLabel || ''}
+          heading={page.homePageProjects.heading || ''}
+          subheading={page.homePageProjects.subheading || ''}
+          blocks={(page.homePageProjects.blocks || []).map((block) => ({
+            title: block.title || '',
+            description: block.description || '',
+            value: block.value || '',
+            image:
+              block.image && typeof block.image === 'object' && block.image.url
+                ? { url: block.image.url || '' }
+                : '',
+            bgColor: block.bgColor || '',
+          }))}
+        />
+      )}
+      {page.homePageImpact && (
+        <HomePageImpact
+          sectionLabel={page.homePageImpact.sectionLabel || ''}
+          heading={page.homePageImpact.heading || ''}
+          description={page.homePageImpact.description || ''}
+          buttonText={page.homePageImpact.buttonText || ''}
+          buttonLink={page.homePageImpact.buttonLink || ''}
+          blocks={(page.homePageImpact.blocks || []).map((block): ImpactBlock => {
+            // Debug: log the icon field to check its structure
+            // Remove or comment out after debugging
+            // console.log('block.icon:', block.icon);
+            let icon: string | { url: string } = ''
+            if (block.icon && typeof block.icon === 'object' && block.icon !== null) {
+              if ('url' in block.icon && typeof block.icon.url === 'string') {
+                icon = { url: block.icon.url }
+              } else if ('filename' in block.icon && typeof block.icon.filename === 'string') {
+                icon = { url: `/media/${block.icon.filename}` }
+              } else {
+                icon = ''
+              }
+            } else if (typeof block.icon === 'string') {
+              icon = block.icon
+            }
+            return {
+              icon,
+              value: block.value || '',
+              label: block.label || '',
+              bgColor: block.bgColor || '',
+            }
+          })}
+        />
+      )}
       <RenderBlocks blocks={layout} />
     </article>
   )

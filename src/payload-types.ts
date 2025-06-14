@@ -149,7 +149,12 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1';
+    category?: string | null;
+    title?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
     richText?: {
       root: {
         type: string;
@@ -192,6 +197,53 @@ export interface Page {
     media?: (string | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  conservationSection?: {
+    sectionHeading?: string | null;
+    sectionDescription?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+    tabs?:
+      | {
+          label?: string | null;
+          title?: string | null;
+          text?: string | null;
+          link?: string | null;
+          image?: (string | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  homePageProjects?: {
+    sectionLabel?: string | null;
+    heading?: string | null;
+    subheading?: string | null;
+    blocks?:
+      | {
+          title?: string | null;
+          description?: string | null;
+          value?: string | null;
+          image?: (string | null) | Media;
+          bgColor?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  homePageImpact?: {
+    sectionLabel?: string | null;
+    heading?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+    blocks?:
+      | {
+          icon?: (string | null) | Media;
+          value?: string | null;
+          label?: string | null;
+          bgColor?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   meta?: {
     title?: string | null;
     /**
@@ -992,6 +1044,11 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        category?: T;
+        title?: T;
+        description?: T;
+        buttonText?: T;
+        buttonLink?: T;
         richText?: T;
         links?:
           | T
@@ -1018,6 +1075,59 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+      };
+  conservationSection?:
+    | T
+    | {
+        sectionHeading?: T;
+        sectionDescription?: T;
+        buttonText?: T;
+        buttonLink?: T;
+        tabs?:
+          | T
+          | {
+              label?: T;
+              title?: T;
+              text?: T;
+              link?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  homePageProjects?:
+    | T
+    | {
+        sectionLabel?: T;
+        heading?: T;
+        subheading?: T;
+        blocks?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              value?: T;
+              image?: T;
+              bgColor?: T;
+              id?: T;
+            };
+      };
+  homePageImpact?:
+    | T
+    | {
+        sectionLabel?: T;
+        heading?: T;
+        description?: T;
+        buttonText?: T;
+        buttonLink?: T;
+        blocks?:
+          | T
+          | {
+              icon?: T;
+              value?: T;
+              label?: T;
+              bgColor?: T;
+              id?: T;
+            };
       };
   meta?:
     | T
