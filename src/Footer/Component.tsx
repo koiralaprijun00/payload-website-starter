@@ -1,7 +1,11 @@
 import React from 'react'
 import { Phone, Mail, Heart, Facebook, Twitter, Instagram } from 'lucide-react'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { Footer as FooterType } from '@/payload-types'
 
-export function Footer() {
+export async function Footer() {
+  const footerData = (await getCachedGlobal('footer', 1)()) as FooterType
+
   return (
     <footer className="relative min-h-[70vh]">
       {/* Background Image */}
@@ -27,7 +31,7 @@ export function Footer() {
                 </div>
                 <h3 className="text-xl font-semibold">Call To Action</h3>
               </div>
-              <p className="text-lg text-gray-200 mr-0">+977-9858025755</p>
+              <p className="text-lg text-gray-200 mr-0">{footerData?.phone || ''}</p>
             </div>
             <div>
               <div className="flex items-center gap-3 mb-4 justify-end">
@@ -36,7 +40,7 @@ export function Footer() {
                 </div>
                 <h3 className="text-xl font-semibold">Email</h3>
               </div>
-              <p className="text-lg text-gray-200 mr-0">brightnepal2017@gmail.com</p>
+              <p className="text-lg text-gray-200 mr-0">{footerData?.email || ''}</p>
             </div>
           </div>
 
@@ -65,8 +69,8 @@ export function Footer() {
 
               {/* Mission Statement */}
               <p className="text-gray-100 text-lg leading-relaxed mb-8">
-                A world where humans and wildlife co-exist in harmony and both people and wildlife
-                are equally valued.
+                {footerData?.mission ||
+                  'A world where humans and wildlife co-exist in harmony and both people and wildlife are equally valued.'}
               </p>
 
               {/* Donate Button */}
@@ -80,66 +84,44 @@ export function Footer() {
           {/* Right Column - Navigation */}
           <div className="text-white flex-1">
             <nav className="space-y-6">
-              <a
-                href="#about"
-                className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
-              >
-                About Us
-              </a>
-              <a
-                href="#news"
-                className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
-              >
-                Our News
-              </a>
-              <a
-                href="#gallery"
-                className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
-              >
-                Gallery
-              </a>
-              <a
-                href="#notices"
-                className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
-              >
-                Notices
-              </a>
-              <a
-                href="#contact"
-                className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
-              >
-                Contact Us
-              </a>
+              {(footerData?.navItems || []).map((item, idx) =>
+                item?.link?.label && item?.link?.url ? (
+                  <a
+                    key={idx}
+                    href={item.link.url}
+                    className="block text-xl hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
+                    target={item.link.newTab ? '_blank' : undefined}
+                    rel={item.link.newTab ? 'noopener noreferrer' : undefined}
+                  >
+                    {item.link.label}
+                  </a>
+                ) : null,
+              )}
             </nav>
           </div>
         </div>
         {/* Social Media Icons Row */}
         <div className="w-full flex justify-center mt-12 mb-4">
           <div className="flex gap-8">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-            >
-              <Facebook className="w-7 h-7 text-white hover:text-blue-400 transition-colors duration-300" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter"
-            >
-              <Twitter className="w-7 h-7 text-white hover:text-blue-300 transition-colors duration-300" />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-7 h-7 text-white hover:text-pink-400 transition-colors duration-300" />
-            </a>
+            {(footerData?.socials || []).map((social, idx) => {
+              if (!social?.platform || !social?.url) return null
+              let Icon = null
+              if (social.platform === 'facebook') Icon = Facebook
+              if (social.platform === 'twitter') Icon = Twitter
+              if (social.platform === 'instagram') Icon = Instagram
+              if (!Icon) return null
+              return (
+                <a
+                  key={idx}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.platform.charAt(0).toUpperCase() + social.platform.slice(1)}
+                >
+                  <Icon className="w-7 h-7 text-white hover:text-blue-400 transition-colors duration-300" />
+                </a>
+              )
+            })}
           </div>
         </div>
       </div>

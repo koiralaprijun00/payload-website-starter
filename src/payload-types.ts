@@ -1677,6 +1677,16 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  phone: string;
+  email: string;
+  mission: string;
+  socials?:
+    | {
+        platform: 'facebook' | 'twitter' | 'instagram';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   navItems?:
     | {
         link: {
@@ -1728,6 +1738,16 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  phone?: T;
+  email?: T;
+  mission?: T;
+  socials?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
   navItems?:
     | T
     | {
