@@ -5,7 +5,7 @@ import React from 'react'
 import ArchiveBlockClient from './ArchiveBlockClient'
 
 export const ArchiveBlock: React.FC<ArchiveBlockProps & { id?: string }> = async (props) => {
-  const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
+  const { categories, limit: limitFromProps, populateBy, selectedDocs } = props
   const limit = limitFromProps || 3
   let posts: Post[] = []
 
