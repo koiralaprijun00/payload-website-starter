@@ -16,6 +16,8 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import About from './globals/About'
+import TeamMembers from './collections/TeamMembers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -62,9 +64,9 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.MONGODB_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, TeamMembers],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, About],
   plugins: [
     ...plugins,
     vercelBlobStorage({

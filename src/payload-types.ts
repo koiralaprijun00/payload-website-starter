@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    'team-members': TeamMember;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +89,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -103,10 +105,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'about-page': AboutPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -781,6 +785,18 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  profileImage: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -971,6 +987,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: string | TeamMember;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1389,6 +1409,17 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  profileImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1712,6 +1743,67 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: string;
+  hero: {
+    title: string;
+    backgroundImage: string | Media;
+  };
+  introSection: {
+    title: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  featuresGrid?:
+    | {
+        icon: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  detailedContent: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  volunteerCta: {
+    title: string;
+    buttonText: string;
+    buttonLink: string;
+    image: string | Media;
+  };
+  teamSectionTitle: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1762,6 +1854,45 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page_select".
+ */
+export interface AboutPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        backgroundImage?: T;
+      };
+  introSection?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+      };
+  featuresGrid?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  detailedContent?: T;
+  volunteerCta?:
+    | T
+    | {
+        title?: T;
+        buttonText?: T;
+        buttonLink?: T;
+        image?: T;
+      };
+  teamSectionTitle?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
