@@ -1,5 +1,6 @@
 import { GlobalConfig } from 'payload/types'
 import { anyone } from '../access/anyone'
+import { featureRichText } from '../fields/lexical-editor'
 
 const About: GlobalConfig = {
   slug: 'about-page',
@@ -12,6 +13,7 @@ const About: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea' },
         { name: 'backgroundImage', type: 'upload', relationTo: 'media', required: true },
       ],
     },
@@ -20,7 +22,7 @@ const About: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'title', type: 'text', required: true },
-        { name: 'content', type: 'richText', required: true },
+        { name: 'content', type: 'richText', editor: featureRichText, required: true },
       ],
     },
     {
@@ -35,6 +37,7 @@ const About: GlobalConfig = {
     {
       name: 'detailedContent',
       type: 'richText',
+      editor: featureRichText,
       required: true,
     },
     {
