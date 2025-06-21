@@ -1749,6 +1749,7 @@ export interface AboutPage {
   id: string;
   hero: {
     title: string;
+    description?: string | null;
     backgroundImage: string | Media;
   };
   introSection: {
@@ -1867,6 +1868,7 @@ export interface AboutPageSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        description?: T;
         backgroundImage?: T;
       };
   introSection?:

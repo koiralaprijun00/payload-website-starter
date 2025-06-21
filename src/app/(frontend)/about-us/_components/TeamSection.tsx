@@ -21,8 +21,8 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
         height={150}
         className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-lg"
       />
-      <h4 className="mt-2 font-semibold">{member.name}</h4>
-      <p className="text-gray-600">{member.role}</p>
+      <h3 className="text-xl font-bold">{member.name}</h3>
+      <p className="text-gray-400">{member.role}</p>
     </div>
   )
 }
