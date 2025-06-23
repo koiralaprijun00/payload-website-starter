@@ -55,6 +55,9 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      borderWidth: {
+        16: '16px',
+      },
       colors: {
         accent: {
           DEFAULT: 'hsl(var(--accent))',

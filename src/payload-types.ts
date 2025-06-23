@@ -73,6 +73,8 @@ export interface Config {
     categories: Category;
     users: User;
     'team-members': TeamMember;
+    'theme-pages': ThemePage;
+    projects: Project;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -90,6 +92,8 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    'theme-pages': ThemePagesSelect<false> | ThemePagesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -797,6 +801,69 @@ export interface TeamMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-pages".
+ */
+export interface ThemePage {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  hero: {
+    image: string | Media;
+  };
+  introSection: {
+    tagline: string;
+    content: string;
+    factBox: {
+      title?: string | null;
+      fact: string;
+      image: string | Media;
+      statValue?: string | null;
+      statLabel?: string | null;
+    };
+  };
+  mainContent: {
+    heading: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  contentImage: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  image: string | Media;
+  description: string;
+  themes: (string | ThemePage)[];
+  area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
+  year: number;
+  status: 'ongoing' | 'completed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -991,6 +1058,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team-members';
         value: string | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'theme-pages';
+        value: string | ThemePage;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1415,6 +1490,61 @@ export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   profileImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-pages_select".
+ */
+export interface ThemePagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  hero?:
+    | T
+    | {
+        image?: T;
+      };
+  introSection?:
+    | T
+    | {
+        tagline?: T;
+        content?: T;
+        factBox?:
+          | T
+          | {
+              title?: T;
+              fact?: T;
+              image?: T;
+              statValue?: T;
+              statLabel?: T;
+            };
+      };
+  mainContent?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
+      };
+  contentImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  image?: T;
+  description?: T;
+  themes?: T;
+  area?: T;
+  year?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

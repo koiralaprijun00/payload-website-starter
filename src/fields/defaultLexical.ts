@@ -6,6 +6,11 @@ import {
   ParagraphFeature,
   lexicalEditor,
   UnderlineFeature,
+  BlockquoteFeature,
+  HeadingFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+  HorizontalRuleFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
@@ -43,5 +48,10 @@ export const defaultLexical = lexicalEditor({
         ]
       },
     }),
+    BlockquoteFeature(),
+    HeadingFeature(),
+    OrderedListFeature(),
+    UnorderedListFeature(),
+    HorizontalRuleFeature(),
   ],
 })
