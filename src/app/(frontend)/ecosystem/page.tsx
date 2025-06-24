@@ -35,10 +35,14 @@ export default async function EcosystemPage() {
 
   return (
     <div>
-      <Hero title={pageData.title} image={pageData.hero.image} />
+      {typeof pageData.hero.image === 'object' && pageData.hero.image && (
+        <Hero title={pageData.title} image={pageData.hero.image} />
+      )}
       <IntroSection introSection={pageData.introSection} />
       <MainContent mainContent={pageData.mainContent} />
-      <ContentImage image={pageData.contentImage} />
+      {typeof pageData.contentImage === 'object' && pageData.contentImage && (
+        <ContentImage image={pageData.contentImage} />
+      )}
       <ProjectsSection themeId={pageData.id} />
     </div>
   )
