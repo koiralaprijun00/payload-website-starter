@@ -9,7 +9,7 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  darkMode: ['selector', '[data-theme="dark"]'],
+  darkMode: false,
   plugins: [tailwindcssAnimate, typography],
   prefix: '',
   safelist: [
@@ -54,6 +54,9 @@ const config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      borderWidth: {
+        16: '16px',
       },
       colors: {
         accent: {

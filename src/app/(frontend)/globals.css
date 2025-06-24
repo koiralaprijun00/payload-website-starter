@@ -101,3 +101,14 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+.prose blockquote {
+  @apply border-l-4 border-mainOrange pl-6 italic rounded-md my-8 py-2;
+}
+.prose blockquote p {
+  @apply mb-0;
+}
+
+.prose, .prose * {
+  color: #000 !important;
+}

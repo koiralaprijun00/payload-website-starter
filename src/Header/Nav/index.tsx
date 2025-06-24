@@ -6,13 +6,10 @@ import Link from 'next/link'
 export default function HeaderNav() {
   return (
     <nav className="flex gap-8 items-center">
-      <Link href="#" className="font-semibold text-blue-900 hover:underline">
-        Our Impact
-      </Link>
-      <Link href="#" className="font-semibold text-blue-900 hover:underline">
+      <Link href="/projects" className="font-semibold text-blue-900 hover:underline">
         Projects
       </Link>
-      <Link href="#" className="font-semibold text-blue-900 hover:underline">
+      <Link href="/about-us" className="font-semibold text-blue-900 hover:underline">
         About Us
       </Link>
       <Link

@@ -3,8 +3,6 @@ import { Page } from '@/payload-types'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 
-import type { ContentBlock as ContentBlockProps } from '@/payload-types'
-
 import { CMSLink } from '../../components/Link'
 
 type Props = Extract<Page['layout'][0], { blockType: 'content' }>

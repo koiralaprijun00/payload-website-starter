@@ -73,6 +73,9 @@ export interface Config {
     categories: Category;
     users: User;
     'team-members': TeamMember;
+    'theme-pages': ThemePage;
+    projects: Project;
+    'volunteer-submissions': VolunteerSubmission;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -90,6 +93,9 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    'theme-pages': ThemePagesSelect<false> | ThemePagesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -106,11 +112,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     'about-page': AboutPage;
+    'projects-page-settings': ProjectsPageSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'projects-page-settings': ProjectsPageSettingsSelect<false> | ProjectsPageSettingsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -792,6 +800,87 @@ export interface TeamMember {
   name: string;
   role: string;
   profileImage: string | Media;
+  email: string;
+  phone: string;
+  boardType: 'advisory' | 'executive';
+  slug: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-pages".
+ */
+export interface ThemePage {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  hero: {
+    image: string | Media;
+  };
+  introSection: {
+    tagline: string;
+    content: string;
+    factBox: {
+      title?: string | null;
+      fact: string;
+      image: string | Media;
+      statValue?: string | null;
+      statLabel?: string | null;
+    };
+  };
+  mainContent: {
+    heading: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  contentImage: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  image: string | Media;
+  description: string;
+  themes: (string | ThemePage)[];
+  area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
+  year: number;
+  status: 'ongoing' | 'completed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "volunteer-submissions".
+ */
+export interface VolunteerSubmission {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -991,6 +1080,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'team-members';
         value: string | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'theme-pages';
+        value: string | ThemePage;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'volunteer-submissions';
+        value: string | VolunteerSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1415,6 +1516,78 @@ export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   profileImage?: T;
+  email?: T;
+  phone?: T;
+  boardType?: T;
+  slug?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-pages_select".
+ */
+export interface ThemePagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  hero?:
+    | T
+    | {
+        image?: T;
+      };
+  introSection?:
+    | T
+    | {
+        tagline?: T;
+        content?: T;
+        factBox?:
+          | T
+          | {
+              title?: T;
+              fact?: T;
+              image?: T;
+              statValue?: T;
+              statLabel?: T;
+            };
+      };
+  mainContent?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
+      };
+  contentImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  image?: T;
+  description?: T;
+  themes?: T;
+  area?: T;
+  year?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "volunteer-submissions_select".
+ */
+export interface VolunteerSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1770,14 +1943,23 @@ export interface AboutPage {
       [k: string]: unknown;
     };
   };
-  featuresGrid?:
+  featuresGrid: (
+    | {
+        image: string | Media;
+        alt?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'imageCard';
+      }
     | {
         icon: string;
         title: string;
         description: string;
         id?: string | null;
-      }[]
-    | null;
+        blockName?: string | null;
+        blockType: 'iconCard';
+      }
+  )[];
   detailedContent: {
     root: {
       type: string;
@@ -1795,11 +1977,72 @@ export interface AboutPage {
   };
   volunteerCta: {
     title: string;
+    description: string;
     buttonText: string;
     buttonLink: string;
     image: string | Media;
   };
   teamSectionTitle: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page-settings".
+ */
+export interface ProjectsPageSetting {
+  id: string;
+  hero: {
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1';
+    category?: string | null;
+    title?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+    richText?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    media?: (string | null) | Media;
+    id?: string | null;
+    blockName?: string | null;
+    blockType: 'hero';
+  }[];
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1880,21 +2123,77 @@ export interface AboutPageSelect<T extends boolean = true> {
   featuresGrid?:
     | T
     | {
-        icon?: T;
-        title?: T;
-        description?: T;
-        id?: T;
+        imageCard?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+              blockName?: T;
+            };
+        iconCard?:
+          | T
+          | {
+              icon?: T;
+              title?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   detailedContent?: T;
   volunteerCta?:
     | T
     | {
         title?: T;
+        description?: T;
         buttonText?: T;
         buttonLink?: T;
         image?: T;
       };
   teamSectionTitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page-settings_select".
+ */
+export interface ProjectsPageSettingsSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              type?: T;
+              category?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              richText?: T;
+              links?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
+                  };
+              media?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

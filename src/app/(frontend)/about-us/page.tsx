@@ -3,6 +3,7 @@ import RichText from '@/components/RichText'
 import Hero from './_components/Hero'
 import TeamSection from './_components/TeamSection'
 import FeaturesGrid from './_components/FeaturesGrid'
+import VolunteerCTA from './_components/VolunteerCTA'
 
 // Helper to fetch the about-us page from Payload
 async function getAboutPageData() {
@@ -24,17 +25,18 @@ export default async function AboutUsPage() {
   const { aboutPageData, teamMembersData } = await getAboutPageData()
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-white text-mainBlue">
       <Hero {...aboutPageData.hero} />
-      <section className="container mx-auto py-8 md:py-16">
+      <section className="container mx-auto py-8 md:py-16 text-black">
         {/* Render the intro section */}
         <h2 className="text-2xl font-bold mb-4">{aboutPageData.introSection?.title}</h2>
-        <RichText data={aboutPageData.introSection?.content} />
+        <RichText data={aboutPageData.introSection?.content} className="prose prose-black" />
       </section>
       <FeaturesGrid features={aboutPageData.featuresGrid} />
       <section className="container mx-auto py-8 md:py-16">
         <RichText data={aboutPageData.detailedContent} />
       </section>
+      {aboutPageData.volunteerCta && <VolunteerCTA data={aboutPageData.volunteerCta} />}
       <TeamSection title={aboutPageData.teamSectionTitle} members={teamMembersData || []} />
     </div>
   )

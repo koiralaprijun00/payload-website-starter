@@ -1,4 +1,4 @@
-import { GlobalConfig } from 'payload/types'
+import { GlobalConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { featureRichText } from '../fields/lexical-editor'
 
@@ -27,11 +27,24 @@ const About: GlobalConfig = {
     },
     {
       name: 'featuresGrid',
-      type: 'array',
-      fields: [
-        { name: 'icon', type: 'text', required: true },
-        { name: 'title', type: 'text', required: true },
-        { name: 'description', type: 'textarea', required: true },
+      type: 'blocks',
+      required: true,
+      blocks: [
+        {
+          slug: 'imageCard',
+          fields: [
+            { name: 'image', type: 'upload', relationTo: 'media', required: true },
+            { name: 'alt', type: 'text' },
+          ],
+        },
+        {
+          slug: 'iconCard',
+          fields: [
+            { name: 'icon', type: 'text', required: true },
+            { name: 'title', type: 'text', required: true },
+            { name: 'description', type: 'textarea', required: true },
+          ],
+        },
       ],
     },
     {
@@ -45,6 +58,7 @@ const About: GlobalConfig = {
       type: 'group',
       fields: [
         { name: 'title', type: 'text', required: true },
+        { name: 'description', type: 'textarea', required: true },
         { name: 'buttonText', type: 'text', required: true },
         { name: 'buttonLink', type: 'text', required: true },
         { name: 'image', type: 'upload', relationTo: 'media', required: true },
