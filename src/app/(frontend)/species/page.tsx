@@ -31,7 +31,9 @@ export default async function SpeciesPage() {
 
   return (
     <div>
-      <Hero title={pageData.hero.title} subtitle={pageData.hero.subtitle} />
+      {typeof pageData.hero.image === 'object' && pageData.hero.image && (
+        <Hero title={pageData.title} image={pageData.hero.image} />
+      )}
       {/* More components will be added here */}
     </div>
   )
