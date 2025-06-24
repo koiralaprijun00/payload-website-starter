@@ -1,4 +1,4 @@
-import type { Block } from 'payload'
+import type { Block, Field } from 'payload'
 import { hero } from './config'
 
 export const HeroBlock: Block = {
@@ -7,5 +7,5 @@ export const HeroBlock: Block = {
     singular: 'Hero',
     plural: 'Heros',
   },
-  fields: (hero as any).fields,
+  fields: (hero as { fields: Field[] }).fields,
 }
