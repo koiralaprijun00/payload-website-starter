@@ -26,6 +26,7 @@ export default async function NoticesPage() {
     <div className="container mx-auto py-8 lg:py-12">
       <h1 className="mb-8 text-4xl font-bold text-mainBlue">Notices</h1>
       <ul className="space-y-8">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {notices.map((notice: any) => (
           <li key={notice.id} className="flex flex-col md:flex-row gap-6 border-b pb-6">
             {notice.image && typeof notice.image === 'object' && (

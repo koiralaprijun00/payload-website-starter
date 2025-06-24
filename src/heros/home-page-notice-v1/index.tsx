@@ -12,6 +12,7 @@ interface Notice {
   category: string
   title: string
   summary: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any
   slug?: string
 }
@@ -25,7 +26,6 @@ const categoryLabel: Record<string, string> = {
 
 export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
   media,
-  category,
   title,
   description,
   buttonLink,
@@ -53,7 +53,7 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
   }, [])
 
   return (
-    <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 py-8 lg:py-12">
+    <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* Left Image Section */}
       <div className="lg:col-span-8">
         {media && typeof media === 'object' && (
@@ -63,8 +63,7 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
         )}
         {(title || description) && (
           <div className="mt-4 bg-mainBlue text-white p-6">
-            {title && <h2 className="text-3xl lg:text-4xl font-bold">{title}</h2>}
-            {description && <p className="mt-2 text-lg lg:text-xl">{description}</p>}
+            {title && <h2 className="text-2xl font-bold">{title}</h2>}
             {buttonLink && buttonText && (
               <CMSLink
                 className="inline-block mt-4 underline"
@@ -93,6 +92,9 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
                   label={notice.title}
                   className="mt-1 line-clamp-3 font-medium text-mainBlue hover:underline"
                 />
+                {notice.summary && (
+                  <p className="mt-1 text-sm text-gray-700 line-clamp-2">{notice.summary}</p>
+                )}
               </div>
               {notice.image && typeof notice.image === 'object' && (
                 <div className="w-16 h-16 flex-shrink-0 border bg-gray-100 relative">
