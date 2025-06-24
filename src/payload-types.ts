@@ -110,11 +110,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     'about-page': AboutPage;
+    'projects-page-settings': ProjectsPageSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'projects-page-settings': ProjectsPageSettingsSelect<false> | ProjectsPageSettingsSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1935,6 +1937,66 @@ export interface AboutPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page-settings".
+ */
+export interface ProjectsPageSetting {
+  id: string;
+  hero: {
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1';
+    category?: string | null;
+    title?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+    richText?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    media?: (string | null) | Media;
+    id?: string | null;
+    blockName?: string | null;
+    blockType: 'hero';
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2025,6 +2087,48 @@ export interface AboutPageSelect<T extends boolean = true> {
         image?: T;
       };
   teamSectionTitle?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page-settings_select".
+ */
+export interface ProjectsPageSettingsSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              type?: T;
+              category?: T;
+              title?: T;
+              description?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              richText?: T;
+              links?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    id?: T;
+                  };
+              media?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

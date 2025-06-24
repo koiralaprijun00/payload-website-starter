@@ -20,6 +20,7 @@ import { getServerSideURL } from './utilities/getURL'
 import About from './globals/About'
 import TeamMembers from './collections/TeamMembers'
 import { Projects } from './collections/Projects'
+import ProjectsPageSettings from './globals/ProjectsPageSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -68,7 +69,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Users, TeamMembers, ThemePages, Projects],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, About],
+  globals: [Header, Footer, About, ProjectsPageSettings],
   plugins: [
     ...plugins,
     vercelBlobStorage({

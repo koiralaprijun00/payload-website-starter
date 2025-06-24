@@ -108,3 +108,7 @@ html[data-theme='light'] {
 .prose blockquote p {
   @apply mb-0;
 }
+
+.prose, .prose * {
+  color: #000 !important;
+}

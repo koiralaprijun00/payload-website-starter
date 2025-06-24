@@ -9,7 +9,7 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  darkMode: ['selector', '[data-theme="dark"]'],
+  darkMode: false,
   plugins: [tailwindcssAnimate, typography],
   prefix: '',
   safelist: [

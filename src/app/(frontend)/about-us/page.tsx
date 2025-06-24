@@ -24,12 +24,12 @@ export default async function AboutUsPage() {
   const { aboutPageData, teamMembersData } = await getAboutPageData()
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-white text-mainBlue">
       <Hero {...aboutPageData.hero} />
-      <section className="container mx-auto py-8 md:py-16">
+      <section className="container mx-auto py-8 md:py-16 text-black">
         {/* Render the intro section */}
         <h2 className="text-2xl font-bold mb-4">{aboutPageData.introSection?.title}</h2>
-        <RichText data={aboutPageData.introSection?.content} />
+        <RichText data={aboutPageData.introSection?.content} className="prose prose-black" />
       </section>
       <FeaturesGrid features={aboutPageData.featuresGrid} />
       <section className="container mx-auto py-8 md:py-16">

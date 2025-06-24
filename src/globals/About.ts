@@ -1,4 +1,4 @@
-import { GlobalConfig } from 'payload/types'
+import { GlobalConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { featureRichText } from '../fields/lexical-editor'
 
