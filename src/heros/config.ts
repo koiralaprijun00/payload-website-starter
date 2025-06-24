@@ -39,6 +39,10 @@ export const hero: Field = {
           label: 'Home Page V1',
           value: 'homePageV1',
         },
+        {
+          label: 'Home Page Notice V1',
+          value: 'homePageNoticeV1',
+        },
       ],
       required: true,
     },
@@ -47,7 +51,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Category',
       admin: {
-        condition: (_, { type }) => type === 'homePageV1',
+        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
       },
     },
     {
@@ -55,7 +59,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Title',
       admin: {
-        condition: (_, { type }) => type === 'homePageV1',
+        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
       },
     },
     {
@@ -63,7 +67,7 @@ export const hero: Field = {
       type: 'textarea',
       label: 'Description',
       admin: {
-        condition: (_, { type }) => type === 'homePageV1',
+        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
       },
     },
     {
@@ -71,7 +75,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Text',
       admin: {
-        condition: (_, { type }) => type === 'homePageV1',
+        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
       },
     },
     {
@@ -79,7 +83,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Link',
       admin: {
-        condition: (_, { type }) => type === 'homePageV1',
+        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
       },
     },
     {
@@ -107,7 +111,7 @@ export const hero: Field = {
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'homePageV1'].includes(type),
+          ['highImpact', 'mediumImpact', 'homePageV1', 'homePageNoticeV1'].includes(type),
       },
       relationTo: 'media',
       required: true,
