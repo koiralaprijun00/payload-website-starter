@@ -3,6 +3,7 @@ import RichText from '@/components/RichText'
 import Hero from './_components/Hero'
 import TeamSection from './_components/TeamSection'
 import FeaturesGrid from './_components/FeaturesGrid'
+import VolunteerCTA from './_components/VolunteerCTA'
 
 // Helper to fetch the about-us page from Payload
 async function getAboutPageData() {
@@ -35,6 +36,7 @@ export default async function AboutUsPage() {
       <section className="container mx-auto py-8 md:py-16">
         <RichText data={aboutPageData.detailedContent} />
       </section>
+      {aboutPageData.volunteerCta && <VolunteerCTA data={aboutPageData.volunteerCta} />}
       <TeamSection title={aboutPageData.teamSectionTitle} members={teamMembersData || []} />
     </div>
   )

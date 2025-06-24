@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload/types'
+import { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 
 const TeamMembers: CollectionConfig = {
@@ -13,7 +13,20 @@ const TeamMembers: CollectionConfig = {
     { name: 'name', type: 'text', required: true },
     { name: 'role', type: 'text', required: true },
     { name: 'profileImage', type: 'upload', relationTo: 'media', required: true },
-    // Add more fields as needed (bio, email, etc.)
+    { name: 'email', type: 'email', required: true },
+    { name: 'phone', type: 'text', required: true },
+    {
+      name: 'boardType',
+      type: 'select',
+      options: [
+        { label: 'Advisory Board', value: 'advisory' },
+        { label: 'Executive Board', value: 'executive' },
+      ],
+      required: true,
+    },
+    { name: 'slug', type: 'text', required: true, unique: true },
+    { name: 'description', type: 'textarea', required: false },
+    // Add more fields as needed (bio, etc.)
   ],
 }
 

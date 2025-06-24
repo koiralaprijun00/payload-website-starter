@@ -75,6 +75,7 @@ export interface Config {
     'team-members': TeamMember;
     'theme-pages': ThemePage;
     projects: Project;
+    'volunteer-submissions': VolunteerSubmission;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'theme-pages': ThemePagesSelect<false> | ThemePagesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -798,6 +800,11 @@ export interface TeamMember {
   name: string;
   role: string;
   profileImage: string | Media;
+  email: string;
+  phone: string;
+  boardType: 'advisory' | 'executive';
+  slug: string;
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -861,6 +868,19 @@ export interface Project {
   area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
   year: number;
   status: 'ongoing' | 'completed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "volunteer-submissions".
+ */
+export interface VolunteerSubmission {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1068,6 +1088,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'volunteer-submissions';
+        value: string | VolunteerSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1492,6 +1516,11 @@ export interface TeamMembersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   profileImage?: T;
+  email?: T;
+  phone?: T;
+  boardType?: T;
+  slug?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1547,6 +1576,18 @@ export interface ProjectsSelect<T extends boolean = true> {
   area?: T;
   year?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "volunteer-submissions_select".
+ */
+export interface VolunteerSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1902,14 +1943,23 @@ export interface AboutPage {
       [k: string]: unknown;
     };
   };
-  featuresGrid?:
+  featuresGrid: (
+    | {
+        image: string | Media;
+        alt?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'imageCard';
+      }
     | {
         icon: string;
         title: string;
         description: string;
         id?: string | null;
-      }[]
-    | null;
+        blockName?: string | null;
+        blockType: 'iconCard';
+      }
+  )[];
   detailedContent: {
     root: {
       type: string;
@@ -1927,6 +1977,7 @@ export interface AboutPage {
   };
   volunteerCta: {
     title: string;
+    description: string;
     buttonText: string;
     buttonLink: string;
     image: string | Media;
@@ -2072,16 +2123,30 @@ export interface AboutPageSelect<T extends boolean = true> {
   featuresGrid?:
     | T
     | {
-        icon?: T;
-        title?: T;
-        description?: T;
-        id?: T;
+        imageCard?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+              blockName?: T;
+            };
+        iconCard?:
+          | T
+          | {
+              icon?: T;
+              title?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   detailedContent?: T;
   volunteerCta?:
     | T
     | {
         title?: T;
+        description?: T;
         buttonText?: T;
         buttonLink?: T;
         image?: T;

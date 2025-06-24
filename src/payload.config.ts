@@ -21,6 +21,7 @@ import About from './globals/About'
 import TeamMembers from './collections/TeamMembers'
 import { Projects } from './collections/Projects'
 import ProjectsPageSettings from './globals/ProjectsPageSettings'
+import VolunteerSubmissions from './collections/VolunteerSubmissions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -67,7 +68,17 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.MONGODB_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, TeamMembers, ThemePages, Projects],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    TeamMembers,
+    ThemePages,
+    Projects,
+    VolunteerSubmissions,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, About, ProjectsPageSettings],
   plugins: [
