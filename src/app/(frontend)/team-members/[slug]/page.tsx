@@ -1,9 +1,12 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 
-export default async function TeamMemberPage({ params }: { params: { slug: string } }) {
+export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await the params Promise
+  const { slug } = await params
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/team-members?where[slug][equals]=${params.slug}&depth=1`,
+    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/team-members?where[slug][equals]=${slug}&depth=1`,
     { cache: 'no-store' },
   )
   const data = await res.json()
