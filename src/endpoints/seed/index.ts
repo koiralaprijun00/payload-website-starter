@@ -19,6 +19,7 @@ const collections: CollectionSlug[] = [
   'form-submissions',
   'search',
 ]
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const globals: GlobalSlug[] = ['header', 'footer']
 
 // Next.js revalidation errors are normal when seeding the database without a server running
