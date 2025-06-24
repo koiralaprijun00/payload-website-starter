@@ -76,6 +76,7 @@ export interface Config {
     'theme-pages': ThemePage;
     projects: Project;
     'volunteer-submissions': VolunteerSubmission;
+    notices: Notice;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +97,7 @@ export interface Config {
     'theme-pages': ThemePagesSelect<false> | ThemePagesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
+    notices: NoticesSelect<false> | NoticesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -161,7 +163,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1';
     category?: string | null;
     title?: string | null;
     description?: string | null;
@@ -886,6 +888,37 @@ export interface VolunteerSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notices".
+ */
+export interface Notice {
+  id: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  category: 'ecosystem' | 'species' | 'community' | 'policy';
+  title: string;
+  summary: string;
+  image?: (string | null) | Media;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  publishedAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1092,6 +1125,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'volunteer-submissions';
         value: string | VolunteerSubmission;
+      } | null)
+    | ({
+        relationTo: 'notices';
+        value: string | Notice;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1593,6 +1630,22 @@ export interface VolunteerSubmissionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notices_select".
+ */
+export interface NoticesSelect<T extends boolean = true> {
+  slug?: T;
+  slugLock?: T;
+  category?: T;
+  title?: T;
+  summary?: T;
+  image?: T;
+  content?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1993,7 +2046,7 @@ export interface AboutPage {
 export interface ProjectsPageSetting {
   id: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1';
     category?: string | null;
     title?: string | null;
     description?: string | null;
