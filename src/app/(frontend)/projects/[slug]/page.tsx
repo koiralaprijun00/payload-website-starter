@@ -4,8 +4,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/components/RichText'
-import type { Project } from '@/payload-types'
 import Hero from '@/app/(frontend)/themes/_components/Hero'
 import PageClient from '@/app/(frontend)/posts/[slug]/page.client'
 
@@ -36,7 +34,6 @@ type Args = {
 }
 
 export default async function ProjectPage({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const url = '/projects/' + slug
   const project = await queryProjectBySlug({ slug })
@@ -47,10 +44,9 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
     <article className="pt-16 pb-16">
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
-      <Hero
-        title={project.title}
-        image={typeof project.image === 'string' ? undefined : project.image}
-      />
+      {typeof project.image === 'object' && project.image && (
+        <Hero title={project.title} image={project.image} />
+      )}
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container max-w-[48rem] mx-auto">
           <p className="mb-8 text-lg text-gray-700">{project.description}</p>

@@ -14,8 +14,9 @@ async function getNotice(slug: string) {
   return json?.docs?.[0]
 }
 
-export default async function NoticePage({ params }: { params: { slug: string } }) {
-  const notice = await getNotice(params.slug)
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const notice = await getNotice(slug)
   if (!notice) {
     return notFound()
   }

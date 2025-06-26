@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { Media } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 
@@ -14,7 +15,13 @@ const ContentImage = ({ image }: Props) => {
   return (
     <section className="py-16">
       <div className="container mx-auto">
-        <img src={imageUrl} alt={image.alt || 'Content Image'} className="w-full h-auto" />
+        <Image
+          src={imageUrl}
+          alt={image.alt || 'Content Image'}
+          width={image.width || 800}
+          height={image.height || 600}
+          className="w-full h-auto"
+        />
       </div>
     </section>
   )
