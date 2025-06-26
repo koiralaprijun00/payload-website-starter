@@ -19,7 +19,12 @@ const collections: CollectionSlug[] = [
   'form-submissions',
   'search',
 ]
+<<<<<<< Updated upstream
 const globals: GlobalSlug[] = ['header', 'footer']
+=======
+
+const _globals: GlobalSlug[] = ['header', 'footer']
+>>>>>>> Stashed changes
 
 // Next.js revalidation errors are normal when seeding the database without a server running
 // i.e. running `yarn seed` locally instead of using the admin UI within an active app
