@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: If you see a type error for nodemailer, run: npm i --save-dev @types/nodemailer
 import nodemailer from 'nodemailer'
 // If the following import fails, define EmailAdapter locally below
@@ -34,6 +35,7 @@ export const nodemailerTransport = (options: {
     auth: options.auth,
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return ({ payload }: { payload: Payload }) => ({
     defaultFromAddress: options.fromAddress || '',
     defaultFromName: options.fromName || '',

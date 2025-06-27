@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
         <Header />
-        {children}
+        <div className="max-w-6xl mx-auto w-full px-4">{children}</div>
         <Footer />
       </body>
     </html>
