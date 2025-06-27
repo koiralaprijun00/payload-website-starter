@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +12,7 @@
   h6 {
     font-size: unset;
     font-weight: unset;
+    @apply font-sansita;
   }
 
   :root {
@@ -82,6 +84,10 @@
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
   }
+
+  p {
+    @apply font-fira-sans;
+  }
 }
 
 @layer base {
@@ -111,4 +117,12 @@ html[data-theme='light'] {
 
 .prose, .prose * {
   color: #000 !important;
+}
+
+.font-sansita {
+  font-family: 'Sansita', sans-serif;
+}
+
+.font-fira-sans {
+  font-family: 'Fira Sans', sans-serif;
 }
