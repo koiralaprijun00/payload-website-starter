@@ -1,5 +1,6 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { nodemailerTransport } from './email'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -112,4 +113,13 @@ export default buildConfig({
     },
     tasks: [],
   },
+  email: nodemailerTransport({
+    host: process.env.SMTP_HOST || 'smtp.example.com',
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.SMTP_USER || '',
+      pass: process.env.SMTP_PASS || '',
+    },
+  }),
 })
