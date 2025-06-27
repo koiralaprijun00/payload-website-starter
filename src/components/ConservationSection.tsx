@@ -43,9 +43,9 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
     typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-8">
+    <div className="bg-white flex items-center justify-center px-8 mb-48">
       <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] items-start gap-10">
           {/* Left Column */}
           <div
             className={`space-y-2 transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}
@@ -61,7 +61,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
             </h1>
             <p className="text-md text-gray-900 leading-tight">{sectionDescription}</p>
             <a href={buttonLink}>
-              <button className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+              <button className="group bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 mt-4 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                 <span className="flex items-center space-x-2">
                   <span>{buttonText}</span>
                   <svg
@@ -106,7 +106,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
             {/* Main Image + Content Box Wrapper */}
             <div className="relative mb-6 z-0">
               {imageUrl && (
-                <div className="w-full h-[28rem] relative rounded overflow-hidden">
+                <div className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden">
                   <Image
                     src={imageUrl}
                     alt={activeTabData.title}
@@ -118,7 +118,15 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                 </div>
               )}
               {/* Content Box - Overlapping */}
-              <div className="absolute -left-20 -bottom-32 w-[90%] bg-blue-900 text-white p-8 shadow-lg transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2 z-10 rounded">
+              <div
+                className="
+                bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded
+                w-full left-0 bottom-0 relative mt-4
+                md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0
+                z-10
+                transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2
+              "
+              >
                 <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
                   <span>{activeTabData.title}</span>
                   <div className="w-2 h-2 bg-white animate-bounce"></div>

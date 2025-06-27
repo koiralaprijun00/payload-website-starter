@@ -59,7 +59,7 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
   }, [])
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 min-h-screen">
+    <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 mb-48">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
           {/* Main Content Section */}
