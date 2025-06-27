@@ -34,8 +34,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             preview: isEnabled,
           }}
         />
-        <Header />
-        <div className="max-w-6xl mx-auto w-full px-4">{children}</div>
+        <div className="max-w-6xl mx-auto w-full px-4">
+          <Header />
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
