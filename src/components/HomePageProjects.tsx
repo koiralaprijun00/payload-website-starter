@@ -23,7 +23,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
   blocks,
 }) => {
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-16">
+    <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-16">
       <div className="flex flex-col items-center text-center mb-10">
         <div className="flex items-center space-x-2 mb-2">
           <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
@@ -31,10 +31,10 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             {sectionLabel}
           </span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 leading-tight">
+        <h2 className="font-sansita text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight tracking-tight">
           {heading}
         </h2>
-        <p className="text-lg text-gray-700 mb-6">{subheading}</p>
+        <p className="text-base sm:text-lg text-gray-700 mb-6 font-fira-sans">{subheading}</p>
         <hr className="w-1/2 border-t border-gray-300 my-4" />
       </div>
 
@@ -49,7 +49,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
           return (
             <div
               key={idx}
-              className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] p-6`}
+              className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] p-4 sm:p-6`}
             >
               {hasImage && imageUrl && (
                 <Image
@@ -61,11 +61,22 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="100vw"
                 />
               )}
-              <div className={`relative z-10 ${hasImage ? 'text-white' : 'text-white'}`}>
-                {block.value && <div className="text-3xl font-bold mb-2">{block.value}</div>}
-                <div className="text-lg font-semibold mb-2">{block.title}</div>
+              <div
+                className={`relative z-10 flex flex-col h-full ${hasImage ? 'text-white' : 'text-white'}`}
+              >
+                <div>
+                  {block.value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {block.value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {block.title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {block.description && (
-                  <div className="text-sm font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {block.description}
                   </div>
                 )}
@@ -83,7 +94,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             <div
               className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${
                 blocks[0].bgColor || (blocks[0].image ? 'bg-transparent' : 'bg-blue-900')
-              } h-full p-6`}
+              } h-full p-4 sm:p-6`}
             >
               {blocks[0].image && (
                 <Image
@@ -99,13 +110,20 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="33vw"
                 />
               )}
-              <div className="relative z-10 text-white">
-                {blocks[0].value && (
-                  <div className="text-4xl lg:text-5xl font-bold mb-2">{blocks[0].value}</div>
-                )}
-                <div className="text-xl lg:text-2xl font-semibold mb-2">{blocks[0].title}</div>
+              <div className="relative z-10 flex flex-col h-full text-white">
+                <div>
+                  {blocks[0].value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {blocks[0].value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {blocks[0].title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {blocks[0].description && (
-                  <div className="text-base font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {blocks[0].description}
                   </div>
                 )}
@@ -120,7 +138,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             <div
               className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${
                 blocks[4].bgColor || (blocks[4].image ? 'bg-transparent' : 'bg-blue-900')
-              } h-full p-6`}
+              } h-full p-4 sm:p-6`}
             >
               {blocks[4].image && (
                 <Image
@@ -136,13 +154,20 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="33vw"
                 />
               )}
-              <div className="relative z-10 text-white">
-                {blocks[4].value && (
-                  <div className="text-4xl lg:text-5xl font-bold mb-2">{blocks[4].value}</div>
-                )}
-                <div className="text-xl lg:text-2xl font-semibold mb-2">{blocks[4].title}</div>
+              <div className="relative z-10 flex flex-col h-full text-white">
+                <div>
+                  {blocks[4].value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {blocks[4].value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {blocks[4].title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {blocks[4].description && (
-                  <div className="text-base font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {blocks[4].description}
                   </div>
                 )}
@@ -157,7 +182,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             <div
               className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${
                 blocks[1].bgColor || (blocks[1].image ? 'bg-transparent' : 'bg-blue-900')
-              } h-full p-6`}
+              } h-full p-4 sm:p-6`}
             >
               {blocks[1].image && (
                 <Image
@@ -173,13 +198,20 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="33vw"
                 />
               )}
-              <div className="relative z-10 text-white">
-                {blocks[1].value && (
-                  <div className="text-4xl lg:text-5xl font-bold mb-2">{blocks[1].value}</div>
-                )}
-                <div className="text-xl lg:text-2xl font-semibold mb-2">{blocks[1].title}</div>
+              <div className="relative z-10 flex flex-col h-full text-white">
+                <div>
+                  {blocks[1].value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {blocks[1].value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {blocks[1].title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {blocks[1].description && (
-                  <div className="text-base font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {blocks[1].description}
                   </div>
                 )}
@@ -194,7 +226,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             <div
               className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${
                 blocks[2].bgColor || (blocks[2].image ? 'bg-transparent' : 'bg-blue-900')
-              } h-full p-6`}
+              } h-full p-4 sm:p-6`}
             >
               {blocks[2].image && (
                 <Image
@@ -210,13 +242,20 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="33vw"
                 />
               )}
-              <div className="relative z-10 text-white">
-                {blocks[2].value && (
-                  <div className="text-4xl lg:text-5xl font-bold mb-2">{blocks[2].value}</div>
-                )}
-                <div className="text-xl lg:text-2xl font-semibold mb-2">{blocks[2].title}</div>
+              <div className="relative z-10 flex flex-col h-full text-white">
+                <div>
+                  {blocks[2].value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {blocks[2].value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {blocks[2].title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {blocks[2].description && (
-                  <div className="text-base font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {blocks[2].description}
                   </div>
                 )}
@@ -231,7 +270,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             <div
               className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${
                 blocks[3].bgColor || (blocks[3].image ? 'bg-transparent' : 'bg-blue-900')
-              } h-full p-6`}
+              } h-full p-4 sm:p-6`}
             >
               {blocks[3].image && (
                 <Image
@@ -247,13 +286,20 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
                   sizes="33vw"
                 />
               )}
-              <div className="relative z-10 text-white">
-                {blocks[3].value && (
-                  <div className="text-4xl lg:text-5xl font-bold mb-2">{blocks[3].value}</div>
-                )}
-                <div className="text-xl lg:text-2xl font-semibold mb-2">{blocks[3].title}</div>
+              <div className="relative z-10 flex flex-col h-full text-white">
+                <div>
+                  {blocks[3].value && (
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
+                      {blocks[3].value}
+                    </div>
+                  )}
+                  <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
+                    {blocks[3].title}
+                  </div>
+                </div>
+                <div className="flex-1" />
                 {blocks[3].description && (
-                  <div className="text-base font-normal opacity-90 leading-relaxed">
+                  <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
                     {blocks[3].description}
                   </div>
                 )}
