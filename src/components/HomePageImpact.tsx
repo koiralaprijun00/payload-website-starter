@@ -28,150 +28,195 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
 }) => {
   return (
     <section className="w-full max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex flex-col lg:flex-row lg:items-start gap-4">
+      <div className="flex flex-col-reverse lg:flex-row lg:items-start gap-4">
         {/* Left: Custom grid layout */}
-        <div className="flex-1">
-          <div className="grid grid-cols-3 grid-rows-2 gap-2 h-[500px]">
-            {/* Block 1: Top left, small */}
-            {blocks[0] && (
+        <div className="flex-1 order-2 lg:order-1">
+          {/* Mobile stacked layout */}
+          <div className="flex flex-col gap-4 sm:hidden">
+            {blocks.map((block, idx) => (
               <div
-                className={`relative flex flex-col items-center justify-center text-center p-6 overflow-hidden`}
-                style={{
-                  gridColumn: '1 / 2',
-                  gridRow: '1 / 2',
-                  backgroundColor: '#DDEB9D', // Add to Tailwind config as theme color if desired
-                  backgroundImage: blocks[0].bgImage ? `url(${blocks[0].bgImage})` : 'none',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
+                key={idx}
+                className="w-[90%] mx-auto h-32 flex flex-col items-center justify-center text-center p-4 rounded-md shadow-md relative transition-transform duration-200 hover:scale-105"
+                style={{ backgroundColor: block.bgColor || '#DDEB9D' }}
               >
-                <div className="absolute inset-0 bg-black opacity-30 "></div>
+                <div className="absolute inset-0 bg-black opacity-30"></div>
                 <div className="relative z-10 text-white">
-                  {blocks[0].icon && (
-                    <div className="mb-3 inline-block">
-                      {typeof blocks[0].icon === 'string' ? (
-                        <Image src={blocks[0].icon} alt={blocks[0].label} width={64} height={64} />
+                  {block.icon && (
+                    <div className="mb-2 inline-block">
+                      {typeof block.icon === 'string' ? (
+                        <Image src={block.icon} alt={block.label} width={32} height={32} />
                       ) : (
-                        <Image
-                          src={blocks[0].icon.url}
-                          alt={blocks[0].label}
-                          width={64}
-                          height={64}
-                        />
+                        <Image src={block.icon.url} alt={block.label} width={32} height={32} />
                       )}
                     </div>
                   )}
-                  <div className="text-4xl font-bold">{blocks[0].value}</div>
-                  <div className="text-lg font-semibold opacity-90">{blocks[0].label}</div>
+                  <div className="text-xl font-bold font-sansita">{block.value}</div>
+                  <div className="text-xs font-semibold opacity-90 font-fira-sans">
+                    {block.label}
+                  </div>
                 </div>
               </div>
-            )}
-            {/* Block 2: Top right, wide */}
-            {blocks[1] && (
-              <div
-                className={`relative flex flex-col items-center justify-center text-center p-6 overflow-hidden`}
-                style={{
-                  gridColumn: '2 / 4',
-                  gridRow: '1 / 2',
-                  backgroundColor: '#143D60', // Add to Tailwind config as theme color if desired
-                  backgroundImage: blocks[1].bgImage ? `url(${blocks[1].bgImage})` : 'none',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="absolute inset-0 bg-black opacity-20"></div>
-                <div className="relative z-10 text-white">
-                  {blocks[1].icon && (
-                    <div className="mb-3 inline-block">
-                      {typeof blocks[1].icon === 'string' ? (
-                        <Image src={blocks[1].icon} alt={blocks[1].label} width={64} height={64} />
-                      ) : (
-                        <Image
-                          src={blocks[1].icon.url}
-                          alt={blocks[1].label}
-                          width={64}
-                          height={64}
-                        />
-                      )}
+            ))}
+          </div>
+          <div className="grid-cols-2 gap-6 max-w-4xl hidden sm:grid">
+            {/* Card 1: Large, top left (aligned right) */}
+            <div className="flex justify-end">
+              {blocks[0] && (
+                <div
+                  className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
+                  style={{ backgroundColor: blocks[0].bgColor || '#DDEB9D' }}
+                >
+                  <div className="absolute inset-0 bg-black opacity-30"></div>
+                  <div className="relative z-10 text-white">
+                    {blocks[0].icon && (
+                      <div className="mb-3 inline-block">
+                        {typeof blocks[0].icon === 'string' ? (
+                          <Image
+                            src={blocks[0].icon}
+                            alt={blocks[0].label}
+                            width={48}
+                            height={48}
+                          />
+                        ) : (
+                          <Image
+                            src={blocks[0].icon.url}
+                            alt={blocks[0].label}
+                            width={48}
+                            height={48}
+                          />
+                        )}
+                      </div>
+                    )}
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold font-sansita">
+                      {blocks[0].value}
                     </div>
-                  )}
-                  <div className="text-4xl font-bold">{blocks[1].value}</div>
-                  <div className="text-lg font-semibold opacity-90">{blocks[1].label}</div>
-                </div>
-              </div>
-            )}
-            {/* Block 3: Bottom left, large */}
-            {blocks[2] && (
-              <div
-                className={`relative flex flex-col items-center justify-center text-center p-6 overflow-hidden`}
-                style={{
-                  gridColumn: '1 / 3',
-                  gridRow: '2 / 3',
-                  backgroundColor: '#EB5B00', // Add to Tailwind config as theme color if desired
-                  backgroundImage: blocks[2].bgImage ? `url(${blocks[2].bgImage})` : 'none',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="absolute inset-0 bg-black opacity-40 "></div>
-                <div className="relative z-10 text-white">
-                  {blocks[2].icon && (
-                    <div className="mb-3 inline-block">
-                      {typeof blocks[2].icon === 'string' ? (
-                        <Image src={blocks[2].icon} alt={blocks[2].label} width={64} height={64} />
-                      ) : (
-                        <Image
-                          src={blocks[2].icon.url}
-                          alt={blocks[2].label}
-                          width={64}
-                          height={64}
-                        />
-                      )}
+                    <div className="text-xs sm:text-base md:text-lg font-semibold opacity-90 font-fira-sans">
+                      {blocks[0].label}
                     </div>
-                  )}
-                  <div className="text-4xl font-bold">{blocks[2].value}</div>
-                  <div className="text-lg font-semibold opacity-90">{blocks[2].label}</div>
+                  </div>
                 </div>
-              </div>
-            )}
-            {/* Block 4: Bottom right, medium */}
-            {blocks[3] && (
-              <div
-                className={`relative flex flex-col items-center justify-center text-center p-6 overflow-hidden`}
-                style={{
-                  gridColumn: '3 / 4',
-                  gridRow: '2 / 3',
-                  backgroundColor: '#A0C878', // Add to Tailwind config as theme color if desired
-                  backgroundImage: blocks[3].bgImage ? `url(${blocks[3].bgImage})` : 'none',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="absolute inset-0 bg-black opacity-20"></div>
-                <div className="relative z-10 text-white">
-                  {blocks[3].icon && (
-                    <div className="mb-3 inline-block">
-                      {typeof blocks[3].icon === 'string' ? (
-                        <Image src={blocks[3].icon} alt={blocks[3].label} width={64} height={64} />
-                      ) : (
-                        <Image
-                          src={blocks[3].icon.url}
-                          alt={blocks[3].label}
-                          width={64}
-                          height={64}
-                        />
-                      )}
+              )}
+            </div>
+            {/* Card 2: Medium, top right (aligned left and bottom) */}
+            <div className="flex justify-start items-end">
+              {blocks[1] && (
+                <div
+                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
+                  style={{ backgroundColor: blocks[1].bgColor || '#143D60' }}
+                >
+                  <div className="absolute inset-0 bg-black opacity-20"></div>
+                  <div className="relative z-10 text-white">
+                    {blocks[1].icon && (
+                      <div className="mb-3 inline-block">
+                        {typeof blocks[1].icon === 'string' ? (
+                          <Image
+                            src={blocks[1].icon}
+                            alt={blocks[1].label}
+                            width={36}
+                            height={36}
+                          />
+                        ) : (
+                          <Image
+                            src={blocks[1].icon.url}
+                            alt={blocks[1].label}
+                            width={36}
+                            height={36}
+                          />
+                        )}
+                      </div>
+                    )}
+                    <div className="text-lg sm:text-xl md:text-3xl font-bold font-sansita">
+                      {blocks[1].value}
                     </div>
-                  )}
-                  <div className="text-4xl font-bold">{blocks[3].value}</div>
-                  <div className="text-lg font-semibold opacity-90">{blocks[3].label}</div>
+                    <div className="text-xs sm:text-sm md:text-base font-semibold opacity-90 font-fira-sans">
+                      {blocks[1].label}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+            {/* Card 3: Small, bottom left (aligned right) */}
+            <div className="flex justify-end">
+              {blocks[2] && (
+                <div
+                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
+                  style={{ backgroundColor: blocks[2].bgColor || '#EB5B00' }}
+                >
+                  <div className="absolute inset-0 bg-black opacity-40"></div>
+                  <div className="relative z-10 text-white">
+                    {blocks[2].icon && (
+                      <div className="mb-2 inline-block">
+                        {typeof blocks[2].icon === 'string' ? (
+                          <Image
+                            src={blocks[2].icon}
+                            alt={blocks[2].label}
+                            width={24}
+                            height={24}
+                          />
+                        ) : (
+                          <Image
+                            src={blocks[2].icon.url}
+                            alt={blocks[2].label}
+                            width={24}
+                            height={24}
+                          />
+                        )}
+                      </div>
+                    )}
+                    <div className="text-base sm:text-lg md:text-2xl font-bold font-sansita">
+                      {blocks[2].value}
+                    </div>
+                    <div className="text-xs sm:text-xs md:text-sm font-semibold opacity-90 font-fira-sans">
+                      {blocks[2].label}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* Card 4: Large, bottom right (aligned left) */}
+            <div className="flex justify-start">
+              {blocks[3] && (
+                <div
+                  className="w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
+                  style={{ backgroundColor: blocks[3].bgColor || '#A0C878' }}
+                >
+                  <div className="absolute inset-0 bg-black opacity-20"></div>
+                  <div className="relative z-10 text-white">
+                    {blocks[3].icon && (
+                      <div className="mb-3 inline-block">
+                        {typeof blocks[3].icon === 'string' ? (
+                          <Image
+                            src={blocks[3].icon}
+                            alt={blocks[3].label}
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <Image
+                            src={blocks[3].icon.url}
+                            alt={blocks[3].label}
+                            width={40}
+                            height={40}
+                          />
+                        )}
+                      </div>
+                    )}
+                    <div className="text-xl sm:text-2xl md:text-3xl font-bold font-sansita">
+                      {blocks[3].value}
+                    </div>
+                    <div className="text-xs sm:text-base md:text-base font-semibold opacity-90 font-fira-sans">
+                      {blocks[3].label}
+                    </div>
+                    <div className="text-4xl font-bold">{blocks[3].value}</div>
+                    <div className="text-lg font-semibold opacity-90">{blocks[3].label}</div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/* Right: Text content */}
-        <div className="flex-1 flex flex-col justify-center mt-10 lg:mt-0">
+        <div className="flex-1 flex flex-col justify-center mt-10 lg:mt-0 order-1 lg:order-2">
           <div className="flex items-center space-x-2 mb-3">
             <span className="h-2 w-2 bg-orange-500 inline-block" />
             <span className="uppercase text-sm font-bold tracking-wider text-gray-600">

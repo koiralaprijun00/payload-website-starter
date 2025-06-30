@@ -200,8 +200,9 @@ export default async function ProjectsPage({
                     src={getMediaUrl(project.image.url)}
                     alt={project.image.alt || project.title}
                     width={350}
-                    height={250}
+                    height={550}
                     className="rounded shadow-lg object-cover"
+                    style={{ width: '350px', height: '400px' }}
                   />
                 )}
                 <div className="flex-1">

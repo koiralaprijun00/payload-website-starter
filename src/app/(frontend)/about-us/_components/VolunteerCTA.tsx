@@ -73,7 +73,7 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
         </div>
         {/* Right: Image */}
         <div className="flex-1 flex justify-center items-center">
-          {data.image && (
+          {data.image && data.image.url && (
             <Image
               src={data.image.url}
               alt={data.title}
