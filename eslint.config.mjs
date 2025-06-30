@@ -28,6 +28,7 @@ const eslintConfig = [
           caughtErrorsIgnorePattern: '^(_|ignore)',
         },
       ],
+      'tailwindcss/no-contradicting-classname': 'off',
     },
   },
   {
