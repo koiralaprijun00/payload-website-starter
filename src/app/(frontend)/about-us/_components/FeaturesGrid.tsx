@@ -35,7 +35,12 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, idx) => {
-            if (feature.blockType === 'imageCard' && feature.image) {
+            if (
+              feature.blockType === 'imageCard' &&
+              feature.image &&
+              typeof feature.image.url === 'string' &&
+              feature.image.url.trim() !== ''
+            ) {
               return (
                 <div key={feature.id || idx} className="w-full h-full">
                   <Image
