@@ -22,13 +22,15 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
     <Link href={`/team-members/${member.slug}`} className="block hover:shadow-lg transition">
       <div className="border border-gray-300 rounded-sm p-4 bg-white">
         <div className="flex flex-col items-center">
-          <Image
-            src={member.profileImage.url}
-            alt={member.name}
-            width={120}
-            height={120}
-            className="w-30 h-30 object-cover mb-3"
-          />
+          {typeof member.profileImage.url === 'string' && member.profileImage.url.trim() !== '' && (
+            <Image
+              src={member.profileImage.url}
+              alt={member.name}
+              width={120}
+              height={120}
+              className="w-30 h-30 object-cover mb-3"
+            />
+          )}
           <div className="text-center">
             <h4 className="font-semibold text-sm mb-1">{member.name}</h4>
             <div className="text-xs text-gray-600 mb-1">{member.role}</div>
