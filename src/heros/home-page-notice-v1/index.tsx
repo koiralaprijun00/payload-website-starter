@@ -1,14 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import type { Page } from '@/payload-types'
 import { Media } from '@/components/Media'
-import { CMSLink } from '@/components/Link'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import NoticeSidebar from '@/components/NoticeSidebar'
 
-interface Notice {
+export interface Notice {
   id: string
   category: string
   title: string
@@ -16,6 +14,15 @@ interface Notice {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any
   slug?: string
+}
+
+interface HomePageNoticeV1HeroProps {
+  type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1'
+  title?: string | null
+  buttonText?: string | null
+  buttonLink?: string | null
+  media?: never
+  notices?: Notice[]
 }
 
 const categoryLabel: Record<string, string> = {
@@ -32,13 +39,12 @@ const categoryColors: Record<string, string> = {
   policy: 'border-b-2 border-blue-400',
 }
 
-export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
+export const HomePageNoticeV1Hero: React.FC<HomePageNoticeV1HeroProps> = ({
   media,
   title,
-  buttonLink,
-  buttonText,
+  notices: noticesProp,
 }) => {
-  const [notices, setNotices] = useState<Notice[]>([])
+  const [notices, setNotices] = useState<Notice[]>(noticesProp || [])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null)
   const { setHeaderTheme } = useHeaderTheme()
@@ -48,6 +54,7 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
   }, [setHeaderTheme])
 
   useEffect(() => {
+    if (noticesProp) return // Don't fetch if notices are provided as prop
     const fetchNotices = async () => {
       try {
         const res = await fetch(`${getClientSideURL()}/api/notices?limit=4&sort=-publishedAt`)
@@ -57,9 +64,8 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
         console.error(err)
       }
     }
-
     fetchNotices()
-  }, [])
+  }, [noticesProp])
 
   const handleNoticeClick = (notice: Notice) => {
     setSelectedNotice(notice)
@@ -96,28 +102,6 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
                   <h1 className="max-w-xl text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-6">
                     {title}
                   </h1>
-
-                  {buttonLink && buttonText && (
-                    <CMSLink
-                      className="group inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white font-medium hover:bg-slate-800 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                      url={buttonLink}
-                    >
-                      {buttonText}
-                      <svg
-                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </CMSLink>
-                  )}
                 </div>
               </div>
             )}
