@@ -9,8 +9,8 @@ interface NoticeSidebarProps {
     title: string
     category: string
     summary?: string
-    image?: any
-    content?: any
+    image?: never
+    content?: never
   } | null
 }
 
