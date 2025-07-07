@@ -6,6 +6,7 @@ import { Media } from '@/components/Media'
 import { CMSLink } from '@/components/Link'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import NoticeSidebar from '@/components/NoticeSidebar'
 
 interface Notice {
   id: string
@@ -38,6 +39,8 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
   buttonText,
 }) => {
   const [notices, setNotices] = useState<Notice[]>([])
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null)
   const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
@@ -57,6 +60,16 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
 
     fetchNotices()
   }, [])
+
+  const handleNoticeClick = (notice: Notice) => {
+    setSelectedNotice(notice)
+    setSidebarOpen(true)
+  }
+
+  const handleSidebarClose = () => {
+    setSidebarOpen(false)
+    setSelectedNotice(null)
+  }
 
   return (
     <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 mb-48">
@@ -123,8 +136,9 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
               {notices.map((notice, index) => (
                 <article
                   key={notice.id}
-                  className="group relative bg-white/60 backdrop-blur-sm border border-white/40 p-1 hover:bg-white/80 hover:border-white/60 transition-all duration-300 hover:shadow-lg hover:shadow-slate-900/5 hover:-translate-y-1"
+                  className="group relative bg-white/60 backdrop-blur-sm border border-white/40 p-1 hover:bg-white/80 hover:border-white/60 transition-all duration-300 hover:shadow-lg hover:shadow-slate-900/5 hover:-translate-y-1 cursor-pointer"
                   style={{ animationDelay: `${index * 100}ms` }}
+                  onClick={() => handleNoticeClick(notice)}
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-1 min-w-0 space-y-3">
@@ -138,14 +152,9 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
                         </span>
                       </div>
 
-                      <CMSLink
-                        url={`/notices/${notice.slug || notice.id}`}
-                        className="block group-hover:text-blue-600 transition-colors duration-200"
-                      >
-                        <h3 className="font-semibold text-slate-900 text-lg leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-                          <span className="text-sm">{notice.title}</span>
-                        </h3>
-                      </CMSLink>
+                      <h3 className="font-semibold text-slate-900 text-lg leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                        <span className="text-sm">{notice.title}</span>
+                      </h3>
 
                       {notice.summary && (
                         <p className="text-sm text-slate-600 line-clamp-2 leading-relaxed">
@@ -153,39 +162,14 @@ export const HomePageNoticeV1Hero: React.FC<Page['hero']> = ({
                         </p>
                       )}
                     </div>
-
-                    {notice.image && typeof notice.image === 'object' && (
-                      <div className="flex-shrink-0 w-16 h-16 overflow-hidden bg-slate-100 shadow-md">
-                        <Media resource={notice.image} fill imgClassName="object-cover" />
-                      </div>
-                    )}
                   </div>
-
-                  <CMSLink
-                    url={`/notices/${notice.slug || notice.id}`}
-                    aria-label={`Read more about ${notice.title}`}
-                    className="absolute top-4 right-4 w-8 h-8 bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110"
-                  >
-                    <svg
-                      className="w-4 h-4 text-slate-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </CMSLink>
                 </article>
               ))}
             </div>
           </div>
         </div>
       </div>
+      <NoticeSidebar open={sidebarOpen} onClose={handleSidebarClose} notice={selectedNotice} />
     </div>
   )
 }
