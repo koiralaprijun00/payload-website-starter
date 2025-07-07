@@ -21,7 +21,8 @@ interface HomePageNoticeV1HeroProps {
   title?: string | null
   buttonText?: string | null
   buttonLink?: string | null
-  media?: never
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  media?: any
   notices?: Notice[]
 }
 
