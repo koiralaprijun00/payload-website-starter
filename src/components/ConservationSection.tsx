@@ -133,10 +133,10 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                 </h2>
                 <p className="text-blue-100 leading-relaxed mb-6">{activeTabData.text}</p>
                 <a
-                  href="#"
+                  href={activeTabData.link || '#'}
                   className="group flex items-center space-x-2 text-white font-medium hover:text-orange-200 transition-colors duration-300"
                 >
-                  <span>{activeTabData.link}</span>
+                  <span>Learn More</span>
                   <svg
                     className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"
                     fill="none"

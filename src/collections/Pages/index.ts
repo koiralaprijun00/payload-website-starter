@@ -98,7 +98,18 @@ export const Pages: CollectionConfig<'pages'> = {
                     { name: 'label', type: 'text', label: 'Tab Label' },
                     { name: 'title', type: 'text', label: 'Tab Title' },
                     { name: 'text', type: 'textarea', label: 'Tab Text' },
-                    { name: 'link', type: 'text', label: 'Tab Link' },
+                    {
+                      name: 'link',
+                      type: 'select',
+                      label: 'Theme Page',
+                      options: [
+                        { label: 'Ecosystem', value: '/ecosystem' },
+                        { label: 'Community', value: '/community' },
+                        { label: 'Research', value: '/research' },
+                        { label: 'Species', value: '/species' },
+                      ],
+                      required: true,
+                    },
                     {
                       name: 'image',
                       type: 'upload',

@@ -221,7 +221,7 @@ export interface Page {
           label?: string | null;
           title?: string | null;
           text?: string | null;
-          link?: string | null;
+          link: '/ecosystem' | '/community' | '/research' | '/species';
           image?: (string | null) | Media;
           id?: string | null;
         }[]
