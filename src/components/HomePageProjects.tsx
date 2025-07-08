@@ -5,6 +5,7 @@ import Link from 'next/link'
 export interface ProjectRelationship {
   id: string
   slug: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
@@ -58,25 +59,21 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             sizes="100vw"
           />
         )}
-        <div
-          className={`relative z-10 flex flex-col h-full ${hasImage ? 'text-white' : 'text-white'}`}
-        >
-          <div>
-            {block.value && (
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 font-sansita">
-                {block.value}
-              </div>
-            )}
-            <div className="text-lg sm:text-xl md:text-2xl font-semibold mb-1 font-sansita">
-              {block.title}
-            </div>
-          </div>
-          <div className="flex-1" />
-          {block.description && (
-            <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
-              {block.description}
+        <div className={`relative z-10 flex flex-col h-full text-white`}>
+          {block.value && (
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 w-2 font-sansita">
+              {block.value}
             </div>
           )}
+          <div className="flex-1" />
+          <div>
+            <div className="text-lg sm:text-md font-normal mb-1 font-sansita">{block.title}</div>
+            {block.description && (
+              <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
+                {block.description}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     )
