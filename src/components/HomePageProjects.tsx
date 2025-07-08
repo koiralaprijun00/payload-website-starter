@@ -2,13 +2,19 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+export interface ProjectRelationship {
+  id: string
+  slug: string
+  [key: string]: any
+}
+
 export interface ProjectBlock {
   title: string
   description?: string
   value?: string
   image?: { url: string } | string
   bgColor?: string // Optional: for custom background color
-  link?: string // New: internal project page link
+  link?: string | ProjectRelationship | null // Accepts string, object, or null
 }
 
 export interface HomePageProjectsProps {
@@ -16,6 +22,13 @@ export interface HomePageProjectsProps {
   heading: string
   subheading: string
   blocks: ProjectBlock[]
+}
+
+const getProjectUrl = (link: string | ProjectRelationship | null | undefined): string | null => {
+  if (!link) return null
+  if (typeof link === 'string') return link
+  if (typeof link === 'object' && link.slug) return `/projects/${link.slug}`
+  return null
 }
 
 const HomePageProjects: React.FC<HomePageProjectsProps> = ({
@@ -29,10 +42,11 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
     const hasImage = !!block.image
     const imageUrl = typeof block.image === 'string' ? block.image : block.image?.url || ''
     const bg = block.bgColor || (hasImage ? 'bg-transparent' : 'bg-blue-900')
+    const url = getProjectUrl(block.link)
 
     const CardContent = (
       <div
-        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] p-4 sm:p-6`}
+        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] md:min-h-0 p-4 sm:p-6 h-full`}
       >
         {hasImage && imageUrl && (
           <Image
@@ -66,16 +80,18 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
         </div>
       </div>
     )
-    return block.link ? (
+    return url ? (
       <Link
-        href={block.link}
+        href={url}
         key={idx}
-        className="block group focus:outline-none focus:ring-2 focus:ring-orange-500"
+        className="block h-full group focus:outline-none focus:ring-2 focus:ring-orange-500"
       >
         {CardContent}
       </Link>
     ) : (
-      <div key={idx}>{CardContent}</div>
+      <div key={idx} className="h-full">
+        {CardContent}
+      </div>
     )
   }
 
@@ -101,37 +117,33 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
         {blocks.map((block, idx) => renderCard(block, idx))}
       </div>
 
-      {/* Desktop layout - CSS Grid */}
-      <div className="hidden md:grid md:grid-cols-3 md:grid-rows-3 gap-6 h-[900px]">
-        {/* Block 1 - Left column, top, tall */}
+      {/* Desktop layout – 3×3 magazine grid */}
+      <div className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6">
+        {/* Block 1 – left, spans 2 rows */}
         {blocks[0] && (
           <div className="col-start-1 row-start-1 row-span-2 flex flex-col">
             {renderCard(blocks[0], 0)}
           </div>
         )}
-
-        {/* Block 5 - Left column, bottom, short */}
-        {blocks[4] && (
-          <div className="col-start-1 row-start-3 flex flex-col">{renderCard(blocks[4], 4)}</div>
-        )}
-
-        {/* Block 2 - Center column, full height */}
+        {/* Block 2 – centre, spans 3 rows (tallest) */}
         {blocks[1] && (
           <div className="col-start-2 row-start-1 row-span-3 flex flex-col">
             {renderCard(blocks[1], 1)}
           </div>
         )}
-
-        {/* Block 3 - Right column, top, short */}
+        {/* Block 3 – top-right */}
         {blocks[2] && (
           <div className="col-start-3 row-start-1 flex flex-col">{renderCard(blocks[2], 2)}</div>
         )}
-
-        {/* Block 4 - Right column, bottom, tall */}
+        {/* Block 4 – bottom-right, spans 2 rows */}
         {blocks[3] && (
           <div className="col-start-3 row-start-2 row-span-2 flex flex-col">
             {renderCard(blocks[3], 3)}
           </div>
+        )}
+        {/* Block 5 – bottom-left */}
+        {blocks[4] && (
+          <div className="col-start-1 row-start-3 flex flex-col">{renderCard(blocks[4], 4)}</div>
         )}
       </div>
     </section>
