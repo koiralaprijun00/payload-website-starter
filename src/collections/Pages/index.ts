@@ -139,6 +139,13 @@ export const Pages: CollectionConfig<'pages'> = {
                       label: 'Background Color (Tailwind class, e.g. bg-blue-900)',
                       required: false,
                     },
+                    {
+                      name: 'link',
+                      label: 'Project Page',
+                      type: 'relationship',
+                      relationTo: 'projects',
+                      required: false,
+                    },
                   ],
                   minRows: 1,
                   maxRows: 12,

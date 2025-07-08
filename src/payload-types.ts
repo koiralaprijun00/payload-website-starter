@@ -238,6 +238,7 @@ export interface Page {
           value?: string | null;
           image?: (string | null) | Media;
           bgColor?: string | null;
+          link?: (string | null) | Project;
           id?: string | null;
         }[]
       | null;
@@ -795,18 +796,19 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team-members".
+ * via the `definition` "projects".
  */
-export interface TeamMember {
+export interface Project {
   id: string;
-  name: string;
-  role: string;
-  profileImage: string | Media;
-  email: string;
-  phone: string;
-  boardType: 'advisory' | 'executive';
-  slug: string;
-  description?: string | null;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  image: string | Media;
+  description: string;
+  themes: (string | ThemePage)[];
+  area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
+  year: number;
+  status: 'ongoing' | 'completed';
   updatedAt: string;
   createdAt: string;
 }
@@ -857,19 +859,18 @@ export interface ThemePage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
+ * via the `definition` "team-members".
  */
-export interface Project {
+export interface TeamMember {
   id: string;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  image: string | Media;
-  description: string;
-  themes: (string | ThemePage)[];
-  area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
-  year: number;
-  status: 'ongoing' | 'completed';
+  name: string;
+  role: string;
+  profileImage: string | Media;
+  email: string;
+  phone: string;
+  boardType: 'advisory' | 'executive';
+  slug: string;
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1266,6 +1267,7 @@ export interface PagesSelect<T extends boolean = true> {
               value?: T;
               image?: T;
               bgColor?: T;
+              link?: T;
               id?: T;
             };
       };
