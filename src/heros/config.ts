@@ -87,6 +87,14 @@ export const hero: Field = {
       },
     },
     {
+      name: 'pillLabel',
+      type: 'text',
+      label: 'Pill Label',
+      admin: {
+        condition: (_, { type }) => type === 'homePageNoticeV1',
+      },
+    },
+    {
       name: 'richText',
       type: 'richText',
       editor: lexicalEditor({

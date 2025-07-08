@@ -5,6 +5,7 @@ import { Media } from '@/components/Media'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import NoticeSidebar from '@/components/NoticeSidebar'
+import { ChevronRight, Clock } from 'lucide-react'
 
 export interface Notice {
   id: string
@@ -14,6 +15,8 @@ export interface Notice {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any
   slug?: string
+  publishedAt?: string
+  viewCount?: number
 }
 
 interface HomePageNoticeV1HeroProps {
@@ -21,30 +24,73 @@ interface HomePageNoticeV1HeroProps {
   title?: string | null
   buttonText?: string | null
   buttonLink?: string | null
+  pillLabel?: string | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   media?: any
   notices?: Notice[]
+  description?: string | null
 }
 
-const categoryLabel: Record<string, string> = {
-  ecosystem: 'Ecosystem',
-  species: 'Species',
-  community: 'Community',
-  policy: 'Policy',
+const categoryConfig: Record<
+  string,
+  {
+    label: string
+    color: string
+    bgColor: string
+    textColor: string
+    hoverColor: string
+  }
+> = {
+  ecosystem: {
+    label: 'Ecosystem',
+    color: 'bg-emerald-500',
+    bgColor: 'bg-emerald-50',
+    textColor: 'text-emerald-700',
+    hoverColor: 'hover:bg-emerald-500',
+  },
+  species: {
+    label: 'Species',
+    color: 'bg-blue-500',
+    bgColor: 'bg-blue-50',
+    textColor: 'text-blue-700',
+    hoverColor: 'hover:bg-blue-500',
+  },
+  community: {
+    label: 'Community',
+    color: 'bg-purple-500',
+    bgColor: 'bg-purple-50',
+    textColor: 'text-purple-700',
+    hoverColor: 'hover:bg-purple-500',
+  },
+  policy: {
+    label: 'Policy',
+    color: 'bg-amber-500',
+    bgColor: 'bg-amber-50',
+    textColor: 'text-amber-700',
+    hoverColor: 'hover:bg-amber-500',
+  },
 }
 
-const categoryColors: Record<string, string> = {
-  ecosystem: 'border-b-2 border-blue-400',
-  species: 'border-b-2 border-blue-400',
-  community: 'border-b-2 border-blue-400',
-  policy: 'border-b-2 border-blue-400',
+const formatDate = (dateString?: string) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }
 
 export const HomePageNoticeV1Hero: React.FC<HomePageNoticeV1HeroProps> = ({
   media,
   title,
+  pillLabel,
+  description,
   notices: noticesProp,
 }) => {
+  const displayTitle = title ?? "Protecting Our Planet's Future Through Conservation Innovation"
+  const displayDescription = description ?? ''
+  const displayPill = pillLabel ?? 'Latest Updates'
   const [notices, setNotices] = useState<Notice[]>(noticesProp || [])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null)
@@ -78,83 +124,146 @@ export const HomePageNoticeV1Hero: React.FC<HomePageNoticeV1HeroProps> = ({
     setSelectedNotice(null)
   }
 
+  const [hoveredNotice, setHoveredNotice] = useState<string | null>(null)
+
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/30 mb-48">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
-          {/* Main Content Section */}
-          <div className="xl:col-span-3 space-y-8">
-            {media && typeof media === 'object' && (
+    <div className="relative h-[80vh] bg-white overflow-visible mb-48 px-12 py-0">
+      {/* Accent shapes removed in light theme */}
+      <div className="hidden" />
+
+      <div className="relative z-10 container mx-auto h-full flex flex-col px-4 sm:px-6 lg:px-8 pt-0 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start h-full">
+          {/* Main content */}
+          <div className="lg:col-span-7 space-y-8 flex flex-col justify-center overflow-y-auto">
+            {/* Title */}
+            {displayTitle && (
+              <div className="space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded border border-blue-200">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium text-blue-800">{displayPill}</span>
+                </div>
+
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                  {displayTitle}
+                </h1>
+
+                {displayDescription && (
+                  <p className="text-xl text-slate-700 leading-relaxed max-w-2xl">
+                    {displayDescription}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Hero Media */}
+            {media && (
               <div className="group relative">
-                <div className="aspect-[4/3] lg:aspect-[16/10] relative overflow-hidden bg-white shadow-xl shadow-slate-900/10">
+                <div className="aspect-[16/9] relative overflow-hidden bg-gray-100 border border-gray-200">
                   <Media
                     resource={media}
                     fill
-                    imgClassName="object-cover transition-transform duration-700 group-hover:scale-105"
+                    imgClassName="object-cover transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-                </div>
-              </div>
-            )}
-
-            {title && (
-              <div className="relative">
-                <div className="bg-white/70 backdrop-blur-sm border border-white/20 p-2">
-                  <h1 className="max-w-xl text-xl lg:text-2xl xl:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-6">
-                    {title}
-                  </h1>
+                  {/* Overlay removed to avoid hiding edges */}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Notices Sidebar */}
-          <div className="xl:col-span-2 space-y-2">
-            <div className="flex items-center gap-1 mb-2">
-              <div className="w-3 h-3 rounded-full bg-[#F15A24]" />
-              <h2 className="text-base lg:text-lg font-bold text-slate-900 tracking-tight">
-                Notices
-              </h2>
+          {/* Notices sidebar */}
+          <div className="lg:col-span-5 space-y-6 flex flex-col h-full">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-slate-900">Latest Notices</h2>
+              {/* <button className="text-blue-600 hover:text-blue-800 transition-colors duration-200 flex items-center gap-1 text-sm">
+                View all
+                <ExternalLink className="w-4 h-4" />
+              </button> */}
             </div>
 
-            <div className="space-y-1">
-              {notices.map((notice, index) => (
-                <article
-                  key={notice.id}
-                  className="group relative bg-white/60 backdrop-blur-sm border border-white/40 p-1 hover:bg-white/80 hover:border-white/60 transition-all duration-300 hover:shadow-lg hover:shadow-slate-900/5 hover:-translate-y-1 cursor-pointer"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                  onClick={() => handleNoticeClick(notice)}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-1 min-w-0 space-y-3">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`inline-flex items-center text-xs font-medium pb-0.5 ${
-                            categoryColors[notice.category] || 'border-b-2 border-gray-300'
-                          }`}
-                        >
-                          {categoryLabel[notice.category] || notice.category}
-                        </span>
+            <div className="space-y-3 flex-1 overflow-y-auto pr-1">
+              {notices.map((notice, index) => {
+                const config = (categoryConfig[notice.category] ?? categoryConfig.ecosystem) as {
+                  label: string
+                  color: string
+                  bgColor: string
+                  textColor: string
+                  hoverColor: string
+                }
+
+                return (
+                  <article
+                    key={notice.id}
+                    className={`group relative bg-white border border-gray-200 rounded-lg p-3 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 cursor-pointer transform ${
+                      hoveredNotice === notice.id ? 'scale-[1.02]' : ''
+                    }`}
+                    style={{
+                      animationDelay: `${index * 150}ms`,
+                      animation: 'fadeInUp 0.6s ease-out forwards',
+                    }}
+                    onClick={() => handleNoticeClick(notice)}
+                    onMouseEnter={() => setHoveredNotice(notice.id)}
+                    onMouseLeave={() => setHoveredNotice(null)}
+                  >
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <span className={`w-1.5 h-1.5 rounded-full ${config.color}`} />
+                        <span>{config.label}</span>
                       </div>
-
-                      <h3 className="font-semibold text-slate-900 text-lg leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-                        <span className="text-sm">{notice.title}</span>
-                      </h3>
-
-                      {notice.summary && (
-                        <p className="text-sm text-slate-600 line-clamp-2 leading-relaxed">
-                          {notice.summary}
-                        </p>
-                      )}
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                        <Clock className="w-3 h-3" />
+                        {formatDate(notice.publishedAt || '')}
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+
+                    {/* Title */}
+                    <h3 className="font-semibold text-slate-900 text-lg leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
+                      {notice.title}
+                    </h3>
+
+                    {/* Summary */}
+                    {notice.summary && (
+                      <p className="text-slate-600 line-clamp-1 leading-relaxed mb-2 group-hover:text-slate-800 transition-colors duration-200 text-sm">
+                        {notice.summary}
+                      </p>
+                    )}
+
+                    {/* Read more */}
+                    <div className="flex items-center gap-1 text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <span>Read more</span>
+                      <ChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform duration-200" />
+                    </div>
+
+                    {/* Accent bar */}
+                    <div
+                      className={`absolute left-0 top-0 bottom-0 w-1 ${config.color} rounded-l-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    />
+                  </article>
+                )
+              })}
             </div>
+
+            {/* View All button removed for compactness */}
           </div>
         </div>
       </div>
+
+      {/* Sidebar */}
       <NoticeSidebar open={sidebarOpen} onClose={handleSidebarClose} notice={selectedNotice} />
+
+      {/* Keyframes */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   )
 }

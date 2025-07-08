@@ -169,6 +169,7 @@ export interface Page {
     description?: string | null;
     buttonText?: string | null;
     buttonLink?: string | null;
+    pillLabel?: string | null;
     richText?: {
       root: {
         type: string;
@@ -1208,6 +1209,7 @@ export interface PagesSelect<T extends boolean = true> {
         description?: T;
         buttonText?: T;
         buttonLink?: T;
+        pillLabel?: T;
         richText?: T;
         links?:
           | T
@@ -2054,6 +2056,7 @@ export interface ProjectsPageSetting {
     description?: string | null;
     buttonText?: string | null;
     buttonLink?: string | null;
+    pillLabel?: string | null;
     richText?: {
       root: {
         type: string;
@@ -2228,6 +2231,7 @@ export interface ProjectsPageSettingsSelect<T extends boolean = true> {
               description?: T;
               buttonText?: T;
               buttonLink?: T;
+              pillLabel?: T;
               richText?: T;
               links?:
                 | T
