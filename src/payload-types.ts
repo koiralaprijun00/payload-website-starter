@@ -253,7 +253,7 @@ export interface Page {
           icon?: (string | null) | Media;
           value?: string | null;
           label?: string | null;
-          bgColor?: string | null;
+          bgColor: 'bg-blue-900' | 'bg-green-700' | 'bg-yellow-400' | 'bg-orange-500' | 'bg-gray-700';
           id?: string | null;
         }[]
       | null;

@@ -63,8 +63,12 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             <div className="flex justify-end">
               {blocks[0] && (
                 <div
-                  className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
-                  style={{ backgroundColor: blocks[0].bgColor || '#DDEB9D' }}
+                  className={`w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105 ${blocks[0].bgColor && blocks[0].bgColor.startsWith('bg-') ? blocks[0].bgColor : ''}`}
+                  style={
+                    blocks[0].bgColor && !blocks[0].bgColor.startsWith('bg-')
+                      ? { backgroundColor: blocks[0].bgColor }
+                      : undefined
+                  }
                 >
                   <div className="absolute inset-0 bg-black opacity-30"></div>
                   <div className="relative z-10 text-white">
@@ -74,15 +78,15 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
                           <Image
                             src={blocks[0].icon}
                             alt={blocks[0].label}
-                            width={48}
-                            height={48}
+                            width={96}
+                            height={96}
                           />
                         ) : (
                           <Image
                             src={blocks[0].icon.url}
                             alt={blocks[0].label}
-                            width={48}
-                            height={48}
+                            width={96}
+                            height={96}
                           />
                         )}
                       </div>
@@ -101,8 +105,12 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             <div className="flex justify-start items-end">
               {blocks[1] && (
                 <div
-                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
-                  style={{ backgroundColor: blocks[1].bgColor || '#143D60' }}
+                  className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105 ${blocks[1].bgColor && blocks[1].bgColor.startsWith('bg-') ? blocks[1].bgColor : ''}`}
+                  style={
+                    blocks[1].bgColor && !blocks[1].bgColor.startsWith('bg-')
+                      ? { backgroundColor: blocks[1].bgColor }
+                      : undefined
+                  }
                 >
                   <div className="absolute inset-0 bg-black opacity-20"></div>
                   <div className="relative z-10 text-white">
@@ -112,15 +120,15 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
                           <Image
                             src={blocks[1].icon}
                             alt={blocks[1].label}
-                            width={36}
-                            height={36}
+                            width={72}
+                            height={72}
                           />
                         ) : (
                           <Image
                             src={blocks[1].icon.url}
                             alt={blocks[1].label}
-                            width={36}
-                            height={36}
+                            width={72}
+                            height={72}
                           />
                         )}
                       </div>
@@ -139,8 +147,12 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             <div className="flex justify-end">
               {blocks[2] && (
                 <div
-                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
-                  style={{ backgroundColor: blocks[2].bgColor || '#EB5B00' }}
+                  className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center text-center p-3 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105 ${blocks[2].bgColor && blocks[2].bgColor.startsWith('bg-') ? blocks[2].bgColor : ''}`}
+                  style={
+                    blocks[2].bgColor && !blocks[2].bgColor.startsWith('bg-')
+                      ? { backgroundColor: blocks[2].bgColor }
+                      : undefined
+                  }
                 >
                   <div className="absolute inset-0 bg-black opacity-40"></div>
                   <div className="relative z-10 text-white">
@@ -150,15 +162,15 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
                           <Image
                             src={blocks[2].icon}
                             alt={blocks[2].label}
-                            width={24}
-                            height={24}
+                            width={64}
+                            height={64}
                           />
                         ) : (
                           <Image
                             src={blocks[2].icon.url}
                             alt={blocks[2].label}
-                            width={24}
-                            height={24}
+                            width={64}
+                            height={64}
                           />
                         )}
                       </div>
@@ -177,8 +189,12 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             <div className="flex justify-start">
               {blocks[3] && (
                 <div
-                  className="w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105"
-                  style={{ backgroundColor: blocks[3].bgColor || '#A0C878' }}
+                  className={`w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 flex flex-col items-center justify-center text-center p-4 sm:p-6 overflow-hidden relative transition-transform duration-200 hover:scale-105 ${blocks[3].bgColor && blocks[3].bgColor.startsWith('bg-') ? blocks[3].bgColor : ''}`}
+                  style={
+                    blocks[3].bgColor && !blocks[3].bgColor.startsWith('bg-')
+                      ? { backgroundColor: blocks[3].bgColor }
+                      : undefined
+                  }
                 >
                   <div className="absolute inset-0 bg-black opacity-20"></div>
                   <div className="relative z-10 text-white">
@@ -188,15 +204,15 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
                           <Image
                             src={blocks[3].icon}
                             alt={blocks[3].label}
-                            width={40}
-                            height={40}
+                            width={80}
+                            height={80}
                           />
                         ) : (
                           <Image
                             src={blocks[3].icon.url}
                             alt={blocks[3].label}
-                            width={40}
-                            height={40}
+                            width={80}
+                            height={80}
                           />
                         )}
                       </div>
@@ -207,8 +223,6 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
                     <div className="text-xs sm:text-base md:text-base font-semibold opacity-90 font-fira-sans">
                       {blocks[3].label}
                     </div>
-                    <div className="text-4xl font-bold">{blocks[3].value}</div>
-                    <div className="text-lg font-semibold opacity-90">{blocks[3].label}</div>
                   </div>
                 </div>
               )}
