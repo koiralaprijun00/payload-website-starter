@@ -242,7 +242,7 @@ export default async function ProjectsPage({
                     </div>
                   )}
                   <h2 className="text-2xl font-extrabold text-mainBlue mb-2">{project.title}</h2>
-                  <p className="mb-4 text-gray-700">{project.description}</p>
+                  <p className="mb-4 text-gray-700">{project.summary}</p>
                   <a
                     href={`/projects/${project.slug}`}
                     className="text-mainBlue font-bold flex items-center gap-2 group"

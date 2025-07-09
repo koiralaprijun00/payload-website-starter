@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
+import { defaultLexical } from '@/fields/defaultLexical'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -23,9 +24,15 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
-      name: 'description',
+      name: 'summary',
       type: 'textarea',
       required: true,
+    },
+    {
+      name: 'body',
+      type: 'richText',
+      required: true,
+      editor: defaultLexical,
     },
     {
       name: 'themes',

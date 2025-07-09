@@ -805,7 +805,22 @@ export interface Project {
   slug?: string | null;
   slugLock?: boolean | null;
   image: string | Media;
-  description: string;
+  summary: string;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   themes: (string | ThemePage)[];
   area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
   year: number;
@@ -1612,7 +1627,8 @@ export interface ProjectsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   image?: T;
-  description?: T;
+  summary?: T;
+  body?: T;
   themes?: T;
   area?: T;
   year?: T;

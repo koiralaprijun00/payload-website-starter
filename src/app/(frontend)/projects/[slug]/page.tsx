@@ -6,6 +6,7 @@ import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import Hero from '@/app/(frontend)/themes/_components/Hero'
 import PageClient from '@/app/(frontend)/posts/[slug]/page.client'
+import RichText from '@/components/RichText'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -49,9 +50,8 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
       )}
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container max-w-[48rem] mx-auto">
-          <p className="mb-8 text-lg text-gray-700">{project.description}</p>
-          {/* If you add a richText field for project details, render it here: */}
-          {/* <RichText data={project.content} enableGutter={false} /> */}
+          <p className="mb-8 text-lg text-gray-700">{project.summary}</p>
+          {project.body && <RichText data={project.body} className="mb-8" />}
           {/* You can add more project fields here as needed */}
         </div>
       </div>
@@ -64,7 +64,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const project = await queryProjectBySlug({ slug })
   return {
     title: project?.title || 'Project',
-    description: project?.description || '',
+    description: project?.summary || '',
   }
 }
 
