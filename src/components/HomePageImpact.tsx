@@ -22,8 +22,6 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
   sectionLabel,
   heading,
   description,
-  buttonText,
-  buttonLink,
   blocks,
 }) => {
   return (
@@ -241,6 +239,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             {heading}
           </h2>
           <p className="text-lg text-gray-700 mb-8">{description}</p>
+          {/* Button hidden for now. Uncomment to re-enable:
           {buttonText && buttonLink && (
             <a
               href={buttonLink}
@@ -249,6 +248,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
               {buttonText}
             </a>
           )}
+          */}
         </div>
       </div>
     </section>
