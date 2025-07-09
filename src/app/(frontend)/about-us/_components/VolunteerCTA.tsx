@@ -55,10 +55,10 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
   }
 
   return (
-    <section className="container mx-auto py-12">
-      <div className="flex flex-col md:flex-row items-center bg-[#6C93C0] rounded-lg px-8 py-12 gap-8">
+    <section className="container mx-auto my-16 py-16">
+      <div className="flex flex-col md:flex-row items-center bg-[#6C93C0] rounded-lg px-8 py-12 gap-8 relative overflow-visible">
         {/* Left: Text */}
-        <div className="flex-1 text-white">
+        <div className="flex-1 text-white pr-0 md:pr-32 z-10">
           <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">{data.title}</h2>
           <p className="text-lg md:text-xl mb-8">{data.description}</p>
           <Button
@@ -71,15 +71,15 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
             {data.buttonText}
           </Button>
         </div>
-        {/* Right: Image */}
-        <div className="flex-1 flex justify-center items-center">
+        {/* Right: Image - breaks out of box at top, flush at bottom */}
+        <div className="flex-1 flex items-end justify-end relative min-h-[300px]">
           {data.image && data.image.url && (
             <Image
               src={data.image.url}
               alt={data.title}
-              width={400}
+              width={350}
               height={400}
-              className="object-contain w-full h-auto"
+              className="object-contain w-[440px] h-auto absolute right-[80px] bottom-0 translate-y-[87px] drop-shadow-xl z-20"
               priority
             />
           )}

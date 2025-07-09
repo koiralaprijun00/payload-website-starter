@@ -32,11 +32,12 @@ export async function Footer() {
     <footer className="relative min-h-[90vh]">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden"
         style={{
           backgroundImage: `url('${backgroundImageUrl}')`,
           backgroundPosition: 'center 20%',
-          transform: 'translateY(-30%)',
+          transform: 'translateY(-40%)',
+          zIndex: -1,
         }}
       />
 
