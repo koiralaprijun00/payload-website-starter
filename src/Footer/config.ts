@@ -10,6 +10,16 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
+      name: 'backgroundImage',
+      label: 'Background Image',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        description: 'Background image for the footer section. Recommended size: 1920x1080px',
+      },
+    },
+    {
       name: 'phone',
       label: 'Phone Number',
       type: 'text',

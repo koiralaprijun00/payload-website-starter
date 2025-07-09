@@ -1938,6 +1938,10 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  /**
+   * Background image for the footer section. Recommended size: 1920x1080px
+   */
+  backgroundImage?: (string | null) | Media;
   phone: string;
   email: string;
   mission: string;
@@ -2132,6 +2136,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  backgroundImage?: T;
   phone?: T;
   email?: T;
   mission?: T;
