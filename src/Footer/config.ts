@@ -81,6 +81,38 @@ export const Footer: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'address',
+      label: 'Address',
+      type: 'text',
+      required: false,
+      admin: {
+        description: 'Physical address to display in the footer.',
+      },
+    },
+    {
+      name: 'donateButton',
+      label: 'Donate Button',
+      type: 'group',
+      fields: [
+        {
+          name: 'text',
+          label: 'Button Text',
+          type: 'text',
+          required: false,
+          defaultValue: 'DONATE NOW',
+        },
+        {
+          name: 'url',
+          label: 'Button URL',
+          type: 'text',
+          required: false,
+        },
+      ],
+      admin: {
+        description: 'Text and link for the donate button.',
+      },
+    },
   ],
   hooks: {
     afterChange: [revalidateFooter],

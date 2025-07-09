@@ -1988,6 +1988,17 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Physical address to display in the footer.
+   */
+  address?: string | null;
+  /**
+   * Text and link for the donate button.
+   */
+  donateButton?: {
+    text?: string | null;
+    url?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2176,6 +2187,13 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  address?: T;
+  donateButton?:
+    | T
+    | {
+        text?: T;
+        url?: T;
       };
   updatedAt?: T;
   createdAt?: T;

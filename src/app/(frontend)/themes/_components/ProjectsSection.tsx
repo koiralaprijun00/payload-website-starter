@@ -41,7 +41,7 @@ const ProjectsSection = async ({ themeId }: Props) => {
                   height={300}
                 />
                 <p className="font-bold text-lg mb-2">{project.title}</p>
-                <p>{project.description}</p>
+                {/* Removed project.description because it does not exist on type Project */}
               </div>
             )
           })}

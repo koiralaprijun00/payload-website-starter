@@ -57,7 +57,9 @@ export async function Footer() {
           <div className="text-white space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
             {/* Address */}
             <div className="mb-4">
-              <p className="text-base text-gray-200 mr-0">Kathmandu, Nepal</p>
+              <p className="text-base text-gray-200 mr-0">
+                {footerData?.address || 'Kathmandu, Nepal'}
+              </p>
             </div>
             {/* Phone */}
             <div className="flex items-center justify-end gap-3 mb-2">
@@ -101,10 +103,25 @@ export async function Footer() {
               </p>
 
               {/* Donate Button */}
-              <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-base">
-                <Heart className="w-5 h-5" />
-                DONATE NOW
-              </button>
+              {footerData?.donateButton?.url ? (
+                <a
+                  href={footerData.donateButton.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-base"
+                >
+                  <Heart className="w-5 h-5" />
+                  {footerData.donateButton.text || 'DONATE NOW'}
+                </a>
+              ) : (
+                <button
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-base"
+                  disabled
+                >
+                  <Heart className="w-5 h-5" />
+                  {footerData?.donateButton?.text || 'DONATE NOW'}
+                </button>
+              )}
             </div>
           </div>
 
