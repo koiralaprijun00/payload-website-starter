@@ -54,7 +54,7 @@ const ArchiveBlockClient: React.FC<Props> = ({ id, posts }) => {
       <div className="container overflow-x-auto pb-4">
         <div ref={scrollRef} className="flex gap-8 min-w-full overflow-x-auto scroll-smooth">
           {posts.map((post) => {
-            const metaImage = post.meta?.image
+            const metaImage = post.meta?.image || post.heroImage
             const title = post.title
             const href = `/posts/${post.slug}`
             return (
