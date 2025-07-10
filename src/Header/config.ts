@@ -16,6 +16,15 @@ export const Header: GlobalConfig = {
         link({
           appearances: false,
         }),
+        {
+          name: 'children',
+          label: 'Dropdown Items',
+          type: 'array',
+          fields: [link({ appearances: false })],
+          admin: {
+            condition: (_, siblingData) => siblingData?.link?.label === 'Themes',
+          },
+        },
       ],
       maxRows: 6,
       admin: {

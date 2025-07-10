@@ -198,6 +198,10 @@ export interface Page {
               | ({
                   relationTo: 'posts';
                   value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'theme-pages';
+                  value: string | ThemePage;
                 } | null);
             url?: string | null;
             label: string;
@@ -455,6 +459,51 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-pages".
+ */
+export interface ThemePage {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  hero: {
+    image: string | Media;
+  };
+  introSection: {
+    tagline: string;
+    content: string;
+    factBox: {
+      title?: string | null;
+      fact: string;
+      image: string | Media;
+      statValue?: string | null;
+      statLabel?: string | null;
+    };
+  };
+  mainContent: {
+    heading: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+  };
+  contentImage: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -486,6 +535,10 @@ export interface CallToActionBlock {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'theme-pages';
+                value: string | ThemePage;
               } | null);
           url?: string | null;
           label: string;
@@ -536,6 +589,10 @@ export interface ContentBlock {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'theme-pages';
+                value: string | ThemePage;
               } | null);
           url?: string | null;
           label: string;
@@ -825,51 +882,6 @@ export interface Project {
   area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
   year: number;
   status: 'ongoing' | 'completed';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "theme-pages".
- */
-export interface ThemePage {
-  id: string;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  hero: {
-    image: string | Media;
-  };
-  introSection: {
-    tagline: string;
-    content: string;
-    factBox: {
-      title?: string | null;
-      fact: string;
-      image: string | Media;
-      statValue?: string | null;
-      statLabel?: string | null;
-    };
-  };
-  mainContent: {
-    heading: string;
-    content: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-  };
-  contentImage: string | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -1938,10 +1950,38 @@ export interface Header {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'theme-pages';
+                value: string | ThemePage;
               } | null);
           url?: string | null;
           label: string;
         };
+        children?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null)
+                  | ({
+                      relationTo: 'theme-pages';
+                      value: string | ThemePage;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -1981,6 +2021,10 @@ export interface Footer {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'theme-pages';
+                value: string | ThemePage;
               } | null);
           url?: string | null;
           label: string;
@@ -2116,6 +2160,10 @@ export interface ProjectsPageSetting {
               | ({
                   relationTo: 'posts';
                   value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'theme-pages';
+                  value: string | ThemePage;
                 } | null);
             url?: string | null;
             label: string;
@@ -2151,6 +2199,20 @@ export interface HeaderSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+            };
+        children?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
             };
         id?: T;
       };
