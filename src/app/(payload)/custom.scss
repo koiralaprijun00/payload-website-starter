@@ -74,3 +74,82 @@ button, .payload__button, input, .payload__input, textarea {
 .nav {
   border-right: 2px solid #333 !important;
 }
+
+// Fix Payload toast notification styles
+.payload__toast,
+.Toastify__toast {
+  button,
+  .Toastify__close-button {
+    display: block !important;
+    color: inherit !important;
+    background: none !important;
+    border: none !important;
+    font-size: 1.5rem !important;
+    opacity: 1 !important;
+  }
+  .Toastify__close-button {
+    right: 1rem !important;
+    top: 1rem !important;
+  }
+  .Toastify__toast-icon,
+  .payload__toast__icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    background: #2563eb !important; // or your preferred color
+    width: 2rem !important;
+    height: 2rem !important;
+    margin-right: 1rem !important;
+  }
+  .Toastify__toast-icon svg,
+  .payload__toast__icon svg {
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* Fix Payload toast close button and icon */
+button.payload-toast-close-button {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  font-size: 1.5rem !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  right: 1rem !important;
+  top: 1rem !important;
+  opacity: 0.7 !important;
+  z-index: 2 !important;
+}
+button.payload-toast-close-button:hover {
+  opacity: 1 !important;
+}
+
+li.payload-toast-item .toast-icon,
+li.payload-toast-item .payload__toast__icon {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #2563eb !important;
+  border-radius: 50% !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  margin-right: 1rem !important;
+}
+li.payload-toast-item .toast-icon svg,
+li.payload-toast-item .payload__toast__icon svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+  margin: 0 !important;
+  color: #fff !important;
+}
