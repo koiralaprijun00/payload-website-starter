@@ -1,0 +1,76 @@
+// Increase base font size
+body, .payload__app {
+  font-size: 1.2rem !important;
+}
+
+// Make sidebar and nav bigger
+.payload__nav,
+.payload__sidebar {
+  font-size: 1.1rem !important;
+  padding: 1.2rem !important;
+}
+
+// Make buttons and inputs larger
+button, .payload__button, input, .payload__input, textarea {
+  font-size: 1.1rem !important;
+  padding: 1rem 1.5rem !important;
+}
+
+// Make table rows and cells bigger
+.payload__table-row, .payload__table-cell {
+  font-size: 1.1rem !important;
+  padding: 1rem !important;
+}
+
+// Make dashboard card titles (h3) larger
+.card__title {
+  font-size: 1.5rem !important;
+}
+
+// Make dashboard card titles larger
+.payload__card .payload__card-title {
+  font-size: 2rem !important;
+}
+
+// Sidebar section headers (Collections, Globals)
+.nav__group_label {
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  color: #ff9800 !important;
+  margin-bottom: 1rem !important;
+}
+
+// Sidebar links
+.nav__link {
+  font-size: 1.3rem !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+// Sidebar link labels
+.nav__link-label {
+  font-size: 1.3rem !important;
+}
+
+// Highlight active link
+.nav__link--active {
+  background: #ff9800 !important;
+  color: #fff !important;
+}
+
+// Add hover effect
+.nav__link:hover {
+  background: #ffe0b2 !important;
+  color: #000 !important;
+}
+
+// Add spacing between groups
+.nav__group {
+  margin-bottom: 2rem !important;
+}
+
+// Add a subtle border to the sidebar
+.nav {
+  border-right: 2px solid #333 !important;
+}

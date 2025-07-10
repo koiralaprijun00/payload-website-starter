@@ -64,6 +64,8 @@ export default buildConfig({
         },
       ],
     },
+    //@ts-expect-error - 'css' is not a known property on some Payload types, but is supported in Payload v2+
+    css: path.resolve(dirname, 'app/(payload)/custom.scss'),
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
