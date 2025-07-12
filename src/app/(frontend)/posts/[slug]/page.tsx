@@ -50,7 +50,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="pt-8 pb-8">
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -65,7 +65,7 @@ export default async function Post({ params: paramsPromise }: Args) {
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
+              className="mt-12 max-w-[48rem] mx-auto"
               docs={post.relatedPosts.filter((post) => typeof post === 'object')}
             />
           )}
@@ -97,6 +97,18 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
       slug: {
         equals: slug,
       },
+    },
+    depth: 2,
+    select: {
+      title: true,
+      slug: true,
+      categories: true,
+      meta: true,
+      heroImage: true,
+      relatedPosts: true,
+      content: true,
+      updatedAt: true,
+      createdAt: true,
     },
   })
 

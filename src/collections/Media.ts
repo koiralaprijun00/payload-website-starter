@@ -26,16 +26,18 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      //required: true,
+      label: 'Alt / Caption',
+      required: false,
     },
     {
-      name: 'caption',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
+      name: 'showInGallery',
+      type: 'checkbox',
+      label: 'Show in Gallery',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'If checked, this image will appear in the Gallery page.',
+      },
     },
   ],
   upload: {

@@ -77,6 +77,8 @@ export interface Config {
     projects: Project;
     'volunteer-submissions': VolunteerSubmission;
     notices: Notice;
+    'gallery-images': GalleryImage;
+    publications: Publication;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -98,6 +100,8 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     notices: NoticesSelect<false> | NoticesSelect<true>;
+    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
+    publications: PublicationsSelect<false> | PublicationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -333,21 +337,10 @@ export interface Post {
 export interface Media {
   id: string;
   alt?: string | null;
-  caption?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  /**
+   * If checked, this image will appear in the Gallery page.
+   */
+  showInGallery?: boolean | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -948,6 +941,54 @@ export interface Notice {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-images".
+ */
+export interface GalleryImage {
+  id: string;
+  image: string | Media;
+  title?: string | null;
+  description?: string | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publications".
+ */
+export interface Publication {
+  id: string;
+  title: string;
+  summary?: string | null;
+  document: string | Media;
+  category?: (string | null) | Category;
+  month?:
+    | (
+        | 'January'
+        | 'February'
+        | 'March'
+        | 'April'
+        | 'May'
+        | 'June'
+        | 'July'
+        | 'August'
+        | 'September'
+        | 'October'
+        | 'November'
+        | 'December'
+      )
+    | null;
+  year?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1158,6 +1199,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'notices';
         value: string | Notice;
+      } | null)
+    | ({
+        relationTo: 'gallery-images';
+        value: string | GalleryImage;
+      } | null)
+    | ({
+        relationTo: 'publications';
+        value: string | Publication;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1453,7 +1502,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  caption?: T;
+  showInGallery?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1673,6 +1722,37 @@ export interface NoticesSelect<T extends boolean = true> {
   image?: T;
   content?: T;
   publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-images_select".
+ */
+export interface GalleryImagesSelect<T extends boolean = true> {
+  image?: T;
+  title?: T;
+  description?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publications_select".
+ */
+export interface PublicationsSelect<T extends boolean = true> {
+  title?: T;
+  summary?: T;
+  document?: T;
+  category?: T;
+  month?: T;
+  year?: T;
   updatedAt?: T;
   createdAt?: T;
 }

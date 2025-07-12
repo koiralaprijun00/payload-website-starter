@@ -24,6 +24,8 @@ import { Projects } from './collections/Projects'
 import ProjectsPageSettings from './globals/ProjectsPageSettings'
 import VolunteerSubmissions from './collections/VolunteerSubmissions'
 import Notices from './collections/Notices'
+import GalleryImages from './collections/GalleryImages'
+import Publications from './collections/Publications'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -83,6 +85,8 @@ export default buildConfig({
     Projects,
     VolunteerSubmissions,
     Notices,
+    GalleryImages, // Added GalleryImages collection
+    Publications, // Add Publications collection
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, About, ProjectsPageSettings],
