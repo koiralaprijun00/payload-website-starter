@@ -24,6 +24,7 @@ interface Category {
 async function getCategories(): Promise<Category[]> {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({ collection: 'categories', limit: 100 })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return res.docs.map((cat: any) => ({ id: cat.id, title: cat.title }))
 }
 

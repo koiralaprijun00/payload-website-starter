@@ -22,6 +22,12 @@ export async function getPublications() {
         category = { id: doc.category, title: '' }
       }
     }
+    let documentUrl = ''
+    if (typeof doc.document === 'object' && doc.document && 'url' in doc.document) {
+      documentUrl = (doc.document as Media).url || ''
+    } else if (typeof doc.document === 'string') {
+      documentUrl = doc.document
+    }
     return {
       id: doc.id,
       title: doc.title,
@@ -29,10 +35,7 @@ export async function getPublications() {
       month: doc.month,
       year: doc.year,
       category,
-      documentUrl:
-        typeof doc.document === 'object' && doc.document && 'url' in doc.document
-          ? (doc.document as Media).url
-          : '',
+      documentUrl,
     }
   })
 }
