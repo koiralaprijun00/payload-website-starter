@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 export interface ProjectRelationship {
   id: string
@@ -47,17 +48,19 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
     const CardContent = (
       <div
-        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] md:min-h-0 p-4 sm:p-6 h-full`}
+        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] md:min-h-0 p-4 sm:p-6 h-full transition-all duration-200 ${url ? 'cursor-pointer group' : ''}`}
       >
         {hasImage && imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={block.title}
-            fill
-            className="object-cover object-center z-0"
-            style={{ objectFit: 'cover', opacity: 0.7 }}
-            sizes="100vw"
-          />
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={imageUrl}
+              alt={block.title}
+              fill
+              className={`object-cover object-center transition-transform duration-300 ${url ? 'group-hover:scale-110' : ''}`}
+              style={{ objectFit: 'cover', opacity: 0.7 }}
+              sizes="100vw"
+            />
+          </div>
         )}
         <div className={`relative z-10 flex flex-col h-full text-white`}>
           {block.value && (
@@ -75,6 +78,14 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
             )}
           </div>
         </div>
+        {/* Arrow button on hover for link blocks */}
+        {url && (
+          <div className="absolute bottom-4 right-4 z-20">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 text-orange-500 shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+              <ArrowRight size={24} />
+            </span>
+          </div>
+        )}
       </div>
     )
     return url ? (

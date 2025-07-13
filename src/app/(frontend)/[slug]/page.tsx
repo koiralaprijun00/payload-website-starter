@@ -15,6 +15,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import ConservationSection from '@/components/ConservationSection'
 import HomePageProjects from '@/components/HomePageProjects'
 import HomePageImpact, { ImpactBlock } from '@/components/HomePageImpact'
+import type { ProjectRelationship } from '@/components/HomePageProjects'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -110,16 +111,33 @@ export default async function Page({ params: paramsPromise }: Args) {
           sectionLabel={page.homePageProjects.sectionLabel || ''}
           heading={page.homePageProjects.heading || ''}
           subheading={page.homePageProjects.subheading || ''}
-          blocks={(page.homePageProjects.blocks || []).map((block) => ({
-            title: block.title || '',
-            description: block.description || '',
-            value: block.value || '',
-            image:
-              block.image && typeof block.image === 'object' && block.image.url
-                ? { url: block.image.url || '' }
-                : '',
-            bgColor: block.bgColor || '',
-          }))}
+          blocks={(page.homePageProjects.blocks || []).map((block) => {
+            let link: string | ProjectRelationship | null = null
+            if (typeof block.link === 'string') {
+              link = block.link
+            } else if (
+              block.link &&
+              typeof block.link === 'object' &&
+              typeof block.link.slug === 'string' &&
+              block.link.slug
+            ) {
+              link = {
+                ...block.link,
+                slug: block.link.slug,
+              } as ProjectRelationship
+            }
+            return {
+              title: block.title || '',
+              description: block.description || '',
+              value: block.value || '',
+              image:
+                block.image && typeof block.image === 'object' && block.image.url
+                  ? { url: block.image.url || '' }
+                  : '',
+              bgColor: block.bgColor || '',
+              link,
+            }
+          })}
         />
       )}
       {page.homePageImpact && (
