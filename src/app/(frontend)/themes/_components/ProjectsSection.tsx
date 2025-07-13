@@ -2,6 +2,7 @@ import React from 'react'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
 import { Project } from '@/payload-types'
+import Link from 'next/link'
 
 type Props = {
   themeId: string
@@ -31,17 +32,34 @@ const ProjectsSection = async ({ themeId }: Props) => {
           {projects.map((project) => {
             if (typeof project.image === 'string') return null
             const imageUrl = getMediaUrl(project.image.url)
+            const url = project.slug ? `/projects/${project.slug}` : null
             return (
-              <div key={project.id} className="text-center">
-                <Image
-                  src={imageUrl}
-                  alt={project.image.alt || project.title}
-                  className="w-full h-auto mb-4"
-                  width={300}
-                  height={300}
-                />
-                <p className="font-bold text-lg mb-2">{project.title}</p>
-                {/* Removed project.description because it does not exist on type Project */}
+              <div key={project.id} className="text-left">
+                {url ? (
+                  <Link href={url} className="group block">
+                    <Image
+                      src={imageUrl}
+                      alt={project.image.alt || project.title}
+                      className="w-full h-auto mb-4 transition-transform group-hover:scale-105"
+                      width={300}
+                      height={300}
+                    />
+                    <p className="font-bold text-lg mb-2 group-hover:text-orange-500 transition-colors text-left">
+                      {project.title}
+                    </p>
+                  </Link>
+                ) : (
+                  <>
+                    <Image
+                      src={imageUrl}
+                      alt={project.image.alt || project.title}
+                      className="w-full h-auto mb-4"
+                      width={300}
+                      height={300}
+                    />
+                    <p className="font-bold text-lg mb-2 text-left">{project.title}</p>
+                  </>
+                )}
               </div>
             )
           })}
