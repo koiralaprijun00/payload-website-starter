@@ -29,7 +29,7 @@ export async function Footer() {
   console.log('Footer background URL:', backgroundImageUrl)
 
   return (
-    <footer className="relative min-h-[90vh]">
+    <footer className="relative lg:min-h-[90vh]">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-no-repeat overflow-hidden"
@@ -51,8 +51,8 @@ export async function Footer() {
       />
 
       {/* Content */}
-      <div className="relative z-10 min-h-[90vh] flex flex-col items-center justify-center px-4 py-16">
-        <div className="max-w-7xl w-full flex flex-col-reverse lg:flex-row justify-end items-center lg:items-center gap-16 text-center lg:text-left">
+      <div className="relative z-10 min-h-[70vh] lg:min-h-[90vh] flex flex-col items-center justify-center px-4 py-12 sm:py-16">
+        <div className="max-w-7xl w-full flex flex-col lg:flex-row justify-end items-center lg:items-center gap-12 sm:gap-16 text-center lg:text-left">
           {/* Left Column - Contact Info */}
           <div className="text-white space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
             {/* Address */}
@@ -75,7 +75,7 @@ export async function Footer() {
 
           {/* Center Column - Logo and Mission */}
           <div className="text-center flex-1 lg:flex-[1.4] order-1 lg:order-2 flex flex-col items-center">
-            <div className="bg-blue-800 bg-opacity-90 backdrop-blur-sm p-12 min-h-[32rem] shadow-2xl flex flex-col items-center">
+            <div className="bg-blue-800 bg-opacity-90 backdrop-blur-sm p-8 md:p-12 min-h-[24rem] md:min-h-[32rem] shadow-2xl flex flex-col items-center">
               {/* Logo */}
               <div className="mb-6">
                 <div className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center mb-4">
@@ -185,14 +185,14 @@ export async function Footer() {
 
         {/* Copyright Bar with 3 sections - Below content */}
         <div className="w-full mt-8">
-          <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center text-gray-300 text-sm">
+          <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm gap-4 md:gap-0 text-center md:text-left">
             {/* Left: Copyright */}
-            <div className="flex-1 text-left">
+            <div className="flex-1 md:text-left">
               <p>&copy; 2024 Ujalyo Nepal. All rights reserved.</p>
             </div>
 
             {/* Center: Social Media Icons */}
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1 flex justify-center order-last md:order-none">
               <div className="flex gap-6">
                 {/* Debug: Show all icons if no social data */}
                 {(!footerData?.socials || footerData.socials.length === 0) && (
@@ -279,7 +279,7 @@ export async function Footer() {
             </div>
 
             {/* Right: Tagline */}
-            <div className="flex-1 text-right">
+            <div className="flex-1 md:text-right">
               <p>Protecting wildlife, preserving harmony.</p>
             </div>
           </div>
