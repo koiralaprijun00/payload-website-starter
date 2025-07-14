@@ -71,15 +71,15 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
             {data.buttonText}
           </Button>
         </div>
-        {/* Right: Image - breaks out of box at top, flush at bottom */}
-        <div className="flex-1 flex items-end justify-end relative min-h-[300px]">
+        {/* Right: Image */}
+        <div className="w-full md:flex-1 flex items-center md:items-end justify-center md:justify-end relative mt-6 md:mt-0 md:min-h-[300px]">
           {data.image && data.image.url && (
             <Image
               src={data.image.url}
               alt={data.title}
               width={350}
               height={400}
-              className="object-contain w-[440px] h-auto absolute right-[80px] bottom-0 translate-y-[87px] drop-shadow-xl z-20"
+              className="object-contain h-48 w-auto md:w-[440px] md:h-auto md:absolute md:right-[80px] md:bottom-0 md:translate-y-[87px] drop-shadow-xl z-20"
               priority
             />
           )}

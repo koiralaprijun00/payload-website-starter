@@ -56,9 +56,9 @@ export default function PublicationsClient({
     <main className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8 text-center">Publications</h1>
       {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-8 justify-center">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-8 items-stretch sm:items-center sm:justify-center">
         <select
-          className="border rounded px-3 py-2 text-sm"
+          className="border rounded px-3 py-2 text-sm w-full sm:w-auto"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value === '' ? '' : Number(e.target.value))}
         >
@@ -73,7 +73,7 @@ export default function PublicationsClient({
           )}
         </select>
         <select
-          className="border rounded px-3 py-2 text-sm"
+          className="border rounded px-3 py-2 text-sm w-full sm:w-auto"
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
@@ -85,7 +85,7 @@ export default function PublicationsClient({
           ))}
         </select>
         <select
-          className="border rounded px-3 py-2 text-sm"
+          className="border rounded px-3 py-2 text-sm w-full sm:w-auto"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -98,7 +98,7 @@ export default function PublicationsClient({
         </select>
       </div>
       {/* List */}
-      <div className="divide-y divide-gray-200 bg-white rounded-xl shadow">
+      <div className="divide-y divide-gray-200 bg-white rounded-xl shadow overflow-hidden">
         {filtered.length === 0 && (
           <div className="text-center text-gray-500 py-16">No publications found.</div>
         )}
