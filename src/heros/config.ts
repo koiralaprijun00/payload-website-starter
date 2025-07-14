@@ -43,6 +43,10 @@ export const hero: Field = {
           label: 'Home Page Notice V1',
           value: 'homePageNoticeV1',
         },
+        {
+          label: 'Home Page Notice V2',
+          value: 'homePageNoticeV2',
+        },
       ],
       required: true,
     },
@@ -51,7 +55,8 @@ export const hero: Field = {
       type: 'text',
       label: 'Category',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
+        condition: (_, { type }) =>
+          ['homePageV1', 'homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -59,7 +64,8 @@ export const hero: Field = {
       type: 'text',
       label: 'Title',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
+        condition: (_, { type }) =>
+          ['homePageV1', 'homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -67,7 +73,8 @@ export const hero: Field = {
       type: 'textarea',
       label: 'Description',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
+        condition: (_, { type }) =>
+          ['homePageV1', 'homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -75,7 +82,8 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Text',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
+        condition: (_, { type }) =>
+          ['homePageV1', 'homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -83,7 +91,8 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Link',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV1'].includes(type),
+        condition: (_, { type }) =>
+          ['homePageV1', 'homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -91,7 +100,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Pill Label',
       admin: {
-        condition: (_, { type }) => type === 'homePageNoticeV1',
+        condition: (_, { type }) => ['homePageNoticeV1', 'homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -119,7 +128,13 @@ export const hero: Field = {
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'homePageV1', 'homePageNoticeV1'].includes(type),
+          [
+            'highImpact',
+            'mediumImpact',
+            'homePageV1',
+            'homePageNoticeV1',
+            'homePageNoticeV2',
+          ].includes(type),
       },
       relationTo: 'media',
       required: true,

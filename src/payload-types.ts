@@ -167,7 +167,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1' | 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
@@ -2205,7 +2205,7 @@ export interface AboutPage {
 export interface ProjectsPageSetting {
   id: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV1' | 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
