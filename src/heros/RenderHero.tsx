@@ -8,6 +8,7 @@ import { MediumImpactHero } from '@/heros/MediumImpact'
 import { HomePageV1Hero } from '@/heros/home-page-v1'
 import { HomePageNoticeV2Hero } from '@/heros/home-page-notive-v2'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const heroes: Record<string, React.FC<any>> = {
   highImpact: HighImpactHero,
   lowImpact: LowImpactHero,

@@ -26,7 +26,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
 }) => {
   return (
     <section className="w-full max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex flex-col-reverse lg:flex-row lg:items-start gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-start gap-4">
         {/* Left: Custom grid layout */}
         <div className="flex-1 order-2 lg:order-1">
           {/* Mobile stacked layout */}
@@ -34,8 +34,14 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             {blocks.map((block, idx) => (
               <div
                 key={idx}
-                className="w-[90%] mx-auto h-32 flex flex-col items-center justify-center text-center p-4 rounded-md shadow-md relative transition-transform duration-200 hover:scale-105"
-                style={{ backgroundColor: block.bgColor || '#DDEB9D' }}
+                className={`w-[90%] mx-auto h-32 flex flex-col items-center justify-center text-center p-4 rounded-md shadow-md relative transition-transform duration-200 hover:scale-105 ${block.bgColor && block.bgColor.startsWith('bg-') ? block.bgColor : ''}`}
+                style={
+                  block.bgColor
+                    ? !block.bgColor.startsWith('bg-')
+                      ? { backgroundColor: block.bgColor }
+                      : undefined
+                    : { backgroundColor: '#DDEB9D' }
+                }
               >
                 <div className="absolute inset-0 bg-black opacity-30"></div>
                 <div className="relative z-10 text-white">
