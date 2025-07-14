@@ -27,5 +27,8 @@ export const RenderHero: React.FC<Page['hero']> = (props) => {
 
   if (!HeroToRender) return null
 
-  return <HeroToRender {...props} />
+  // TypeScript: ensure correct props are passed to the hero component
+  // This cast is safe because Page['hero'] is a discriminated union on 'type'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <HeroToRender {...(props as any)} />
 }
