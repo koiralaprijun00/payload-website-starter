@@ -3,6 +3,7 @@ import { Project, ThemePage } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { ChevronDown } from 'lucide-react'
 
 const AREAS = ['Bardiya', 'Surkhet', 'Salyan', 'Banke', 'Kailali', 'Dailekh', 'Kathmandu']
 const YEARS = [2025, 2024, 2023, 2022, 2021, 2020, 2019]
@@ -97,9 +98,9 @@ export default async function ProjectsPage({
   return (
     <>
       {settings?.hero && <RenderBlocks blocks={settings.hero} />}
-      <div className="flex gap-12 max-w-7xl mx-auto py-12">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-12 max-w-7xl mx-auto py-8 md:py-12 px-4">
         {/* Sidebar Filters */}
-        <aside className="w-72 shrink-0">
+        <aside className="w-full md:w-72 shrink-0 mb-8 md:mb-0">
           <div className="mb-8">
             <div className="text-lg font-bold text-mainBlue mb-1">
               Browse and read the latest projects
@@ -110,103 +111,193 @@ export default async function ProjectsPage({
             <input
               type="text"
               name="search"
-              placeholder="Search posts"
+              placeholder="Search projects"
               defaultValue={searchParams?.search || ''}
               className="w-full border border-gray-300 rounded px-4 py-2 mb-4"
             />
-            <div>
-              <div className="font-bold mb-2">Projects</div>
-              <div className="flex flex-wrap gap-2">
-                {themes.map((theme) => (
-                  <label key={theme.id} className="">
-                    <input
-                      type="checkbox"
-                      name="themes"
-                      value={theme.id}
-                      defaultChecked={selectedThemes.includes(theme.id)}
-                      className="mr-1"
-                    />
-                    {theme.title}
-                  </label>
-                ))}
+
+            {/* Mobile accordion to show/hide all filters */}
+            <details className="block md:hidden mb-6">
+              <summary className="bg-mainBlue text-white py-2 px-4 rounded font-bold flex items-center justify-between cursor-pointer select-none">
+                <span>Filter Options</span>
+                <ChevronDown className="w-4 h-4" />
+              </summary>
+              <div className="mt-4 space-y-8">
+                {/* Filter groups */}
+                <div>
+                  <div className="font-bold mb-2">Projects</div>
+                  <div className="flex flex-wrap gap-2">
+                    {themes.map((theme) => (
+                      <label key={theme.id}>
+                        <input
+                          type="checkbox"
+                          name="themes"
+                          value={theme.id}
+                          defaultChecked={selectedThemes.includes(theme.id)}
+                          className="mr-1"
+                        />
+                        {theme.title}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-bold mb-2">Project Area</div>
+                  <div className="flex flex-wrap gap-2">
+                    {AREAS.map((area) => (
+                      <label key={area}>
+                        <input
+                          type="checkbox"
+                          name="area"
+                          value={area}
+                          defaultChecked={selectedAreas.includes(area)}
+                          className="mr-1"
+                        />
+                        {area}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-bold mb-2">Year</div>
+                  <div className="flex flex-wrap gap-2">
+                    {YEARS.map((year) => (
+                      <label key={year}>
+                        <input
+                          type="checkbox"
+                          name="year"
+                          value={year}
+                          defaultChecked={selectedYears.includes(String(year))}
+                          className="mr-1"
+                        />
+                        {year}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-bold mb-2">Project status</div>
+                  <div className="flex gap-2">
+                    {STATUS.map((s) => (
+                      <label key={s.value}>
+                        <input
+                          type="checkbox"
+                          name="status"
+                          value={s.value}
+                          defaultChecked={selectedStatus.includes(s.value)}
+                          className="mr-1"
+                        />
+                        {s.label}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Apply button inside accordion on mobile */}
+                <button
+                  type="submit"
+                  className="w-full bg-mainBlue text-white py-2 rounded font-bold"
+                >
+                  Apply Filters
+                </button>
               </div>
-            </div>
-            <div>
-              <div className="font-bold mb-2">Project Area</div>
-              <div className="flex flex-wrap gap-2">
-                {AREAS.map((area) => (
-                  <label key={area}>
-                    <input
-                      type="checkbox"
-                      name="area"
-                      value={area}
-                      defaultChecked={selectedAreas.includes(area)}
-                      className="mr-1"
-                    />
-                    {area}
-                  </label>
-                ))}
+            </details>
+
+            {/* Desktop filter groups */}
+            <div className="hidden md:block space-y-8">
+              <div>
+                <div className="font-bold mb-2">Projects</div>
+                <div className="flex flex-wrap gap-2">
+                  {themes.map((theme) => (
+                    <label key={theme.id}>
+                      <input
+                        type="checkbox"
+                        name="themes"
+                        value={theme.id}
+                        defaultChecked={selectedThemes.includes(theme.id)}
+                        className="mr-1"
+                      />
+                      {theme.title}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="font-bold mb-2">Year</div>
-              <div className="flex flex-wrap gap-2">
-                {YEARS.map((year) => (
-                  <label key={year}>
-                    <input
-                      type="checkbox"
-                      name="year"
-                      value={year}
-                      defaultChecked={selectedYears.includes(String(year))}
-                      className="mr-1"
-                    />
-                    {year}
-                  </label>
-                ))}
+              <div>
+                <div className="font-bold mb-2">Project Area</div>
+                <div className="flex flex-wrap gap-2">
+                  {AREAS.map((area) => (
+                    <label key={area}>
+                      <input
+                        type="checkbox"
+                        name="area"
+                        value={area}
+                        defaultChecked={selectedAreas.includes(area)}
+                        className="mr-1"
+                      />
+                      {area}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="font-bold mb-2">Project status</div>
-              <div className="flex gap-2">
-                {STATUS.map((s) => (
-                  <label key={s.value}>
-                    <input
-                      type="checkbox"
-                      name="status"
-                      value={s.value}
-                      defaultChecked={selectedStatus.includes(s.value)}
-                      className="mr-1"
-                    />
-                    {s.label}
-                  </label>
-                ))}
+              <div>
+                <div className="font-bold mb-2">Year</div>
+                <div className="flex flex-wrap gap-2">
+                  {YEARS.map((year) => (
+                    <label key={year}>
+                      <input
+                        type="checkbox"
+                        name="year"
+                        value={year}
+                        defaultChecked={selectedYears.includes(String(year))}
+                        className="mr-1"
+                      />
+                      {year}
+                    </label>
+                  ))}
+                </div>
               </div>
+              <div>
+                <div className="font-bold mb-2">Project status</div>
+                <div className="flex gap-2">
+                  {STATUS.map((s) => (
+                    <label key={s.value}>
+                      <input
+                        type="checkbox"
+                        name="status"
+                        value={s.value}
+                        defaultChecked={selectedStatus.includes(s.value)}
+                        className="mr-1"
+                      />
+                      {s.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-mainBlue text-white py-2 rounded mt-4 font-bold"
+              >
+                Apply Filters
+              </button>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-mainBlue text-white py-2 rounded mt-4 font-bold"
-            >
-              Apply Filters
-            </button>
           </form>
         </aside>
         {/* Project List */}
-        <main className="flex-1 space-y-16">
+        <main className="flex-1 space-y-12 md:space-y-16">
           {projects.length === 0 && <div>No projects found.</div>}
           {projects.map((project) => {
             return (
               <div
                 key={project.id}
-                className="flex gap-8 items-start border-b pb-12 last:border-b-0"
+                className="flex flex-col md:flex-row gap-4 md:gap-8 items-start border-b pb-12 last:border-b-0"
               >
                 {typeof project.image !== 'string' && project.image && (
                   <Image
                     src={getMediaUrl(project.image.url)}
                     alt={project.image.alt || project.title}
                     width={350}
-                    height={550}
-                    className="rounded shadow-lg object-cover"
-                    style={{ width: '350px', height: '400px' }}
+                    height={400}
+                    className="rounded shadow-lg object-cover w-full md:w-[350px] h-64 md:h-[400px]"
                   />
                 )}
                 <div className="flex-1">

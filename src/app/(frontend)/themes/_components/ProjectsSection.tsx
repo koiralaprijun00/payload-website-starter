@@ -28,7 +28,7 @@ const ProjectsSection = async ({ themeId }: Props) => {
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Projects</h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {projects.map((project) => {
             if (typeof project.image === 'string') return null
             const imageUrl = getMediaUrl(project.image.url)
