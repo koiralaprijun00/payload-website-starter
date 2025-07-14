@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Heart, Shield, Users } from 'lucide-react'
+import { Heart } from 'lucide-react'
 
 const presetAmounts = [25, 50, 100, 250]
 
