@@ -6,6 +6,8 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import NoticeSidebar from '@/components/NoticeSidebar'
 import { ChevronRight, Clock, Bell, X } from 'lucide-react'
+import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 
 export interface Notice {
   id: string
@@ -86,6 +88,11 @@ const formatDate = (dateString?: string) => {
     day: 'numeric',
     year: 'numeric',
   })
+}
+
+const contentBoxVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 }
 
 export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
@@ -185,7 +192,13 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           )}
 
           {/* Blue Content Box */}
-          <div className="absolute left-8 bottom-8 max-w-md">
+          <motion.div
+            className="absolute left-8 bottom-8 max-w-md"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+            variants={contentBoxVariants}
+          >
             <div className="bg-blue-900 bg-opacity-95 backdrop-blur-sm p-6 shadow-2xl">
               {/* Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 bg-opacity-20 border border-blue-200 border-opacity-30 mb-4">
@@ -212,7 +225,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                 <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-2" />
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Notices Sidebar */}
