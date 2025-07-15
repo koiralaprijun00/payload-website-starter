@@ -29,6 +29,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
   tabs,
 }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.label || '')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
       className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: false, amount: 0.2 }}
       variants={{}}
     >
       <div className="max-w-7xl w-full">
@@ -123,7 +124,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                   className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden"
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
+                  viewport={{ once: false, amount: 0.2 }}
                   transition={{ duration: 0.7, ease: 'easeOut' }}
                 >
                   <Image
@@ -141,7 +142,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                 className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
               >
                 <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">

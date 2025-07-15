@@ -48,7 +48,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
       className="w-full max-w-7xl mx-auto px-4 py-16 my-16 sm:px-6 lg:px-8"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: false, amount: 0.2 }}
       variants={containerVariants}
     >
       <div className="flex flex-col lg:flex-row lg:items-start gap-4">
@@ -91,6 +91,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
           <motion.div
             className="grid-cols-2 gap-6 max-w-4xl hidden sm:grid"
             variants={containerVariants}
+            viewport={{ once: false, amount: 0.2 }}
           >
             {/* Card 1: Large, top left (aligned right) */}
             <div className="flex justify-end">
@@ -274,6 +275,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
         <motion.div
           className="flex-1 flex flex-col justify-center mt-10 lg:mt-0 order-1 lg:order-2"
           variants={textColVariants}
+          viewport={{ once: false, amount: 0.2 }}
         >
           <div className="flex items-center space-x-2 mb-3">
             <span className="h-2 w-2 bg-orange-500 inline-block" />
