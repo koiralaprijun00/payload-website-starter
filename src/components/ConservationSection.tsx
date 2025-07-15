@@ -43,7 +43,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
     typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
 
   return (
-    <div className="bg-white flex items-center justify-center px-8 mb-48">
+    <div className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40">
       <div className="max-w-7xl w-full">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] items-start gap-10">
           {/* Left Column */}

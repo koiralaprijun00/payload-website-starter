@@ -25,7 +25,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
   blocks,
 }) => {
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <section className="w-full max-w-7xl mx-auto px-4 py-16 my-16 sm:px-6 lg:px-8">
       <div className="flex flex-col lg:flex-row lg:items-start gap-4">
         {/* Left: Custom grid layout */}
         <div className="flex-1 order-2 lg:order-1">

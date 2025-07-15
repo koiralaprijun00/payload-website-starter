@@ -13,7 +13,7 @@ export const HomePageV1Hero: React.FC<Page['hero']> = (props) => {
     typeof props.media === 'object' && props.media?.url ? props.media.url : '/default-image.jpg'
 
   return (
-    <section className="w-full relative min-h-[60vh] py-2">
+    <section className="w-full relative min-h-[60vh] py-2 my-16">
       <div className="container mx-auto px-4">
         <div className="relative flex items-center justify-center min-h-[600px]">
           {/* Image Container - Full width background */}

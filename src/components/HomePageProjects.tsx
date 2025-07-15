@@ -104,7 +104,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
   }
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-16">
+    <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16">
       <div className="flex flex-col items-center text-center mb-10">
         <div className="flex items-center space-x-2 mb-2">
           <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
