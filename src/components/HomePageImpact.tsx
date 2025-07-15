@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 export interface ImpactBlock {
   icon?: { url: string } | string
@@ -25,7 +26,12 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
   blocks,
 }) => {
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-16 my-16 sm:px-6 lg:px-8">
+    <motion.section
+      className="w-full max-w-7xl mx-auto px-4 py-16 my-16 sm:px-6 lg:px-8"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
+    >
       <div className="flex flex-col lg:flex-row lg:items-start gap-4">
         {/* Left: Custom grid layout */}
         <div className="flex-1 order-2 lg:order-1">
@@ -257,7 +263,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
           */}
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 

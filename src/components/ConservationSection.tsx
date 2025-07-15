@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 
 export interface ConservationTab {
   label: string
@@ -42,14 +44,27 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
   const imageUrl =
     typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
 
+  const leftColVariants: Variants = {
+    hidden: { opacity: 0, x: -40 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  }
+  const rightColVariants: Variants = {
+    hidden: { opacity: 0, x: 40 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut', delay: 0.2 } },
+  }
+
   return (
-    <div className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40">
+    <motion.div
+      className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{}}
+    >
       <div className="max-w-7xl w-full">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] items-start gap-10">
           {/* Left Column */}
-          <div
-            className={`space-y-2 transform transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}
-          >
+          <motion.div className="space-y-2" variants={leftColVariants}>
             <div className="flex items-center space-x-3">
               <div className="w-3 h-3 bg-orange-500 animate-pulse"></div>
               <span className="text-gray-600 font-medium tracking-wide uppercase text-sm">
@@ -80,12 +95,10 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                 </span>
               </button>
             </a>
-          </div>
+          </motion.div>
 
           {/* Right Column */}
-          <div
-            className={`space-y-6 transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}
-          >
+          <motion.div className="space-y-6" variants={rightColVariants}>
             {/* Navigation Tabs */}
             <div className="flex flex-wrap gap-2 mb-2">
               {tabs.map((tab, idx) => (
@@ -106,7 +119,13 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
             {/* Main Image + Content Box Wrapper */}
             <div className="relative mb-6 z-0">
               {imageUrl && (
-                <div className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden">
+                <motion.div
+                  className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.7, ease: 'easeOut' }}
+                >
                   <Image
                     src={imageUrl}
                     alt={activeTabData.title}
@@ -115,17 +134,15 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                     style={{ objectFit: 'cover' }}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                </div>
+                </motion.div>
               )}
               {/* Content Box - Overlapping */}
-              <div
-                className="
-                bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded
-                w-full left-0 bottom-0 relative mt-4
-                md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0
-                z-10
-                transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2
-              "
+              <motion.div
+                className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
               >
                 <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
                   <span>{activeTabData.title}</span>
@@ -151,12 +168,12 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                     />
                   </svg>
                 </a>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

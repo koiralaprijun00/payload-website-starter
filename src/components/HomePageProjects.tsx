@@ -2,6 +2,8 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 
 export interface ProjectRelationship {
   id: string
@@ -103,8 +105,28 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
     )
   }
 
+  const containerVariants: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  }
+
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  }
+
   return (
-    <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16">
+    <motion.section
+      className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
+    >
       <div className="flex flex-col items-center text-center mb-10">
         <div className="flex items-center space-x-2 mb-2">
           <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
@@ -120,41 +142,70 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
       </div>
 
       {/* Grid layout - Mobile: stacked, Desktop: 3 columns */}
-      <div className="block md:hidden space-y-4">
+      <motion.div
+        className="block md:hidden space-y-4"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Mobile layout - simple stacking */}
-        {blocks.map((block, idx) => renderCard(block, idx))}
-      </div>
+        {blocks.map((block, idx) => (
+          <motion.div key={idx} variants={cardVariants}>
+            {renderCard(block, idx)}
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Desktop layout – 3×3 magazine grid */}
-      <div className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6">
+      <motion.div
+        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Block 1 – left, spans 2 rows */}
         {blocks[0] && (
-          <div className="col-start-1 row-start-1 row-span-2 flex flex-col">
+          <motion.div
+            className="col-start-1 row-start-1 row-span-2 flex flex-col"
+            variants={cardVariants}
+          >
             {renderCard(blocks[0], 0)}
-          </div>
+          </motion.div>
         )}
         {/* Block 2 – centre, spans 3 rows (tallest) */}
         {blocks[1] && (
-          <div className="col-start-2 row-start-1 row-span-3 flex flex-col">
+          <motion.div
+            className="col-start-2 row-start-1 row-span-3 flex flex-col"
+            variants={cardVariants}
+          >
             {renderCard(blocks[1], 1)}
-          </div>
+          </motion.div>
         )}
         {/* Block 3 – top-right */}
         {blocks[2] && (
-          <div className="col-start-3 row-start-1 flex flex-col">{renderCard(blocks[2], 2)}</div>
+          <motion.div className="col-start-3 row-start-1 flex flex-col" variants={cardVariants}>
+            {renderCard(blocks[2], 2)}
+          </motion.div>
         )}
         {/* Block 4 – bottom-right, spans 2 rows */}
         {blocks[3] && (
-          <div className="col-start-3 row-start-2 row-span-2 flex flex-col">
+          <motion.div
+            className="col-start-3 row-start-2 row-span-2 flex flex-col"
+            variants={cardVariants}
+          >
             {renderCard(blocks[3], 3)}
-          </div>
+          </motion.div>
         )}
         {/* Block 5 – bottom-left */}
         {blocks[4] && (
-          <div className="col-start-1 row-start-3 flex flex-col">{renderCard(blocks[4], 4)}</div>
+          <motion.div className="col-start-1 row-start-3 flex flex-col" variants={cardVariants}>
+            {renderCard(blocks[4], 4)}
+          </motion.div>
         )}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }
 

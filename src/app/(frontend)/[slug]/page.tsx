@@ -12,9 +12,10 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import ConservationSection from '@/components/ConservationSection'
-import HomePageProjects from '@/components/HomePageProjects'
-import HomePageImpact, { ImpactBlock } from '@/components/HomePageImpact'
+import ConservationSectionClient from '@/components/ConservationSectionClient'
+import HomePageProjectsClient from '@/components/HomePageProjectsClient'
+import HomePageImpactClient from '@/components/HomePageImpactClient'
+import type { ImpactBlock } from '@/components/HomePageImpact'
 import type { ProjectRelationship } from '@/components/HomePageProjects'
 
 export async function generateStaticParams() {
@@ -79,7 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <RenderHero {...hero} />
       {page.conservationSection && (
-        <ConservationSection
+        <ConservationSectionClient
           sectionHeading={page.conservationSection.sectionHeading || ''}
           sectionDescription={page.conservationSection.sectionDescription || ''}
           buttonText={page.conservationSection.buttonText || ''}
@@ -107,7 +108,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       )}
 
       {page.homePageProjects && (
-        <HomePageProjects
+        <HomePageProjectsClient
           sectionLabel={page.homePageProjects.sectionLabel || ''}
           heading={page.homePageProjects.heading || ''}
           subheading={page.homePageProjects.subheading || ''}
@@ -141,7 +142,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         />
       )}
       {page.homePageImpact && (
-        <HomePageImpact
+        <HomePageImpactClient
           sectionLabel={page.homePageImpact.sectionLabel || ''}
           heading={page.homePageImpact.heading || ''}
           description={page.homePageImpact.description || ''}
