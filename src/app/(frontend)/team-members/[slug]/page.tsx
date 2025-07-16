@@ -7,7 +7,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/team-members?where[slug][equals]=${slug}&depth=1`,
-    { cache: 'no-store' },
+    { next: { revalidate: 86400 } },
   )
   const data = await res.json()
   const member = data.docs?.[0]

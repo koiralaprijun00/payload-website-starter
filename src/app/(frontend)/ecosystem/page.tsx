@@ -10,7 +10,7 @@ import { ThemePage } from '@/payload-types'
 async function getEcosystemPageData(): Promise<ThemePage | null> {
   const req = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages?where[slug][equals]=ecosystem&depth=2`,
-    { cache: 'no-store' },
+    { next: { revalidate: 86400 } },
   )
 
   if (!req.ok) {

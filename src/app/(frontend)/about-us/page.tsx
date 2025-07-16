@@ -9,12 +9,12 @@ import VolunteerCTA from './_components/VolunteerCTA'
 async function getAboutPageData() {
   const aboutPageReq = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/globals/about-page`,
-    { cache: 'no-store' },
+    { next: { revalidate: 86400 } },
   )
   const aboutPageData = await aboutPageReq.json()
 
   const teamMembersReq = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/team-members`, {
-    cache: 'no-store',
+    next: { revalidate: 86400 },
   })
   const teamMembersData = await teamMembersReq.json()
 

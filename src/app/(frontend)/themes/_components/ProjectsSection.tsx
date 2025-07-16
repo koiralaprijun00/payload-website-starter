@@ -11,7 +11,7 @@ type Props = {
 async function fetchProjects(themeId: string): Promise<Project[]> {
   const req = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/projects?where[themes][equals]=${themeId}&depth=1`,
-    { cache: 'no-store' },
+    { next: { revalidate: 86400 } },
   )
   if (!req.ok) return []
   const { docs } = await req.json()

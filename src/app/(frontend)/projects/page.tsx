@@ -43,7 +43,7 @@ async function fetchProjects({
   const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
   if (!baseUrl) throw new Error('NEXT_PUBLIC_PAYLOAD_URL is not set')
   const url = `${baseUrl}/api/projects?${params.toString()}`
-  const req = await fetch(url, { cache: 'no-store' })
+  const req = await fetch(url, { next: { revalidate: 86400 } })
   if (!req.ok) return []
   const { docs } = await req.json()
   return docs
@@ -51,7 +51,7 @@ async function fetchProjects({
 
 async function fetchThemes(): Promise<ThemePage[]> {
   const req = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages`, {
-    cache: 'no-store',
+    next: { revalidate: 86400 },
   })
   if (!req.ok) return []
   const { docs } = await req.json()
@@ -62,7 +62,7 @@ async function fetchProjectsPageSettings() {
   const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
   if (!baseUrl) throw new Error('NEXT_PUBLIC_PAYLOAD_URL is not set')
   const req = await fetch(`${baseUrl}/api/globals/projects-page-settings`, {
-    cache: 'no-store',
+    next: { revalidate: 86400 },
   })
   if (!req.ok) return null
   return await req.json()

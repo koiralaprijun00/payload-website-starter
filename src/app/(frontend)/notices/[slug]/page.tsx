@@ -7,7 +7,7 @@ async function getNotice(slug: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/notices?where[slug][equals]=${slug}`,
     {
-      cache: 'no-store',
+      next: { revalidate: 86400 },
     },
   )
   const json = await res.json()

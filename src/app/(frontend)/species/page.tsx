@@ -10,7 +10,7 @@ import { ThemePage } from '@/payload-types'
 async function getSpeciesPageData(): Promise<ThemePage | null> {
   const req = await fetch(
     `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages?where[slug][equals]=species&depth=2`,
-    { cache: 'no-store' },
+    { next: { revalidate: 86400 } },
   )
 
   if (!req.ok) {
