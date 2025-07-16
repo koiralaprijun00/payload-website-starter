@@ -16,16 +16,12 @@ export interface ConservationTab {
 export interface ConservationSectionProps {
   sectionHeading: string
   sectionDescription: string
-  buttonText: string
-  buttonLink: string
   tabs: ConservationTab[]
 }
 
 const ConservationSection: React.FC<ConservationSectionProps> = ({
   sectionHeading,
   sectionDescription,
-  buttonText,
-  buttonLink,
   tabs,
 }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.label || '')
@@ -76,7 +72,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
               {sectionHeading}
             </h1>
             <p className="text-md text-gray-900 leading-tight">{sectionDescription}</p>
-            <a href={buttonLink}>
+            {/* <a href={buttonLink}>
               <button className="group bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 mt-4 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                 <span className="flex items-center space-x-2">
                   <span>{buttonText}</span>
@@ -95,7 +91,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                   </svg>
                 </span>
               </button>
-            </a>
+            </a> */}
           </motion.div>
 
           {/* Right Column */}
