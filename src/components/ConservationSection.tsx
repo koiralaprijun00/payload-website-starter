@@ -17,6 +17,8 @@ export interface ConservationSectionProps {
   sectionHeading: string
   sectionDescription: string
   tabs: ConservationTab[]
+  buttonText?: string // Added optional buttonText
+  buttonLink?: string // Added optional buttonLink
 }
 
 const ConservationSection: React.FC<ConservationSectionProps> = ({
