@@ -18,14 +18,6 @@ const About: GlobalConfig = {
       ],
     },
     {
-      name: 'introSection',
-      type: 'group',
-      fields: [
-        { name: 'title', type: 'text', required: true },
-        { name: 'content', type: 'richText', editor: featureRichText, required: true },
-      ],
-    },
-    {
       name: 'featuresGrid',
       type: 'blocks',
       required: true,

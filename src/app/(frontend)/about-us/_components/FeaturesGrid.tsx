@@ -1,10 +1,6 @@
-import Image from 'next/image'
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-// The 'icon' from Payload is a string, assuming it's for an icon class or emoji
-// The 'id' is automatically added by Payload for array fields
-// Now support both imageCard and iconCard blocks
+// Types remain the same
 
 type ImageCard = {
   id?: string
@@ -30,47 +26,52 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
     return null
   }
 
+  // Assume the first iconCard is the main statement, rest are supporting blocks
+  const mainStatement = features.find((f) => f.blockType === 'iconCard') as IconCard | undefined
+  const supportingBlocks = features.filter(
+    (f) => f.blockType === 'iconCard' && f !== mainStatement,
+  ) as IconCard[]
+
   return (
-    <section className="features-grid py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {features.map((feature, idx) => {
-            if (
-              feature.blockType === 'imageCard' &&
-              feature.image &&
-              typeof feature.image.url === 'string' &&
-              feature.image.url.trim() !== ''
-            ) {
-              return (
-                <div key={feature.id || idx} className="w-full h-full">
-                  <Image
-                    src={feature.image.url}
-                    alt={feature.alt || ''}
-                    width={600}
-                    height={400}
-                    className="object-cover w-full h-full rounded-lg"
-                  />
-                </div>
-              )
-            }
-            if (feature.blockType === 'iconCard') {
-              return (
-                <Card
-                  key={feature.id || idx}
-                  className="bg-[#6C93C0] text-white h-full flex flex-col justify-center"
-                >
-                  <CardHeader>
-                    <div className="text-4xl mb-4">{feature.icon}</div>
-                    <CardTitle className="text-2xl font-bold">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>{feature.description}</p>
-                  </CardContent>
-                </Card>
-              )
-            }
-            return null
-          })}
+    <section className="py-12">
+      <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-start">
+        {/* Left: Main Statement */}
+        <div>
+          {mainStatement && (
+            <>
+              <span className="text-orange-600 font-bold uppercase tracking-wide text-sm mb-2 block">
+                What We Stand For
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-green-900 mb-8">
+                {mainStatement.title}
+              </h2>
+              <p className="text-lg text-gray-700 mb-8">{mainStatement.description}</p>
+            </>
+          )}
+        </div>
+        {/* Right: Supporting Statements */}
+        <div className="space-y-10">
+          {supportingBlocks.map((block, idx) => (
+            <div key={block.id || idx}>
+              <span className="text-black font-bold uppercase tracking-wide text-xs mb-1 block">
+                {block.title.toLowerCase().includes('mission')
+                  ? 'Our Mission'
+                  : block.title.toLowerCase().includes('vision')
+                    ? 'Our Vision'
+                    : block.title.toLowerCase().includes('goal')
+                      ? 'Our Goal'
+                      : block.title.toLowerCase().includes('objectives')
+                        ? 'Our Objectives'
+                        : ''}
+              </span>
+              <h3
+                className={`font-bold text-xl mb-1 ${block.title.toLowerCase().includes('vision') ? 'text-black' : 'text-black'}`}
+              >
+                {block.title}
+              </h3>
+              <p className="text-gray-700 text-base">{block.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
