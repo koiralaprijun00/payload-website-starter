@@ -35,12 +35,12 @@ export default async function SpeciesPage() {
 
   return (
     <div>
-      {typeof pageData.hero.image === 'object' && pageData.hero.image && (
+      {pageData.hero?.image && typeof pageData.hero.image === 'object' && (
         <Hero title={pageData.title} image={pageData.hero.image} />
       )}
       <IntroSection introSection={pageData.introSection} />
       <MainContent mainContent={pageData.mainContent} />
-      {typeof pageData.contentImage === 'object' && pageData.contentImage && (
+      {pageData.contentImage && typeof pageData.contentImage === 'object' && (
         <ContentImage image={pageData.contentImage} />
       )}
       <ProjectsSection themeId={pageData.id} />
