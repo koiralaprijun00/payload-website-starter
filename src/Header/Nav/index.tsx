@@ -58,7 +58,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               <CMSLink
                 key={item.id || idx}
                 {...item.link}
-                className="font-semibold px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition"
+                className="font-light text-sm px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition"
               />
             )
           }
@@ -72,7 +72,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 onMouseLeave={handleMouseLeave}
               >
                 <button
-                  className="font-semibold text-blue-900 hover:underline focus:outline-none flex items-center gap-1"
+                  className="font-light text-sm text-blue-900 hover:underline focus:outline-none flex items-center gap-1"
                   type="button"
                 >
                   {item.link.label}
@@ -84,7 +84,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                       <a
                         key={theme.href}
                         href={theme.href}
-                        className="block px-4 py-2 text-blue-900 hover:bg-blue-100"
+                        className="block px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100"
                       >
                         {theme.label}
                       </a>
@@ -99,7 +99,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
             return (
               <span
                 key={item.id || idx}
-                className="font-semibold text-blue-900 flex items-center gap-1"
+                className="font-light text-sm text-blue-900 flex items-center gap-1"
               >
                 {item.link.label}
                 <ChevronDown className="w-4 h-4 ml-1" />
@@ -111,7 +111,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
             <CMSLink
               key={item.id || idx}
               {...item.link}
-              className="font-semibold text-blue-900 hover:underline"
+              className="font-light text-sm text-blue-900 hover:underline"
             />
           )
         })}
@@ -136,7 +136,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                   <CMSLink
                     key={item.id || idx}
                     {...item.link}
-                    className="font-semibold px-6 py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-4"
+                    className="font-light text-sm px-6 py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-4"
                   />
                 )
               }
@@ -145,7 +145,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 return (
                   <div key={item.id || idx} className="relative">
                     <button
-                      className="font-semibold text-blue-900 flex items-center gap-1 w-full text-left px-2 py-2 rounded-lg hover:bg-blue-50 transition"
+                      className="font-light text-sm text-blue-900 flex items-center gap-1 w-full text-left px-2 py-2 rounded-lg hover:bg-blue-50 transition"
                       type="button"
                       onClick={() => setMobileDropdownOpen((open) => !open)}
                     >
@@ -160,7 +160,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                           <a
                             key={theme.href}
                             href={theme.href}
-                            className="block px-2 py-2 text-blue-900 hover:bg-blue-100 rounded"
+                            className="block px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded"
                           >
                             {theme.label}
                           </a>
@@ -175,7 +175,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 return (
                   <span
                     key={item.id || idx}
-                    className="font-semibold text-blue-900 flex items-center gap-1 px-2 py-2 rounded-lg"
+                    className="font-light text-sm text-blue-900 flex items-center gap-1 px-2 py-2 rounded-lg"
                   >
                     {item.link.label}
                     <ChevronDown className="w-4 h-4 ml-1" />
@@ -187,7 +187,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 <CMSLink
                   key={item.id || idx}
                   {...item.link}
-                  className="font-semibold text-blue-900 hover:underline px-2 py-2 rounded-lg hover:bg-blue-50 transition"
+                  className="font-light text-sm text-blue-900 hover:underline px-2 py-2 rounded-lg hover:bg-blue-50 transition"
                 />
               )
             })}

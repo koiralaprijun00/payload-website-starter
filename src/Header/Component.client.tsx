@@ -26,8 +26,8 @@ export const HeaderClient: React.FC<{ navItems: NonNullable<HeaderType['navItems
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+    <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="py-8 flex justify-between px-0">
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
