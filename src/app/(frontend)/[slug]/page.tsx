@@ -17,6 +17,17 @@ import HomePageProjectsClient from '@/components/HomePageProjectsClient'
 import HomePageImpactClient from '@/components/HomePageImpactClient'
 import type { ImpactBlock } from '@/components/HomePageImpact'
 import type { ProjectRelationship } from '@/components/HomePageProjects'
+import { ThemePage } from '@/payload-types'
+
+async function getThemePages(): Promise<ThemePage[]> {
+  const req = await fetch(
+    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages?depth=2&limit=10`,
+    { next: { revalidate: 3600 } },
+  )
+  if (!req.ok) return []
+  const { docs } = await req.json()
+  return docs || []
+}
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -55,9 +66,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 
-  page = await queryPageBySlug({
-    slug,
-  })
+  page = await queryPageBySlug({ slug })
 
   // Remove this code once your website is seeded
   if (!page && slug === 'home') {
@@ -69,6 +78,12 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+
+  // Fetch all theme pages for conservation section tab images
+  let themePages: ThemePage[] = []
+  if (page.conservationSection && page.conservationSection.tabs) {
+    themePages = await getThemePages()
+  }
 
   return (
     <article>
@@ -86,15 +101,16 @@ export default async function Page({ params: paramsPromise }: Args) {
           buttonText={page.conservationSection.buttonText || ''}
           buttonLink={page.conservationSection.buttonLink || ''}
           tabs={(page.conservationSection.tabs || []).map((tab) => {
+            // Find the theme page by link (e.g. '/ecosystem')
+            const themeSlug = tab.link.replace('/', '')
+            const themePage = themePages.find((tp) => tp.slug === themeSlug)
             let image: string | { url: string } | undefined = ''
-            if (typeof tab.image === 'string') {
-              image = tab.image
-            } else if (
-              tab.image &&
-              typeof tab.image === 'object' &&
-              typeof tab.image.url === 'string'
-            ) {
-              image = { url: tab.image.url || '' }
+            if (themePage && themePage.hero && themePage.hero.image) {
+              if (typeof themePage.hero.image === 'string') {
+                image = themePage.hero.image
+              } else if (typeof themePage.hero.image === 'object' && themePage.hero.image.url) {
+                image = { url: themePage.hero.image.url }
+              }
             }
             return {
               label: tab.label || '',

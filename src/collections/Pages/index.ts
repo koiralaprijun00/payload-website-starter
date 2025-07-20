@@ -114,12 +114,6 @@ export const Pages: CollectionConfig<'pages'> = {
                       ],
                       required: true,
                     },
-                    {
-                      name: 'image',
-                      type: 'upload',
-                      relationTo: 'media',
-                      label: 'Tab Image',
-                    },
                   ],
                   minRows: 1,
                   maxRows: 10,

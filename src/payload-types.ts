@@ -231,7 +231,6 @@ export interface Page {
           title?: string | null;
           text?: string | null;
           link: '/ecosystem' | '/community' | '/research' | '/species';
-          image?: (string | null) | Media;
           id?: string | null;
         }[]
       | null;
@@ -1327,7 +1326,6 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               text?: T;
               link?: T;
-              image?: T;
               id?: T;
             };
       };
