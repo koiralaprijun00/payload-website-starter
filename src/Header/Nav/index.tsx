@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { CMSLink } from '@/components/Link'
 import type { Header as HeaderType } from '@/payload-types'
-import { ChevronDown, Menu, X } from 'lucide-react'
+import { ChevronDown, Menu, X, Loader2 } from 'lucide-react'
+import { useRouter, usePathname } from 'next/navigation'
 
 const themeLinks = [
   { label: 'Research', href: '/research' },
@@ -16,7 +16,18 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
+  const [loadingLink, setLoadingLink] = useState<string | null>(null)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // Debug: Log nav items to see what we're getting
+  console.log('Nav items:', navItems)
+
+  // Reset loading state when pathname changes (navigation completes)
+  React.useEffect(() => {
+    setLoadingLink(null)
+  }, [pathname])
 
   const handleMouseEnter = () => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current)
@@ -25,6 +36,29 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
 
   const handleMouseLeave = () => {
     closeTimeout.current = setTimeout(() => setDropdownOpen(false), 120)
+  }
+
+  const handleLinkClick = (href: string, label: string) => {
+    console.log('Clicking link:', { href, label })
+    setLoadingLink(label)
+    router.push(href)
+  }
+
+  // Custom link component with loading state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const LoadingLink = ({ href, label, className, children, ...props }: any) => {
+    const isLoading = loadingLink === label
+    return (
+      <button
+        onClick={() => handleLinkClick(href, label)}
+        className={className}
+        disabled={isLoading}
+        {...props}
+      >
+        {isLoading && <Loader2 className="w-3 h-3 animate-spin mr-1" />}
+        {children}
+      </button>
+    )
   }
 
   // Prevent scrolling when mobile menu is open
@@ -52,14 +86,26 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
       {/* Desktop nav */}
       <nav className="gap-8 items-center hidden md:flex">
         {navItems.map((item, idx) => {
+          // Debug: Log each nav item
+          console.log('Processing nav item:', item)
+
+          // Handle missing link data
+          if (!item.link || !item.link.label) {
+            console.warn('Nav item missing link or label:', item)
+            return null
+          }
+
           // Render Donate button dynamically
           if (item.link.label && item.link.label.toLowerCase().includes('donate')) {
             return (
-              <CMSLink
+              <LoadingLink
                 key={item.id || idx}
-                {...item.link}
-                className="font-light text-sm px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition"
-              />
+                href={item.link.url || '#'}
+                label={item.link.label}
+                className="font-light text-sm px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition flex items-center"
+              >
+                {item.link.label}
+              </LoadingLink>
             )
           }
           // Themes dropdown
@@ -81,13 +127,17 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 {dropdownOpen && (
                   <div className="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
                     {themeLinks.map((theme) => (
-                      <a
+                      <button
                         key={theme.href}
-                        href={theme.href}
-                        className="block px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100"
+                        onClick={() => handleLinkClick(theme.href, theme.label)}
+                        className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                        disabled={loadingLink === theme.label}
                       >
+                        {loadingLink === theme.label && (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        )}
                         {theme.label}
-                      </a>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -106,13 +156,26 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               </span>
             )
           }
-          // Default nav item
+          // Default nav item (including Home)
+          const href =
+            item.link.url ||
+            (item.link.reference &&
+            typeof item.link.reference === 'object' &&
+            item.link.reference.value &&
+            typeof item.link.reference.value === 'object' &&
+            'slug' in item.link.reference.value
+              ? `/${item.link.reference.value.slug}`
+              : '#')
+
           return (
-            <CMSLink
+            <LoadingLink
               key={item.id || idx}
-              {...item.link}
-              className="font-light text-sm text-blue-900 hover:underline"
-            />
+              href={href}
+              label={item.link.label}
+              className="font-light text-sm text-blue-900 hover:underline flex items-center"
+            >
+              {item.link.label}
+            </LoadingLink>
           )
         })}
       </nav>
@@ -130,14 +193,26 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
             style={{ minHeight: '60vh' }}
           >
             {navItems.map((item, idx) => {
+              // Debug: Log each mobile nav item
+              console.log('Processing mobile nav item:', item)
+
+              // Handle missing link data
+              if (!item.link || !item.link.label) {
+                console.warn('Mobile nav item missing link or label:', item)
+                return null
+              }
+
               // Donate button
               if (item.link.label && item.link.label.toLowerCase().includes('donate')) {
                 return (
-                  <CMSLink
+                  <LoadingLink
                     key={item.id || idx}
-                    {...item.link}
-                    className="font-light text-sm px-6 py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-4"
-                  />
+                    href={item.link.url || '#'}
+                    label={item.link.label}
+                    className="font-light text-sm px-6 py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-4 flex items-center justify-center"
+                  >
+                    {item.link.label}
+                  </LoadingLink>
                 )
               }
               // Themes dropdown (expand/collapse on tap)
@@ -157,13 +232,17 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                     {mobileDropdownOpen && (
                       <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
                         {themeLinks.map((theme) => (
-                          <a
+                          <button
                             key={theme.href}
-                            href={theme.href}
-                            className="block px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded"
+                            onClick={() => handleLinkClick(theme.href, theme.label)}
+                            className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
+                            disabled={loadingLink === theme.label}
                           >
+                            {loadingLink === theme.label && (
+                              <Loader2 className="w-3 h-3 animate-spin" />
+                            )}
                             {theme.label}
-                          </a>
+                          </button>
                         ))}
                       </div>
                     )}
@@ -182,13 +261,26 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                   </span>
                 )
               }
-              // Default nav item
+              // Default nav item (including Home)
+              const href =
+                item.link.url ||
+                (item.link.reference &&
+                typeof item.link.reference === 'object' &&
+                item.link.reference.value &&
+                typeof item.link.reference.value === 'object' &&
+                'slug' in item.link.reference.value
+                  ? `/${item.link.reference.value.slug}`
+                  : '#')
+
               return (
-                <CMSLink
+                <LoadingLink
                   key={item.id || idx}
-                  {...item.link}
-                  className="font-light text-sm text-blue-900 hover:underline px-2 py-2 rounded-lg hover:bg-blue-50 transition"
-                />
+                  href={href}
+                  label={item.link.label}
+                  className="font-light text-sm text-blue-900 hover:underline px-2 py-2 rounded-lg hover:bg-blue-50 transition flex items-center"
+                >
+                  {item.link.label}
+                </LoadingLink>
               )
             })}
           </nav>
