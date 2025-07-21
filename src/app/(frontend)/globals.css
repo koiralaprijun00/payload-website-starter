@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,13 +98,29 @@
   }
 }
 
-html {
-  opacity: 0;
+/* Better theme flash prevention - only hide theme-dependent elements briefly */
+html:not([data-theme]) {
+  /* Only apply minimal styling until theme is determined */
+  background-color: #ffffff;
+  color: #1a1a1a;
 }
 
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
+/* Smooth theme transition */
+html {
+  transition: background-color 0.1s ease-out, color 0.1s ease-out;
+}
+
+/* Prevent theme-dependent elements from flashing */
+html:not([data-theme]) .bg-background,
+html:not([data-theme]) .text-foreground,
+html:not([data-theme]) .border-border {
+  visibility: hidden;
+}
+
+html[data-theme] .bg-background,
+html[data-theme] .text-foreground,
+html[data-theme] .border-border {
+  visibility: visible;
 }
 
 .prose blockquote {
@@ -120,9 +135,9 @@ html[data-theme='light'] {
 }
 
 .font-sansita {
-  font-family: 'Sansita', sans-serif;
+  font-family: var(--font-sansita), sans-serif;
 }
 
 .font-fira-sans {
-  font-family: 'Fira Sans', sans-serif;
+  font-family: var(--font-fira-sans), sans-serif;
 }
