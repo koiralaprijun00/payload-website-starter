@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import Masonry from 'react-masonry-css'
 import { useImageLoadingQueue } from '@/hooks/useImageLoadingQueue'
 import { OptimizedGalleryImage } from '@/components/OptimizedGalleryImage'
+import { GalleryPreloader } from '@/components/GalleryPreloader'
 
 interface GalleryImage {
   id: string
@@ -24,12 +25,12 @@ export default function GalleryClient({ images }: GalleryPageProps) {
     maxConcurrent: 4,
   })
 
-  // Initialize first 2 images with high priority
+  // Initialize first 6 images with high priority
   useEffect(() => {
     if (images.length > 0) {
-      // Load first 2 images immediately with highest priority
-      images.slice(0, 2).forEach((image, index) => {
-        requestImageLoad(image.id, image.url, index) // Priority 0, 1
+      // Load first 6 images immediately with highest priority
+      images.slice(0, 6).forEach((image, index) => {
+        requestImageLoad(image.id, image.url, index) // Priority 0, 1, 2, 3, 4, 5
       })
       setIsLoading(false)
     }
@@ -111,6 +112,9 @@ export default function GalleryClient({ images }: GalleryPageProps) {
 
   return (
     <>
+      {/* LCP Optimization: Preload first 3 images */}
+      <GalleryPreloader images={images} />
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <h1 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
           Gallery
@@ -179,12 +183,18 @@ export default function GalleryClient({ images }: GalleryPageProps) {
             </button>
 
             {/* Main image */}
-            <img
-              src={selectedImage.url}
-              alt={selectedImage.alt || 'Gallery image'}
-              className="max-w-full max-h-[80vh] object-contain"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <div className="relative max-w-full max-h-[80vh]">
+              <Image
+                src={selectedImage.url}
+                alt={selectedImage.alt || 'Gallery image'}
+                width={1200}
+                height={800}
+                className="max-w-full max-h-[80vh] w-auto h-auto object-contain"
+                priority={true}
+                quality={90}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
 
             {/* Image counter */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white text-sm">

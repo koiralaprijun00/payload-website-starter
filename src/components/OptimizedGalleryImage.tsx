@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 interface GalleryImage {
@@ -38,8 +38,8 @@ export const OptimizedGalleryImage: React.FC<OptimizedGalleryImageProps> = ({
   })
 
   // Priority calculation: higher priority for images that appear first
-  // First 2 images get highest priority (1-2), then decreasing priority
-  const priority = index < 2 ? index + 1 : Math.min(index + 3, 20)
+  // First 6 images get highest priority (1-6), then decreasing priority
+  const priority = index < 6 ? index + 1 : Math.min(index + 3, 20)
 
   // Request image loading when it should load
   useEffect(() => {
@@ -131,18 +131,24 @@ export const OptimizedGalleryImage: React.FC<OptimizedGalleryImageProps> = ({
         </div>
       )}
 
-      {/* Actual image */}
+      {/* Actual image using Next.js Image for WebP/AVIF optimization */}
       {imgSrc && !imgError && (
         <>
-          <img
-            src={imgSrc}
-            alt={image.alt || 'Gallery image'}
-            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-            draggable={false}
-            loading={index < 2 ? 'eager' : 'lazy'} // Only first 2 images eager
-            onError={handleImageError}
-            onLoad={handleImageLoad}
-          />
+          <div className="relative w-full aspect-[4/3]">
+            <Image
+              src={imgSrc}
+              alt={image.alt || 'Gallery image'}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              priority={index < 6} // High priority for first 6 images
+              quality={85}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            />
+          </div>
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -173,8 +179,8 @@ export const OptimizedGalleryImage: React.FC<OptimizedGalleryImageProps> = ({
         </>
       )}
 
-      {/* Loading indicator for first 2 images */}
-      {index < 2 && imageState === 'loading' && imgSrc && (
+      {/* Loading indicator for first 6 images */}
+      {index < 6 && imageState === 'loading' && imgSrc && (
         <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded px-2 py-1">
           <span className="text-xs text-white">Loading...</span>
         </div>
