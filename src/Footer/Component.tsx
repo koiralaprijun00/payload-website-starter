@@ -34,9 +34,6 @@ export async function Footer() {
     }
   }
 
-  // Debug: log the URL to console (remove this after debugging)
-  // console.log('Footer background URL:', backgroundImageUrl)
-
   return (
     <footer className="relative lg:min-h-[90vh]">
       {/* Background Image */}

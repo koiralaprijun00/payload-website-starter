@@ -4,7 +4,12 @@ import Link from 'next/link'
 type TeamMember = {
   id?: string
   slug: string
-  profileImage: { url: string }
+  profileImage: {
+    url: string
+    filename?: string
+    alt?: string
+    thumbnailURL?: string
+  }
   name: string
   role: string
   email: string

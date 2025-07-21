@@ -19,8 +19,6 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  // Debug: log the doc prop to inspect image fields
-  console.log('Card doc:', doc)
   const { slug, categories, meta, title } = doc || {}
   const { description } = meta || {}
 

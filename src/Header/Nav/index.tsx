@@ -21,9 +21,6 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   const router = useRouter()
   const pathname = usePathname()
 
-  // Debug: Log nav items to see what we're getting
-  console.log('Nav items:', navItems)
-
   // Reset loading state when pathname changes (navigation completes)
   React.useEffect(() => {
     setLoadingLink(null)
@@ -39,7 +36,6 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   }
 
   const handleLinkClick = (href: string, label: string) => {
-    console.log('Clicking link:', { href, label })
     setLoadingLink(label)
     router.push(href)
   }
@@ -86,9 +82,6 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
       {/* Desktop nav */}
       <nav className="gap-8 items-center hidden md:flex">
         {navItems.map((item, idx) => {
-          // Debug: Log each nav item
-          console.log('Processing nav item:', item)
-
           // Handle missing link data
           if (!item.link || !item.link.label) {
             console.warn('Nav item missing link or label:', item)
@@ -193,9 +186,6 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
             style={{ minHeight: '60vh' }}
           >
             {navItems.map((item, idx) => {
-              // Debug: Log each mobile nav item
-              console.log('Processing mobile nav item:', item)
-
               // Handle missing link data
               if (!item.link || !item.link.label) {
                 console.warn('Mobile nav item missing link or label:', item)

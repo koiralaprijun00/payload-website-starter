@@ -165,9 +165,6 @@ export default async function Page({ params: paramsPromise }: Args) {
           buttonText={page.homePageImpact.buttonText || ''}
           buttonLink={page.homePageImpact.buttonLink || ''}
           blocks={(page.homePageImpact.blocks || []).map((block): ImpactBlock => {
-            // Debug: log the icon field to check its structure
-            // Remove or comment out after debugging
-            // console.log('block.icon:', block.icon);
             let icon: string | { url: string } = ''
             if (block.icon && typeof block.icon === 'object' && block.icon !== null) {
               if ('url' in block.icon && typeof block.icon.url === 'string') {
