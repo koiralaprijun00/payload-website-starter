@@ -93,7 +93,7 @@ export default function GalleryClient({ images }: GalleryPageProps) {
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [selectedImage, navigateImage])
+  }, [selectedImage, navigateImage, closeLightbox])
 
   if (isLoading && images.length > 0) {
     return (

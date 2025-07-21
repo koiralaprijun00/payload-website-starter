@@ -46,7 +46,7 @@ export const useImageLoadingQueue = (options: UseImageLoadingQueueOptions = {}) 
         newMap.set(imageState.id, { ...imageState, status: 'loaded' })
         return newMap
       })
-    } catch (error) {
+    } catch (_error) {
       if (!mountedRef.current) return
 
       // Update state to error
