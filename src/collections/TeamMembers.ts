@@ -21,6 +21,7 @@ const TeamMembers: CollectionConfig = {
       options: [
         { label: 'Advisory Board', value: 'advisory' },
         { label: 'Executive Board', value: 'executive' },
+        { label: 'Staff Members', value: 'staff' },
       ],
       required: true,
     },

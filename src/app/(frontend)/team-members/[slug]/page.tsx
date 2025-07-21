@@ -14,7 +14,12 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
   if (!member) return notFound()
 
   // Board badge label
-  const boardLabel = member.boardType === 'advisory' ? 'Board of Directors' : 'Executive Board'
+  const boardLabel =
+    member.boardType === 'advisory'
+      ? 'Board of Directors'
+      : member.boardType === 'executive'
+        ? 'Executive Board'
+        : 'Staff Member'
 
   return (
     <div className="max-w-6xl mx-auto pt-4 pb-16 px-4">

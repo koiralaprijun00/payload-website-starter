@@ -9,7 +9,7 @@ type TeamMember = {
   role: string
   email: string
   phone: string
-  boardType: 'advisory' | 'executive'
+  boardType: 'advisory' | 'executive' | 'staff'
 }
 
 type TeamSectionProps = {
@@ -46,6 +46,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 export default function TeamSection({ members = [] }: TeamSectionProps) {
   const advisory = members.filter((m) => m.boardType === 'advisory')
   const executive = members.filter((m) => m.boardType === 'executive')
+  const staff = members.filter((m) => m.boardType === 'staff')
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gray-50">
@@ -81,13 +82,29 @@ export default function TeamSection({ members = [] }: TeamSectionProps) {
 
       {/* Executive Board Section */}
       {executive.length > 0 && (
-        <div className="flex flex-col lg:flex-row items-start gap-6">
+        <div className="flex flex-col lg:flex-row items-start mb-12 gap-6">
           <div className="w-full lg:w-64 flex-shrink-0">
             <h3 className="text-lg font-semibold mb-6">Executive Board Members</h3>
           </div>
           <div className="flex-1">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
               {executive.map((member, idx) => (
+                <TeamMemberCard key={member.id || member.email || idx} member={member} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Staff Members Section */}
+      {staff.length > 0 && (
+        <div className="flex flex-col lg:flex-row items-start gap-6">
+          <div className="w-full lg:w-64 flex-shrink-0">
+            <h3 className="text-lg font-semibold mb-6">Staff Members</h3>
+          </div>
+          <div className="flex-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+              {staff.map((member, idx) => (
                 <TeamMemberCard key={member.id || member.email || idx} member={member} />
               ))}
             </div>

@@ -888,7 +888,7 @@ export interface TeamMember {
   profileImage: string | Media;
   email: string;
   phone: string;
-  boardType: 'advisory' | 'executive';
+  boardType: 'advisory' | 'executive' | 'staff';
   slug: string;
   description?: string | null;
   updatedAt: string;
