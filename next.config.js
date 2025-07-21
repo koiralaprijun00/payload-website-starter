@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import withBundleAnalyzer from '@next/bundle-analyzer'
 
 import redirects from './redirects.js'
 
@@ -24,4 +25,9 @@ const nextConfig = {
   redirects,
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+// Enable bundle analyzer when ANALYZE=true
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+export default bundleAnalyzer(withPayload(nextConfig, { devBundleServerPackages: false }))

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build:analyze": "cross-env NODE_OPTIONS=--no-deprecation ANALYZE=true next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "ci": "payload migrate && pnpm build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@next/bundle-analyzer": "^15.4.2",
     "@tailwindcss/typography": "^0.5.13",
     "@types/escape-html": "^1.0.2",
     "@types/node": "^22.5.4",
