@@ -17,17 +17,101 @@ import HomePageProjectsClient from '@/components/HomePageProjectsClient'
 import HomePageImpactClient from '@/components/HomePageImpactClient'
 import type { ImpactBlock } from '@/components/HomePageImpact'
 import type { ProjectRelationship } from '@/components/HomePageProjects'
-import { ThemePage } from '@/payload-types'
+import type { ThemePage, Page, Notice } from '@/payload-types'
 
-async function getThemePages(): Promise<ThemePage[]> {
-  const req = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages?depth=2&limit=10`,
-    { next: { revalidate: 3600 } },
-  )
-  if (!req.ok) return []
-  const { docs } = await req.json()
-  return docs || []
-}
+// Optimized function to get theme pages with better caching
+const getThemePages = cache(async (): Promise<ThemePage[]> => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'theme-pages',
+      depth: 1, // Reduced from 2 to 1 for better performance
+      limit: 10,
+      pagination: false,
+      overrideAccess: false,
+    })
+    return result.docs || []
+  } catch (error) {
+    console.error('Error fetching theme pages:', error)
+    return []
+  }
+})
+
+// Optimized function to get notices for hero components (server-side)
+const getNotices = cache(async (): Promise<Notice[]> => {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'notices',
+      depth: 1,
+      limit: 4,
+      pagination: false,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      select: {
+        id: true,
+        category: true,
+        title: true,
+        summary: true,
+        image: true,
+        slug: true,
+        publishedAt: true,
+      },
+    })
+    return result.docs || []
+  } catch (error) {
+    console.error('Error fetching notices:', error)
+    return []
+  }
+})
+
+// Combined data fetching function for homepage with optimized queries
+const getPageData = cache(async (slug: string) => {
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayload({ config: configPromise })
+
+  // Fetch page data, theme pages, and notices concurrently with optimized field selection
+  const [pageResult, themePages, notices] = await Promise.all([
+    payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      depth: 1, // Reduced depth
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      select: {
+        title: true,
+        slug: true,
+        hero: true,
+        layout: true,
+        conservationSection: true,
+        homePageProjects: true,
+        homePageImpact: true,
+        meta: {
+          title: true,
+          description: true,
+          image: true,
+        },
+      },
+    }),
+    slug === 'home' ? getThemePages() : Promise.resolve([]),
+    // Fetch notices for hero components that need them
+    slug === 'home' ? getNotices() : Promise.resolve([]),
+  ])
+
+  const page = pageResult.docs?.[0] || null
+
+  return {
+    page,
+    themePages,
+    notices,
+  }
+})
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -64,26 +148,24 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
+  // Use optimized data fetching
+  const { page, themePages, notices } = await getPageData(slug)
 
-  page = await queryPageBySlug({ slug })
+  let finalPage: RequiredDataFromCollectionSlug<'pages'> | null = page
 
   // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
+  if (!finalPage && slug === 'home') {
+    finalPage = homeStatic
   }
 
-  if (!page) {
+  if (!finalPage) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, layout } = finalPage
 
-  // Fetch all theme pages for conservation section tab images
-  let themePages: ThemePage[] = []
-  if (page.conservationSection && page.conservationSection.tabs) {
-    themePages = await getThemePages()
-  }
+  // Add notices to hero props if the hero type needs them
+  const heroWithNotices = hero && hero.type === 'homePageNoticeV2' ? { ...hero, notices } : hero
 
   return (
     <article>
@@ -93,19 +175,19 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
-      {page.conservationSection && (
+      <RenderHero {...heroWithNotices} />
+      {finalPage.conservationSection && (
         <ConservationSectionClient
-          sectionHeading={page.conservationSection.sectionHeading || ''}
-          sectionDescription={page.conservationSection.sectionDescription || ''}
-          buttonText={page.conservationSection.buttonText || ''}
-          buttonLink={page.conservationSection.buttonLink || ''}
-          tabs={(page.conservationSection.tabs || []).map((tab) => {
+          sectionHeading={finalPage.conservationSection.sectionHeading || ''}
+          sectionDescription={finalPage.conservationSection.sectionDescription || ''}
+          buttonText={finalPage.conservationSection.buttonText || ''}
+          buttonLink={finalPage.conservationSection.buttonLink || ''}
+          tabs={(finalPage.conservationSection.tabs || []).map((tab) => {
             // Find the theme page by link (e.g. '/ecosystem')
             const themeSlug = tab.link.replace('/', '')
             const themePage = themePages.find((tp) => tp.slug === themeSlug)
             let image: string | { url: string } | undefined = ''
-            if (themePage && themePage.hero && themePage.hero.image) {
+            if (themePage?.hero?.image) {
               if (typeof themePage.hero.image === 'string') {
                 image = themePage.hero.image
               } else if (typeof themePage.hero.image === 'object' && themePage.hero.image.url) {
@@ -123,12 +205,12 @@ export default async function Page({ params: paramsPromise }: Args) {
         />
       )}
 
-      {page.homePageProjects && (
+      {finalPage.homePageProjects && (
         <HomePageProjectsClient
-          sectionLabel={page.homePageProjects.sectionLabel || ''}
-          heading={page.homePageProjects.heading || ''}
-          subheading={page.homePageProjects.subheading || ''}
-          blocks={(page.homePageProjects.blocks || []).map((block) => {
+          sectionLabel={finalPage.homePageProjects.sectionLabel || ''}
+          heading={finalPage.homePageProjects.heading || ''}
+          subheading={finalPage.homePageProjects.subheading || ''}
+          blocks={(finalPage.homePageProjects.blocks || []).map((block) => {
             let link: string | ProjectRelationship | null = null
             if (typeof block.link === 'string') {
               link = block.link
@@ -157,17 +239,14 @@ export default async function Page({ params: paramsPromise }: Args) {
           })}
         />
       )}
-      {page.homePageImpact && (
+      {finalPage.homePageImpact && (
         <HomePageImpactClient
-          sectionLabel={page.homePageImpact.sectionLabel || ''}
-          heading={page.homePageImpact.heading || ''}
-          description={page.homePageImpact.description || ''}
-          buttonText={page.homePageImpact.buttonText || ''}
-          buttonLink={page.homePageImpact.buttonLink || ''}
-          blocks={(page.homePageImpact.blocks || []).map((block): ImpactBlock => {
-            // Debug: log the icon field to check its structure
-            // Remove or comment out after debugging
-            // console.log('block.icon:', block.icon);
+          sectionLabel={finalPage.homePageImpact.sectionLabel || ''}
+          heading={finalPage.homePageImpact.heading || ''}
+          description={finalPage.homePageImpact.description || ''}
+          buttonText={finalPage.homePageImpact.buttonText || ''}
+          buttonLink={finalPage.homePageImpact.buttonLink || ''}
+          blocks={(finalPage.homePageImpact.blocks || []).map((block): ImpactBlock => {
             let icon: string | { url: string } = ''
             if (block.icon && typeof block.icon === 'object' && block.icon !== null) {
               if ('url' in block.icon && typeof block.icon.url === 'string') {
@@ -196,30 +275,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = 'home' } = await paramsPromise
-  const page = await queryPageBySlug({
-    slug,
-  })
+  const { page } = await getPageData(slug)
 
   return generateMeta({ doc: page })
 }
-
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-  })
-
-  return result.docs?.[0] || null
-})

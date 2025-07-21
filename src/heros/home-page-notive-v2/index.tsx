@@ -6,8 +6,6 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import NoticeSidebar from '@/components/NoticeSidebar'
 import { ChevronRight, Clock, Bell, X } from 'lucide-react'
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
 
 export interface Notice {
   id: string
@@ -38,61 +36,6 @@ interface EnhancedHeroSectionProps {
   media?: any
   notices?: Notice[]
   description?: string | null
-}
-
-const categoryConfig: Record<
-  string,
-  {
-    label: string
-    color: string
-    bgColor: string
-    textColor: string
-    hoverColor: string
-  }
-> = {
-  ecosystem: {
-    label: 'Ecosystem',
-    color: 'bg-emerald-500',
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-    hoverColor: 'hover:bg-emerald-500',
-  },
-  species: {
-    label: 'Species',
-    color: 'bg-blue-500',
-    bgColor: 'bg-blue-50',
-    textColor: 'text-blue-700',
-    hoverColor: 'hover:bg-blue-500',
-  },
-  community: {
-    label: 'Community',
-    color: 'bg-purple-500',
-    bgColor: 'bg-purple-50',
-    textColor: 'text-purple-700',
-    hoverColor: 'hover:bg-purple-500',
-  },
-  policy: {
-    label: 'Policy',
-    color: 'bg-amber-500',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-    hoverColor: 'hover:bg-amber-500',
-  },
-}
-
-const formatDate = (dateString?: string) => {
-  if (!dateString) return ''
-  const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
-
-const contentBoxVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 }
 
 export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
@@ -192,13 +135,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
           )}
 
           {/* Blue Content Box */}
-          <motion.div
-            className="absolute left-8 bottom-8 max-w-md"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, amount: 0.2 }}
-            variants={contentBoxVariants}
-          >
+          <div className="absolute left-8 bottom-8 max-w-md animate-fade-in-up">
             <div className="bg-blue-900 bg-opacity-95 backdrop-blur-sm p-6 shadow-2xl">
               {/* Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 bg-opacity-20 border border-blue-200 border-opacity-30 mb-4">
@@ -225,106 +162,82 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                 <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-2" />
               </button>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Notices Sidebar */}
         <div
-          className="absolute top-0 right-8 h-full w-96 bg-white transition-transform duration-700 ease-in-out z-20"
-          style={{
-            transform: noticesVisible ? 'translateX(0)' : 'translateX(calc(100% + 2rem))',
-          }}
+          className={`fixed top-0 right-0 h-full bg-white shadow-2xl border-l border-gray-200 transition-transform duration-700 ease-in-out z-20 ${
+            noticesVisible ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          style={{ width: '26rem' }}
         >
           <div className="h-full flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-slate-900">Latest Notices</h2>
+              <h3 className="text-xl font-bold text-gray-900">Latest Updates</h3>
               <button
                 onClick={toggleNotices}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
                 aria-label="Close notices"
               >
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-5 h-5 text-gray-600" />
               </button>
             </div>
 
             {/* Notices List */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {notices.map((notice, index) => {
-                const config = (categoryConfig[notice.category] ?? categoryConfig.ecosystem) as {
-                  label: string
-                  color: string
-                  bgColor: string
-                  textColor: string
-                  hoverColor: string
-                }
-
-                return (
-                  <article
-                    key={notice.id}
-                    className={`group relative bg-white border border-gray-200 p-4 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 cursor-pointer transform ${
-                      hoveredNotice === notice.id ? 'scale-[1.02]' : ''
-                    }`}
-                    style={{
-                      animationDelay: `${index * 150}ms`,
-                      animation: noticesVisible ? 'slideInRight 0.6s ease-out forwards' : 'none',
-                    }}
-                    onClick={() => handleNoticeClick(notice)}
-                    onMouseEnter={() => setHoveredNotice(notice.id)}
-                    onMouseLeave={() => setHoveredNotice(null)}
-                  >
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                        <span className={`w-2 h-2 rounded-full ${config.color}`} />
-                        <span>{config.label}</span>
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="space-y-4">
+                {notices.length > 0 ? (
+                  notices.map((notice, index) => (
+                    <article
+                      key={notice.id}
+                      onClick={() => handleNoticeClick(notice)}
+                      onMouseEnter={() => setHoveredNotice(notice.id)}
+                      onMouseLeave={() => setHoveredNotice(null)}
+                      className="block p-4 border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 cursor-pointer group animate-fade-in-up"
+                      style={{
+                        animationDelay: `${index * 100 + 200}ms`,
+                        animationFillMode: 'both',
+                      }}
+                    >
+                      {/* Category & Date */}
+                      <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                        <span className="uppercase font-medium">{notice.category}</span>
+                        {notice.publishedAt && (
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <time>{new Date(notice.publishedAt).toLocaleDateString()}</time>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                        <Clock className="w-3 h-3" />
-                        {formatDate(notice.publishedAt || '')}
+
+                      {/* Title */}
+                      <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                        {notice.title}
+                      </h4>
+
+                      {/* Summary */}
+                      <p className="text-sm text-gray-600 line-clamp-3 mb-3">{notice.summary}</p>
+
+                      {/* Read more indicator */}
+                      <div className="flex items-center gap-1 text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <span>Read more</span>
+                        <ChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform duration-200" />
                       </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="font-semibold text-slate-900 text-lg leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
-                      {notice.title}
-                    </h3>
-
-                    {/* Summary */}
-                    {notice.summary && (
-                      <p className="text-slate-600 line-clamp-2 leading-relaxed mb-3 group-hover:text-slate-800 transition-colors duration-200 text-sm">
-                        {notice.summary}
-                      </p>
-                    )}
-
-                    {/* Read more */}
-                    <div className="flex items-center gap-1 text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      <span>Read more</span>
-                      <ChevronRight className="w-3 h-3 transform group-hover:translate-x-1 transition-transform duration-200" />
-                    </div>
-
-                    {/* Accent bar */}
-                    <div
-                      className={`absolute left-0 top-0 bottom-0 w-1 ${config.color} rounded-l-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                    />
-                  </article>
-                )
-              })}
-            </div>
-
-            {/* Footer */}
-            <div className="p-6 border-t border-gray-200">
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 transition-colors duration-200 flex items-center justify-center gap-2">
-                View All Notices
-                <ChevronRight className="w-4 h-4" />
-              </button>
+                    </article>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <Bell className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No recent updates available.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Detail Sidebar */}
-      <NoticeSidebar open={sidebarOpen} onClose={handleSidebarClose} notice={selectedNotice} />
 
       {/* Toggle Button */}
       {isHeroInView && (
@@ -348,19 +261,8 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
         </button>
       )}
 
-      {/* Keyframes */}
-      <style jsx>{`
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-      `}</style>
+      {/* Sidebar for notice details */}
+      <NoticeSidebar open={sidebarOpen} onClose={handleSidebarClose} notice={selectedNotice} />
     </div>
   )
 }

@@ -1,16 +1,15 @@
 'use client'
-import { motion } from 'framer-motion'
+import { useStaggeredAnimation } from '@/utilities/useScrollAnimation'
 import HomePageImpact, { HomePageImpactProps } from './HomePageImpact'
 
-const HomePageImpactClient = (props: HomePageImpactProps) => (
-  <motion.section
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, amount: 0.2 }}
-    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.6 }}
-  >
-    <HomePageImpact {...props} />
-  </motion.section>
-)
+const HomePageImpactClient = (props: HomePageImpactProps) => {
+  const ref = useStaggeredAnimation<HTMLElement>(600)
+
+  return (
+    <section ref={ref}>
+      <HomePageImpact {...props} />
+    </section>
+  )
+}
 
 export default HomePageImpactClient

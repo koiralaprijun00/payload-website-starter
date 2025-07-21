@@ -1,9 +1,9 @@
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
+import { useScrollAnimation } from '@/utilities/useScrollAnimation'
 
 export interface ProjectRelationship {
   id: string
@@ -41,6 +41,8 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
   subheading,
   blocks,
 }) => {
+  const sectionRef = useScrollAnimation<HTMLElement>({ threshold: 0.2, triggerOnce: true })
+
   // Helper to render a single card (used for both mobile and desktop)
   const renderCard = (block: ProjectBlock, idx: number) => {
     const hasImage = !!block.image
@@ -105,27 +107,10 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
     )
   }
 
-  const containerVariants: Variants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  }
-
   return (
-    <motion.section
-      className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
+    <section
+      ref={sectionRef}
+      className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16 animate-on-scroll animate-delay-400"
     >
       <div className="flex flex-col items-center text-center mb-10">
         <div className="flex items-center space-x-2 mb-2">
@@ -142,70 +127,59 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
       </div>
 
       {/* Grid layout - Mobile: stacked, Desktop: 3 columns */}
-      <motion.div
-        className="block md:hidden space-y-4"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <div className="block md:hidden space-y-4">
         {/* Mobile layout - simple stacking */}
         {blocks.map((block, idx) => (
-          <motion.div key={idx} variants={cardVariants}>
+          <div
+            key={idx}
+            className="animate-fade-in-up"
+            style={{ animationDelay: `${idx * 200 + 200}ms` }}
+          >
             {renderCard(block, idx)}
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* Desktop layout – 3×3 magazine grid */}
-      <motion.div
-        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <div className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6">
         {/* Block 1 – left, spans 2 rows */}
         {blocks[0] && (
-          <motion.div
-            className="col-start-1 row-start-1 row-span-2 flex flex-col"
-            variants={cardVariants}
-          >
+          <div className="col-start-1 row-start-1 row-span-2 flex flex-col animate-fade-in-up animate-delay-200">
             {renderCard(blocks[0], 0)}
-          </motion.div>
+          </div>
         )}
         {/* Block 2 – centre, spans 3 rows (tallest) */}
         {blocks[1] && (
-          <motion.div
-            className="col-start-2 row-start-1 row-span-3 flex flex-col"
-            variants={cardVariants}
-          >
+          <div className="col-start-2 row-start-1 row-span-3 flex flex-col animate-fade-in-up animate-delay-400">
             {renderCard(blocks[1], 1)}
-          </motion.div>
+          </div>
         )}
         {/* Block 3 – top-right */}
         {blocks[2] && (
-          <motion.div className="col-start-3 row-start-1 flex flex-col" variants={cardVariants}>
+          <div className="col-start-3 row-start-1 flex flex-col animate-fade-in-up animate-delay-600">
             {renderCard(blocks[2], 2)}
-          </motion.div>
+          </div>
         )}
         {/* Block 4 – bottom-right, spans 2 rows */}
         {blocks[3] && (
-          <motion.div
-            className="col-start-3 row-start-2 row-span-2 flex flex-col"
-            variants={cardVariants}
+          <div
+            className="col-start-3 row-start-2 row-span-2 flex flex-col animate-fade-in-up"
+            style={{ animationDelay: '800ms' }}
           >
             {renderCard(blocks[3], 3)}
-          </motion.div>
+          </div>
         )}
         {/* Block 5 – bottom-left */}
         {blocks[4] && (
-          <motion.div className="col-start-1 row-start-3 flex flex-col" variants={cardVariants}>
+          <div
+            className="col-start-1 row-start-3 flex flex-col animate-fade-in-up"
+            style={{ animationDelay: '1000ms' }}
+          >
             {renderCard(blocks[4], 4)}
-          </motion.div>
+          </div>
         )}
-      </motion.div>
-    </motion.section>
+      </div>
+    </section>
   )
 }
 

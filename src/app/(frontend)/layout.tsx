@@ -8,6 +8,7 @@ import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
+import { WebVitalsProvider } from '@/components/WebVitalsProvider'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
@@ -29,16 +30,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
-        <AdminBar
-          adminBarProps={{
-            preview: isEnabled,
-          }}
-        />
-        <div className="max-w-7xl mx-auto w-full px-4">
-          <Header />
-          {children}
-        </div>
-        <Footer />
+        <WebVitalsProvider>
+          <AdminBar
+            adminBarProps={{
+              preview: isEnabled,
+            }}
+          />
+          <div className="max-w-7xl mx-auto w-full px-4">
+            <Header />
+            {children}
+          </div>
+          <Footer />
+        </WebVitalsProvider>
       </body>
     </html>
   )

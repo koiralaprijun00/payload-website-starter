@@ -1,178 +1,121 @@
 'use client'
-
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
+import { useScrollAnimation } from '@/utilities/useScrollAnimation'
 
-export interface ConservationTab {
+interface Tab {
   label: string
   title: string
   text: string
   link: string
-  image?: { url: string } | string
+  image?: string | { url: string }
 }
 
 export interface ConservationSectionProps {
   sectionHeading: string
   sectionDescription: string
-  tabs: ConservationTab[]
-  buttonText?: string // Added optional buttonText
-  buttonLink?: string // Added optional buttonLink
+  buttonText: string
+  buttonLink: string
+  tabs: Tab[]
 }
 
 const ConservationSection: React.FC<ConservationSectionProps> = ({
   sectionHeading,
   sectionDescription,
+  buttonText,
+  buttonLink,
   tabs,
 }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0]?.label || '')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isVisible, setIsVisible] = useState(false)
+  const [activeTab, setActiveTab] = useState(0)
+  const sectionRef = useScrollAnimation<HTMLElement>({ threshold: 0.2, triggerOnce: true })
 
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
-
-  if (!tabs || tabs.length === 0) {
-    return null
+  const getImageUrl = (image?: string | { url: string }): string => {
+    if (!image) return '/default-hero.jpg'
+    return typeof image === 'string' ? image : image.url || '/default-hero.jpg'
   }
 
-  const activeTabData = tabs.find((tab) => tab.label === activeTab) || tabs[0]
-  if (!activeTabData) return null
-  const imageUrl =
-    typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
-
-  const leftColVariants: Variants = {
-    hidden: { opacity: 0, x: -40 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  }
-  const rightColVariants: Variants = {
-    hidden: { opacity: 0, x: 40 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut', delay: 0.2 } },
-  }
+  const activeTabData = tabs[activeTab] ||
+    tabs[0] || {
+      label: '',
+      title: 'Default Title',
+      text: 'Default description',
+      link: '#',
+      image: '/default-hero.jpg',
+    }
 
   return (
-    <motion.div
-      className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: false, amount: 0.2 }}
-      variants={{}}
+    <section
+      ref={sectionRef}
+      className="w-full max-w-7xl mx-auto px-4 py-16 my-16 animate-on-scroll animate-delay-200"
     >
-      <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] items-start gap-10">
-          {/* Left Column */}
-          <motion.div className="space-y-2" variants={leftColVariants}>
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 bg-orange-500 animate-pulse"></div>
-              <span className="text-gray-600 font-medium tracking-wide uppercase text-sm">
-                Our Themes
-              </span>
-            </div>
-            <h1 className="text-4xl font-bold text-gray-900 leading-relaxed mb-4">
+      <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left: Content */}
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               {sectionHeading}
-            </h1>
-            <p className="text-md text-gray-900 leading-tight">{sectionDescription}</p>
-            {/* <a href={buttonLink}>
-              <button className="group bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 mt-4 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                <span className="flex items-center space-x-2">
-                  <span>{buttonText}</span>
-                  <svg
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </a> */}
-          </motion.div>
+            </h2>
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed">{sectionDescription}</p>
+          </div>
 
-          {/* Right Column */}
-          <motion.div className="space-y-6" variants={rightColVariants}>
-            {/* Navigation Tabs */}
-            <div className="flex flex-wrap gap-2 mb-2">
-              {tabs.map((tab, idx) => (
-                <button
-                  key={`${tab.label}-${idx}`}
-                  onClick={() => setActiveTab(tab.label)}
-                  className={`px-3 py-1.5 text-sm font-medium transition-all duration-300 transform hover:scale-105 border ${
-                    activeTab === tab.label
-                      ? 'bg-orange-500 text-white shadow-md border-orange-500'
-                      : 'bg-white text-gray-600 hover:bg-gray-100 border-gray-300'
+          {/* Tabs */}
+          <div className="space-y-4">
+            {tabs.map((tab, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveTab(index)}
+                className={`w-full text-left p-4 border-l-4 transition-all duration-300 animate-fade-in-up ${
+                  activeTab === index
+                    ? 'border-orange-500 bg-orange-50'
+                    : 'border-gray-200 hover:border-orange-300 hover:bg-gray-50'
+                }`}
+                style={{ animationDelay: `${index * 100 + 200}ms` }}
+              >
+                <div
+                  className={`font-semibold mb-1 transition-colors duration-300 ${
+                    activeTab === index ? 'text-orange-600' : 'text-gray-900'
                   }`}
                 >
                   {tab.label}
-                </button>
-              ))}
-            </div>
+                </div>
+                {activeTab === index && (
+                  <div className="text-gray-600 text-sm animate-fade-in-up">{tab.text}</div>
+                )}
+              </button>
+            ))}
+          </div>
 
-            {/* Main Image + Content Box Wrapper */}
-            <div className="relative mb-6 z-0">
-              {imageUrl && (
-                <motion.div
-                  className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: false, amount: 0.2 }}
-                  transition={{ duration: 0.7, ease: 'easeOut' }}
-                >
-                  <Image
-                    src={imageUrl}
-                    alt={activeTabData.title}
-                    fill
-                    className="object-cover rounded"
-                    style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </motion.div>
-              )}
-              {/* Content Box - Overlapping */}
-              <motion.div
-                className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-              >
-                <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
-                  <span>{activeTabData.title}</span>
-                  <div className="w-2 h-2 bg-white animate-bounce"></div>
-                </h2>
-                <p className="text-blue-100 leading-relaxed mb-6">{activeTabData.text}</p>
-                <a
-                  href={activeTabData.link || '#'}
-                  className="group flex items-center space-x-2 text-white font-medium hover:text-orange-200 transition-colors duration-300"
-                >
-                  <span>Learn More</span>
-                  <svg
-                    className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </a>
-              </motion.div>
-            </div>
-          </motion.div>
+          {/* Call to Action */}
+          <div className="pt-4">
+            <a
+              href={buttonLink}
+              className="inline-flex items-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg group animate-fade-in-up"
+              style={{ animationDelay: '400ms' }}
+            >
+              {buttonText}
+              <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
+
+        {/* Right: Image */}
+        <div className="relative h-96 lg:h-[500px] overflow-hidden shadow-lg animate-fade-in-up animate-delay-600">
+          <Image
+            src={getImageUrl(activeTabData.image)}
+            alt={activeTabData.title}
+            fill
+            className="object-cover transition-all duration-500"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          <div className="absolute bottom-6 left-6 text-white">
+            <h3 className="text-xl font-bold mb-2">{activeTabData.title}</h3>
+            <p className="text-sm opacity-90">{activeTabData.text}</p>
+          </div>
         </div>
       </div>
-    </motion.div>
+    </section>
   )
 }
 

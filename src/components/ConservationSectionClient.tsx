@@ -1,16 +1,15 @@
 'use client'
-import { motion } from 'framer-motion'
+import { useStaggeredAnimation } from '@/utilities/useScrollAnimation'
 import ConservationSection, { ConservationSectionProps } from './ConservationSection'
 
-const ConservationSectionClient = (props: ConservationSectionProps) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: false, amount: 0.2 }}
-    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-  >
-    <ConservationSection {...props} />
-  </motion.div>
-)
+const ConservationSectionClient = (props: ConservationSectionProps) => {
+  const ref = useStaggeredAnimation<HTMLDivElement>(200)
+
+  return (
+    <div ref={ref}>
+      <ConservationSection {...props} />
+    </div>
+  )
+}
 
 export default ConservationSectionClient
