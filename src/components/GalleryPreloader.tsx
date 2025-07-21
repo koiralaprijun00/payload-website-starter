@@ -15,6 +15,7 @@ export const GalleryPreloader: React.FC<GalleryPreloaderProps> = ({ images }) =>
     const preloadImages = images.slice(0, 3)
     const preloadLinks: HTMLLinkElement[] = []
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     preloadImages.forEach((image, index) => {
       // Create preload link element
       const link = document.createElement('link')
