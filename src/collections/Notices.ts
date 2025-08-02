@@ -1,6 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { anyone } from '@/access/anyone'
-import { featureRichText } from '@/fields/lexical-editor'
+import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 import { slugField } from '@/fields/slug'
 
 const categoryOptions = [
@@ -47,7 +47,7 @@ const Notices: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
-      editor: featureRichText,
+      editor: comprehensiveLexical,
     },
     {
       name: 'publishedAt',

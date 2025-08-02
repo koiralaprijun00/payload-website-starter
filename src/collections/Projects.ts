@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
-import { defaultLexical } from '@/fields/defaultLexical'
+import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -32,7 +32,7 @@ export const Projects: CollectionConfig = {
       name: 'body',
       type: 'richText',
       required: true,
-      editor: defaultLexical,
+      editor: comprehensiveLexical,
     },
     {
       name: 'themes',

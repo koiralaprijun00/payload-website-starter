@@ -1,6 +1,6 @@
 import { GlobalConfig } from 'payload'
 import { anyone } from '../access/anyone'
-import { featureRichText } from '../fields/lexical-editor'
+import { comprehensiveLexical } from '../fields/comprehensiveLexical'
 
 const About: GlobalConfig = {
   slug: 'about-page',
@@ -42,7 +42,7 @@ const About: GlobalConfig = {
     {
       name: 'detailedContent',
       type: 'richText',
-      editor: featureRichText,
+      editor: comprehensiveLexical,
       required: true,
     },
     {

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
-import { defaultLexical } from '@/fields/defaultLexical'
+import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 
 export const ThemePages: CollectionConfig = {
   slug: 'theme-pages',
@@ -95,7 +95,7 @@ export const ThemePages: CollectionConfig = {
           name: 'content',
           type: 'richText',
           required: true,
-          editor: defaultLexical,
+          editor: comprehensiveLexical,
         },
       ],
     },

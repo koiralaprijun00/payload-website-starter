@@ -8,6 +8,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
+import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 
 export const hero: Field = {
   name: 'hero',
@@ -97,16 +98,7 @@ export const hero: Field = {
     {
       name: 'richText',
       type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+      editor: comprehensiveLexical,
       label: false,
     },
     linkGroup({
