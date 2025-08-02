@@ -14,29 +14,36 @@ export const PostHero: React.FC<{
   const hasAuthors =
     populatedAuthors && populatedAuthors.length > 0 && formatAuthors(populatedAuthors) !== ''
 
+  const hasHeroImage = heroImage && typeof heroImage !== 'string'
+  const hasCategories = categories && categories.length > 0
+
   return (
     <div className="relative pt-4 flex items-end">
-      <div className="container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] text-white pb-8">
+      <div
+        className={`container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] pb-8 ${hasHeroImage ? 'text-white' : 'text-gray-900'}`}
+      >
         <div className="col-start-1 col-span-1 md:col-start-2 md:col-span-2">
-          <div className="uppercase text-sm mb-6">
-            {categories?.map((category, index) => {
-              if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
+          {hasCategories && (
+            <div className="uppercase text-sm mb-6">
+              {categories.map((category, index) => {
+                if (typeof category === 'object' && category !== null) {
+                  const { title: categoryTitle } = category
 
-                const titleToUse = categoryTitle || 'Untitled category'
+                  const titleToUse = categoryTitle || 'Untitled category'
 
-                const isLast = index === categories.length - 1
+                  const isLast = index === categories.length - 1
 
-                return (
-                  <React.Fragment key={index}>
-                    {titleToUse}
-                    {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
-                  </React.Fragment>
-                )
-              }
-              return null
-            })}
-          </div>
+                  return (
+                    <React.Fragment key={index}>
+                      {titleToUse}
+                      {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
+                    </React.Fragment>
+                  )
+                }
+                return null
+              })}
+            </div>
+          )}
 
           <div className="">
             <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl">{title}</h1>
@@ -62,11 +69,15 @@ export const PostHero: React.FC<{
           </div>
         </div>
       </div>
-      <div className="min-h-[65vh] select-none">
-        {heroImage && typeof heroImage !== 'string' && (
+      <div
+        className={`select-none ${hasHeroImage ? 'min-h-[65vh]' : 'min-h-[20vh] bg-gradient-to-br from-gray-50 to-gray-100'}`}
+      >
+        {hasHeroImage && (
           <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
         )}
-        <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
+        {hasHeroImage && (
+          <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
+        )}
       </div>
     </div>
   )
