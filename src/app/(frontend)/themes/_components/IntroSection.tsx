@@ -16,16 +16,16 @@ const IntroSection = ({ introSection }: Props) => {
     <section className="py-12 md:py-16 md:-mt-28 relative z-10">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[6fr_4fr] gap-0 max-w-5xl mx-auto shadow-lg">
-          {/* Left section - Orange background */}
-          <div className="bg-orange-500 p-6 md:p-12 text-white">
+          {/* Left section - Main Blue background */}
+          <div className="bg-mainBlue p-6 md:p-12 text-white">
             <h2 className="text-sm font-bold uppercase mb-6 tracking-wider">
               {introSection.tagline}
             </h2>
             <p className="text-base leading-relaxed pr-24">{introSection.content}</p>
           </div>
 
-          {/* Right section - Light green background */}
-          <div className="bg-lime-200 border-16 border-orange-500 p-6 md:p-4 flex flex-col justify-between">
+          {/* Right section - Light blue background */}
+          <div className="bg-blue-50 border-16 border-mainBlue p-6 md:p-4 flex flex-col justify-between">
             <h3 className="text-sm text-gray-600 text-center mb-8">
               {introSection.factBox?.title}
             </h3>

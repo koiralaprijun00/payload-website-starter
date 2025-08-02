@@ -52,6 +52,12 @@ const config = {
     'hover:bg-orange-500',
     'hover:bg-orange-600',
 
+    // Main custom colors
+    'bg-mainBlue',
+    'bg-mainGreen',
+    'bg-mainOrange',
+    'bg-mainLime',
+
     // Green colors
     'bg-green-200',
     'bg-green-300',
@@ -126,6 +132,7 @@ const config = {
     'border-gray-200',
     'border-gray-300',
     'border-orange-500',
+    'border-mainBlue',
     'hover:border-gray-300',
   ],
   theme: {
