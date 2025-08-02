@@ -36,7 +36,7 @@ import { Archive } from '../blocks/ArchiveBlock/config'
 
 /**
  * Comprehensive Lexical Rich Text Editor Configuration
- * 
+ *
  * This configuration includes ALL available features that Payload CMS
  * supports with the Lexical editor, giving content creators maximum
  * flexibility and design capabilities.
@@ -45,7 +45,7 @@ export const comprehensiveLexical = lexicalEditor({
   features: [
     // === PARAGRAPH & BASIC TEXT ===
     ParagraphFeature(),
-    
+
     // === TEXT FORMATTING ===
     BoldFeature(),
     ItalicFeature(),
@@ -54,21 +54,21 @@ export const comprehensiveLexical = lexicalEditor({
     SubscriptFeature(),
     SuperscriptFeature(),
     InlineCodeFeature(),
-    
+
     // === HEADINGS ===
     HeadingFeature({
       enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     }),
-    
+
     // === TEXT ALIGNMENT & INDENTATION ===
     AlignFeature(),
     IndentFeature(),
-    
+
     // === LISTS ===
     UnorderedListFeature(),
     OrderedListFeature(),
     ChecklistFeature(),
-    
+
     // === LINKS & RELATIONSHIPS ===
     LinkFeature({
       enabledCollections: ['pages', 'posts', 'projects', 'notices', 'theme-pages'],
@@ -105,20 +105,14 @@ export const comprehensiveLexical = lexicalEditor({
               description: 'Add rel attributes for external links (security and SEO)',
             },
           },
-          {
-            name: 'newTab',
-            label: 'Open in New Tab',
-            type: 'checkbox',
-            defaultValue: false,
-          },
         ]
       },
     }),
-    
+
     RelationshipFeature({
       enabledCollections: ['pages', 'posts', 'projects', 'notices', 'theme-pages', 'team-members'],
     }),
-    
+
     // === BLOCK ELEMENTS ===
     BlockquoteFeature(),
     UploadFeature({
@@ -140,19 +134,12 @@ export const comprehensiveLexical = lexicalEditor({
       },
     }),
     HorizontalRuleFeature(),
-    
+
     // === BLOCKS ===
     BlocksFeature({
-      blocks: [
-        Banner,
-        CallToAction,
-        Code,
-        Content,
-        MediaBlock,
-        Archive,
-      ],
+      blocks: [Banner, CallToAction, Code, Content, MediaBlock, Archive],
     }),
-    
+
     // === TOOLBARS ===
     FixedToolbarFeature(),
     InlineToolbarFeature(),
