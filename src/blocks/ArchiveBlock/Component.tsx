@@ -6,7 +6,7 @@ import ArchiveBlockClient from './ArchiveBlockClient'
 
 export const ArchiveBlock: React.FC<ArchiveBlockProps & { id?: string }> = async (props) => {
   const { categories, limit: limitFromProps, populateBy, selectedDocs } = props
-  const limit = limitFromProps || 3
+  const limit = limitFromProps || 6
   let posts: Post[] = []
 
   if (populateBy === 'collection') {
@@ -18,6 +18,7 @@ export const ArchiveBlock: React.FC<ArchiveBlockProps & { id?: string }> = async
       collection: 'posts',
       depth: 1,
       limit,
+      sort: '-publishedAt', // Sort by publishedAt descending to show newest posts first
       ...(flattenedCategories && flattenedCategories.length > 0
         ? { where: { categories: { in: flattenedCategories } } }
         : {}),
