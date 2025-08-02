@@ -18,7 +18,9 @@ export const PostHero: React.FC<{
   const hasCategories = categories && categories.length > 0
 
   return (
-    <div className="relative pt-4 flex items-end">
+    <div
+      className={`relative pt-4 flex items-end ${hasHeroImage ? 'min-h-[65vh]' : 'min-h-[20vh]'}`}
+    >
       <div
         className={`container z-10 relative lg:grid lg:grid-cols-[1fr_48rem_1fr] pb-8 ${hasHeroImage ? 'text-white' : 'text-gray-900'}`}
       >
@@ -70,11 +72,9 @@ export const PostHero: React.FC<{
         </div>
       </div>
       <div
-        className={`select-none ${hasHeroImage ? 'min-h-[65vh]' : 'min-h-[20vh] bg-gradient-to-br from-gray-50 to-gray-100'}`}
+        className={`absolute inset-0 select-none ${!hasHeroImage ? 'bg-gradient-to-br from-gray-50 to-gray-100' : ''}`}
       >
-        {hasHeroImage && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
-        )}
+        {hasHeroImage && <Media fill priority imgClassName="object-cover" resource={heroImage} />}
         {hasHeroImage && (
           <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent" />
         )}

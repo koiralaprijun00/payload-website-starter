@@ -102,11 +102,15 @@ export const Posts: CollectionConfig<'posts'> = {
               label: false,
               required: true,
             },
-          ],
-          label: 'Content',
-        },
-        {
-          fields: [
+            {
+              name: 'categories',
+              type: 'relationship',
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: true,
+              relationTo: 'categories',
+            },
             {
               name: 'relatedPosts',
               type: 'relationship',
@@ -123,17 +127,8 @@ export const Posts: CollectionConfig<'posts'> = {
               hasMany: true,
               relationTo: 'posts',
             },
-            {
-              name: 'categories',
-              type: 'relationship',
-              admin: {
-                position: 'sidebar',
-              },
-              hasMany: true,
-              relationTo: 'categories',
-            },
           ],
-          label: 'Meta',
+          label: 'Content',
         },
         {
           name: 'meta',
