@@ -5,5 +5,5 @@ import type { Header as HeaderType } from '@/payload-types'
 
 export async function Header() {
   const headerData = (await getCachedGlobal('header', 1)()) as HeaderType
-  return <HeaderClient navItems={headerData.navItems || []} />
+  return <HeaderClient navItems={headerData.navItems || []} logo={headerData.logo || null} />
 }

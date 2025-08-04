@@ -5,11 +5,12 @@ import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Logo } from '@/components/Logo/Logo'
 import HeaderNav from './Nav'
-import type { Header as HeaderType } from '@/payload-types'
+import type { Header as HeaderType, Media } from '@/payload-types'
 
-export const HeaderClient: React.FC<{ navItems: NonNullable<HeaderType['navItems']> }> = ({
-  navItems,
-}) => {
+export const HeaderClient: React.FC<{
+  navItems: NonNullable<HeaderType['navItems']>
+  logo: Media | null
+}> = ({ navItems, logo }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -29,7 +30,7 @@ export const HeaderClient: React.FC<{ navItems: NonNullable<HeaderType['navItems
     <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 flex justify-between px-0">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          <Logo loading="eager" priority="high" className="invert dark:invert-0" logo={logo} />
         </Link>
         <HeaderNav navItems={navItems} />
       </div>

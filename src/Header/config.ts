@@ -10,6 +10,15 @@ export const Header: GlobalConfig = {
   },
   fields: [
     {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      admin: {
+        description: 'Upload a logo image. If not provided, the default logo will be used.',
+      },
+    },
+    {
       name: 'navItems',
       type: 'array',
       fields: [
