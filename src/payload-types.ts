@@ -2040,6 +2040,9 @@ export interface Header {
           url?: string | null;
           label: string;
         };
+        /**
+         * Add dropdown items for this navigation item. Leave empty for no dropdown.
+         */
         children?:
           | {
               link: {

@@ -31,7 +31,8 @@ export const Header: GlobalConfig = {
           type: 'array',
           fields: [link({ appearances: false })],
           admin: {
-            condition: (_, siblingData) => siblingData?.link?.label === 'Themes',
+            description:
+              'Add dropdown items for this navigation item. Leave empty for no dropdown.',
           },
         },
       ],

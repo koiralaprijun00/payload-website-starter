@@ -5,17 +5,12 @@ import type { Header as HeaderType } from '@/payload-types'
 import { ChevronDown, Menu, X, Loader2 } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 
-const themeLinks = [
-  { label: 'Research', href: '/research' },
-  { label: 'Community', href: '/community' },
-  { label: 'Species', href: '/species' },
-  { label: 'Ecosystem', href: '/ecosystem' },
-]
+// Removed hardcoded theme links - now using dynamic dropdown items from CMS
 
 export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderType['navItems']> }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null)
   const [loadingLink, setLoadingLink] = useState<string | null>(null)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
@@ -26,13 +21,13 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
     setLoadingLink(null)
   }, [pathname])
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (navLabel: string) => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current)
-    setDropdownOpen(true)
+    setDropdownOpen(navLabel)
   }
 
   const handleMouseLeave = () => {
-    closeTimeout.current = setTimeout(() => setDropdownOpen(false), 120)
+    closeTimeout.current = setTimeout(() => setDropdownOpen(null), 120)
   }
 
   const handleLinkClick = (href: string, label: string) => {
@@ -101,13 +96,13 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               </LoadingLink>
             )
           }
-          // Themes dropdown
-          if (item.link.label === 'Themes') {
+          // Any nav item with children (dynamic dropdown)
+          if (item.children && item.children.length > 0) {
             return (
               <div
                 key={item.id || idx}
                 className="relative"
-                onMouseEnter={handleMouseEnter}
+                onMouseEnter={() => handleMouseEnter(item.link.label || '')}
                 onMouseLeave={handleMouseLeave}
               >
                 <button
@@ -117,36 +112,38 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                   {item.link.label}
                   <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
-                {dropdownOpen && (
+                {dropdownOpen === item.link.label && (
                   <div className="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
-                    {themeLinks.map((theme) => (
-                      <button
-                        key={theme.href}
-                        onClick={() => handleLinkClick(theme.href, theme.label)}
-                        className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
-                        disabled={loadingLink === theme.label}
-                      >
-                        {loadingLink === theme.label && (
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                        )}
-                        {theme.label}
-                      </button>
-                    ))}
+                    {item.children.map((child, childIdx) => {
+                      if (!child.link || !child.link.label) return null
+
+                      const childHref =
+                        child.link.url ||
+                        (child.link.reference &&
+                        typeof child.link.reference === 'object' &&
+                        child.link.reference.value &&
+                        typeof child.link.reference.value === 'object' &&
+                        'slug' in child.link.reference.value
+                          ? `/${child.link.reference.value.slug}`
+                          : '#')
+
+                      return (
+                        <button
+                          key={child.id || childIdx}
+                          onClick={() => handleLinkClick(childHref, child.link.label || '')}
+                          className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                          disabled={loadingLink === child.link.label}
+                        >
+                          {loadingLink === child.link.label && (
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                          )}
+                          {child.link.label}
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
               </div>
-            )
-          }
-          // Any other nav item with children (show arrow, but no dropdown logic yet)
-          if (item.children && item.children.length > 0) {
-            return (
-              <span
-                key={item.id || idx}
-                className="font-light text-sm text-blue-900 flex items-center gap-1"
-              >
-                {item.link.label}
-                <ChevronDown className="w-4 h-4 ml-1" />
-              </span>
             )
           }
           // Default nav item (including Home)
@@ -205,50 +202,55 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                   </LoadingLink>
                 )
               }
-              // Themes dropdown (expand/collapse on tap)
-              if (item.link.label === 'Themes') {
+              // Any nav item with children (dynamic dropdown - expand/collapse on tap)
+              if (item.children && item.children.length > 0) {
+                const isDropdownOpen = mobileDropdownOpen === item.link.label
                 return (
                   <div key={item.id || idx} className="relative">
                     <button
                       className="font-light text-sm text-blue-900 flex items-center gap-1 w-full text-left px-2 py-2 rounded-lg hover:bg-blue-50 transition"
                       type="button"
-                      onClick={() => setMobileDropdownOpen((open) => !open)}
+                      onClick={() =>
+                        setMobileDropdownOpen(isDropdownOpen ? null : item.link.label || null)
+                      }
                     >
                       {item.link.label}
                       <ChevronDown
-                        className={`w-4 h-4 ml-1 transition-transform ${mobileDropdownOpen ? 'rotate-180' : ''}`}
+                        className={`w-4 h-4 ml-1 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
                       />
                     </button>
-                    {mobileDropdownOpen && (
+                    {isDropdownOpen && (
                       <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
-                        {themeLinks.map((theme) => (
-                          <button
-                            key={theme.href}
-                            onClick={() => handleLinkClick(theme.href, theme.label)}
-                            className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
-                            disabled={loadingLink === theme.label}
-                          >
-                            {loadingLink === theme.label && (
-                              <Loader2 className="w-3 h-3 animate-spin" />
-                            )}
-                            {theme.label}
-                          </button>
-                        ))}
+                        {item.children.map((child, childIdx) => {
+                          if (!child.link || !child.link.label) return null
+
+                          const childHref =
+                            child.link.url ||
+                            (child.link.reference &&
+                            typeof child.link.reference === 'object' &&
+                            child.link.reference.value &&
+                            typeof child.link.reference.value === 'object' &&
+                            'slug' in child.link.reference.value
+                              ? `/${child.link.reference.value.slug}`
+                              : '#')
+
+                          return (
+                            <button
+                              key={child.id || childIdx}
+                              onClick={() => handleLinkClick(childHref, child.link.label || '')}
+                              className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
+                              disabled={loadingLink === child.link.label}
+                            >
+                              {loadingLink === child.link.label && (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                              )}
+                              {child.link.label}
+                            </button>
+                          )
+                        })}
                       </div>
                     )}
                   </div>
-                )
-              }
-              // Any other nav item with children (show arrow, but no dropdown logic yet)
-              if (item.children && item.children.length > 0) {
-                return (
-                  <span
-                    key={item.id || idx}
-                    className="font-light text-sm text-blue-900 flex items-center gap-1 px-2 py-2 rounded-lg"
-                  >
-                    {item.link.label}
-                    <ChevronDown className="w-4 h-4 ml-1" />
-                  </span>
                 )
               }
               // Default nav item (including Home)
