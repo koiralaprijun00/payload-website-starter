@@ -156,7 +156,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                               <span>{child.link.label}</span>
                               <ChevronDown className="w-3 h-3 rotate-[-90deg]" />
                             </div>
-                            {subDropdownOpen === child.link.label && (
+                            {subDropdownOpen === child.link.label && child.children && (
                               <div className="absolute left-full top-0 ml-1 w-48 bg-white border rounded shadow-lg z-50">
                                 {child.children.map((grandChild, grandChildIdx) => {
                                   if (!grandChild.link || !grandChild.link.label) return null
@@ -321,7 +321,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                     className={`w-3 h-3 transition-transform ${isSubDropdownOpen ? 'rotate-180' : ''}`}
                                   />
                                 </button>
-                                {isSubDropdownOpen && (
+                                {isSubDropdownOpen && child.children && (
                                   <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
                                     {child.children.map((grandChild, grandChildIdx) => {
                                       if (!grandChild.link || !grandChild.link.label) return null
