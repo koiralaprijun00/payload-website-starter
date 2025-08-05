@@ -137,9 +137,6 @@ export const Projects: CollectionConfig = {
               ],
             },
           ],
-          admin: {
-            initCollapsed: true,
-          },
         },
         {
           name: 'partners',
@@ -179,9 +176,6 @@ export const Projects: CollectionConfig = {
               ],
             },
           ],
-          admin: {
-            initCollapsed: true,
-          },
         },
         {
           name: 'metrics',
@@ -321,9 +315,6 @@ export const Projects: CollectionConfig = {
           ],
         },
       ],
-      admin: {
-        initCollapsed: true,
-      },
     },
   ],
 }
