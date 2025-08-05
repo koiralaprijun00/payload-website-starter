@@ -100,7 +100,7 @@ export default async function AlumniPage() {
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-left">Alumni</h1>
             <p className="text-xl md:text-2xl text-mainBlue-100 leading-relaxed text-left">
-              Meet our alumni who have contributed to our organization's mission and growth
+              Meet our alumni who have contributed to our organization&apos;s mission and growth
             </p>
           </div>
         </div>
@@ -149,6 +149,6 @@ export function generateMetadata(): Metadata {
   return {
     title: 'Alumni - Meet Our Former Team',
     description:
-      "Meet our alumni who have contributed to our organization's mission and growth for Nepal's environmental protection and community support.",
+      'Meet our alumni who have contributed to our organization&apos;s mission and growth for Nepal&apos;s environmental protection and community support.',
   }
 }

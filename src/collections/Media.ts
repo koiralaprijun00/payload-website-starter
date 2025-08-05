@@ -1,10 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+// Removed unused imports - keeping file structure for potential future use
 import path from 'path'
 import { fileURLToPath } from 'url'
 

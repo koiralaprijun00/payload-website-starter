@@ -39,7 +39,7 @@ export default async function LearnMorePage() {
               <div className="max-w-md mx-auto">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4">Content Coming Soon</h3>
                 <p className="text-gray-600">
-                  Content will appear here once it's added from the admin panel.
+                  Content will appear here once it&apos;s added from the admin panel.
                 </p>
               </div>
             </div>

@@ -261,47 +261,53 @@ const queryProjectBySlug = cache(async ({ slug }: { slug: string }) => {
 })
 
 // Function to get related projects
-const getRelatedProjects = cache(async (project: any) => {
-  const payload = await getPayload({ config: configPromise })
+const getRelatedProjects = cache(
+  async (project: { id: string; themes?: unknown[]; area?: string }) => {
+    const payload = await getPayload({ config: configPromise })
 
-  // Get projects with same themes or area
-  const themeIds = Array.isArray(project.themes)
-    ? project.themes.map((theme: any) => (typeof theme === 'object' ? theme.id : theme))
-    : []
+    // Get projects with same themes or area
+    const themeIds = Array.isArray(project.themes)
+      ? project.themes.map((theme: unknown) =>
+          typeof theme === 'object' && theme !== null && 'id' in theme
+            ? (theme as { id: string }).id
+            : theme,
+        )
+      : []
 
-  const result = await payload.find({
-    collection: 'projects',
-    depth: 2,
-    limit: 6,
-    pagination: false,
-    where: {
-      and: [
-        {
-          id: {
-            not_equals: project.id,
-          },
-        },
-        {
-          or: [
-            ...(themeIds.length > 0
-              ? [
-                  {
-                    themes: {
-                      in: themeIds,
-                    },
-                  },
-                ]
-              : []),
-            {
-              area: {
-                equals: project.area,
-              },
+    const result = await payload.find({
+      collection: 'projects',
+      depth: 2,
+      limit: 6,
+      pagination: false,
+      where: {
+        and: [
+          {
+            id: {
+              not_equals: project.id,
             },
-          ],
-        },
-      ],
-    },
-  })
+          },
+          {
+            or: [
+              ...(themeIds.length > 0
+                ? [
+                    {
+                      themes: {
+                        in: themeIds,
+                      },
+                    },
+                  ]
+                : []),
+              {
+                area: {
+                  equals: project.area,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })
 
-  return result.docs || []
-})
+    return result.docs || []
+  },
+)
