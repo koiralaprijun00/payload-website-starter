@@ -54,20 +54,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
   return (
     <div className={`bg-white rounded-lg shadow-sm overflow-hidden ${className}`}>
-      {/* Map Header */}
-      {acresValue && (
-        <div className="bg-mainBlue text-white p-4">
-          <div className="text-sm font-bold uppercase tracking-wider mb-1">
-            {acresHeading?.includes('ACRES')
-              ? acresHeading.split(' ').slice(0, 2).join(' ')
-              : 'PROPOSED ACRES'}
-          </div>
-          <div className="text-2xl font-bold">{acresValue}</div>
-        </div>
-      )}
-
       {/* Interactive Map */}
-      <div className="relative w-full h-96 lg:h-[500px]">
+      <div className="relative w-full h-full">
         <Map
           {...viewState}
           onMove={(evt) => setViewState(evt.viewState)}
@@ -93,18 +81,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
           <NavigationControl position="top-right" />
           <FullscreenControl position="top-right" />
         </Map>
-      </div>
-
-      {/* Location Description */}
-      {locationDescription && (
-        <div className="p-4 bg-gray-50">
-          <p className="text-sm text-gray-600">{locationDescription}</p>
-        </div>
-      )}
-
-      {/* Coordinates Info */}
-      <div className="px-4 py-2 bg-gray-50 border-t text-xs text-gray-500">
-        Coordinates: {latitude.toFixed(6)}, {longitude.toFixed(6)}
       </div>
     </div>
   )

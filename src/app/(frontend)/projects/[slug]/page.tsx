@@ -54,13 +54,22 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
 
-      {/* Hero Section */}
-      {typeof project.image === 'object' && project.image && (
-        <Hero title={project.title} image={project.image} />
-      )}
+      {/* Hero Section with Overlapping Project Overview */}
+      <div className="relative">
+        {/* Hero Section */}
+        {typeof project.image === 'object' && project.image && (
+          <div className="relative h-[70vh] lg:h-[80vh]">
+            <Hero title={project.title} image={project.image} />
+          </div>
+        )}
 
-      {/* Project Overview Section */}
-      {project.projectOverview && <ProjectOverview data={project.projectOverview} />}
+        {/* Project Overview Section - Overlapping */}
+        {project.projectOverview && (
+          <div className="relative -mt-32 lg:-mt-40 z-10">
+            <ProjectOverview data={project.projectOverview} />
+          </div>
+        )}
+      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16 max-w-6xl">
