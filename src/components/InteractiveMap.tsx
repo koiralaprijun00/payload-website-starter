@@ -8,9 +8,9 @@ interface InteractiveMapProps {
   latitude: number
   longitude: number
   zoom?: number
-  locationDescription?: string
-  acresValue?: string
-  acresHeading?: string
+  locationDescription?: string | null
+  acresValue?: string | null
+  acresHeading?: string | null
   className?: string
 }
 

@@ -7,47 +7,48 @@ import InteractiveMap from './InteractiveMap'
 interface Species {
   species: string
   status: 'CR' | 'EN' | 'VU' | 'NT'
+  id?: string | null
 }
 
 interface Partner {
   name: string
-  description?: string
-  website?: string
+  description?: string | null
+  website?: string | null
 }
 
 interface ProjectOverviewData {
-  overviewDescription?: string
+  overviewDescription?: string | null
   speciesAtRisk?: {
-    heading?: string
-    species?: Species[]
+    heading?: string | null
+    species?: Species[] | null
   }
   partners?: {
-    heading?: string
-    partnersList?: Partner[]
+    heading?: string | null
+    partnersList?: Partner[] | null
   }
   metrics?: {
     carbonStored?: {
-      heading?: string
-      value?: string
-      unit?: string
+      heading?: string | null
+      value?: string | null
+      unit?: string | null
     }
     acresConserved?: {
-      heading?: string
-      value?: string
-      method?: string
+      heading?: string | null
+      value?: string | null
+      method?: string | null
     }
     projectCost?: {
-      heading?: string
-      value?: string
+      heading?: string | null
+      value?: string | null
     }
   }
   locationMap?: {
-    mapImage?: Media | string
+    mapImage?: Media | string | null
     coordinates?: {
-      latitude?: number
-      longitude?: number
+      latitude?: number | null
+      longitude?: number | null
     }
-    locationDescription?: string
+    locationDescription?: string | null
   }
 }
 
