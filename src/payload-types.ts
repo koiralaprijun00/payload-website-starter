@@ -119,12 +119,14 @@ export interface Config {
     footer: Footer;
     'about-page': AboutPage;
     'projects-page-settings': ProjectsPageSetting;
+    'learn-more': LearnMore;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'projects-page-settings': ProjectsPageSettingsSelect<false> | ProjectsPageSettingsSelect<true>;
+    'learn-more': LearnMoreSelect<false> | LearnMoreSelect<true>;
   };
   locale: null;
   user: User & {
@@ -874,6 +876,87 @@ export interface Project {
   area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
   year: number;
   status: 'ongoing' | 'completed';
+  projectOverview?: {
+    /**
+     * Brief description that appears in the project overview section
+     */
+    overviewDescription?: string | null;
+    speciesAtRisk?: {
+      /**
+       * Customize the heading for this section
+       */
+      heading?: string | null;
+      species?:
+        | {
+            species: string;
+            status: 'CR' | 'EN' | 'VU' | 'NT';
+            id?: string | null;
+          }[]
+        | null;
+    };
+    partners?: {
+      /**
+       * Customize the heading for this section
+       */
+      heading?: string | null;
+      partnersList?:
+        | {
+            name: string;
+            description?: string | null;
+            website?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    metrics?: {
+      carbonStored?: {
+        /**
+         * Customize the heading for this section
+         */
+        heading?: string | null;
+        value?: string | null;
+        unit?: string | null;
+      };
+      acresConserved?: {
+        /**
+         * Customize the heading for this section
+         */
+        heading?: string | null;
+        value?: string | null;
+        method?: string | null;
+      };
+      projectCost?: {
+        /**
+         * Customize the heading for this section
+         */
+        heading?: string | null;
+        value?: string | null;
+      };
+    };
+    locationMap?: {
+      /**
+       * Provide GPS coordinates to show an interactive Mapbox map with a location pin. This is the recommended approach for better user experience.
+       */
+      coordinates?: {
+        /**
+         * Enter latitude (e.g., 28.3949 for Kathmandu). This will show an interactive map with a pin.
+         */
+        latitude?: number | null;
+        /**
+         * Enter longitude (e.g., 84.1240 for Kathmandu). This will show an interactive map with a pin.
+         */
+        longitude?: number | null;
+      };
+      /**
+       * Describe the project location and geographical context. This will appear below the map.
+       */
+      locationDescription?: string | null;
+      /**
+       * Upload a static map image as fallback. Only used if GPS coordinates are not provided.
+       */
+      mapImage?: (string | null) | Media;
+    };
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1676,6 +1759,72 @@ export interface ProjectsSelect<T extends boolean = true> {
   area?: T;
   year?: T;
   status?: T;
+  projectOverview?:
+    | T
+    | {
+        overviewDescription?: T;
+        speciesAtRisk?:
+          | T
+          | {
+              heading?: T;
+              species?:
+                | T
+                | {
+                    species?: T;
+                    status?: T;
+                    id?: T;
+                  };
+            };
+        partners?:
+          | T
+          | {
+              heading?: T;
+              partnersList?:
+                | T
+                | {
+                    name?: T;
+                    description?: T;
+                    website?: T;
+                    id?: T;
+                  };
+            };
+        metrics?:
+          | T
+          | {
+              carbonStored?:
+                | T
+                | {
+                    heading?: T;
+                    value?: T;
+                    unit?: T;
+                  };
+              acresConserved?:
+                | T
+                | {
+                    heading?: T;
+                    value?: T;
+                    method?: T;
+                  };
+              projectCost?:
+                | T
+                | {
+                    heading?: T;
+                    value?: T;
+                  };
+            };
+        locationMap?:
+          | T
+          | {
+              coordinates?:
+                | T
+                | {
+                    latitude?: T;
+                    longitude?: T;
+                  };
+              locationDescription?: T;
+              mapImage?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2261,6 +2410,40 @@ export interface ProjectsPageSetting {
   createdAt?: string | null;
 }
 /**
+ * Manage the content for the Learn More page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "learn-more".
+ */
+export interface LearnMore {
+  id: string;
+  title: string;
+  /**
+   * Optional subtitle that appears below the main title
+   */
+  subtitle?: string | null;
+  /**
+   * The main content for the Learn More page. Use rich text formatting to style your content.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -2440,6 +2623,18 @@ export interface ProjectsPageSettingsSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "learn-more_select".
+ */
+export interface LearnMoreSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

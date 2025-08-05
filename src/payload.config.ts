@@ -26,6 +26,7 @@ import VolunteerSubmissions from './collections/VolunteerSubmissions'
 import Notices from './collections/Notices'
 import GalleryImages from './collections/GalleryImages'
 import Publications from './collections/Publications'
+import { LearnMore } from './globals/LearnMore'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -89,7 +90,7 @@ export default buildConfig({
     Publications, // Add Publications collection
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, About, ProjectsPageSettings],
+  globals: [Header, Footer, About, ProjectsPageSettings, LearnMore],
   plugins: [
     ...plugins,
     vercelBlobStorage({

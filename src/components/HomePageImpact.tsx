@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 
@@ -17,6 +18,7 @@ export interface HomePageImpactProps {
   description: string
   buttonText?: string
   buttonLink?: string
+  showLearnMoreButton?: boolean
   blocks: ImpactBlock[]
 }
 
@@ -41,6 +43,9 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
   sectionLabel,
   heading,
   description,
+  buttonText,
+  buttonLink,
+  showLearnMoreButton = true,
   blocks,
 }) => {
   return (
@@ -287,16 +292,23 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             {heading}
           </h2>
           <p className="text-lg text-gray-700 mb-8">{description}</p>
-          {/* Button hidden for now. Uncomment to re-enable:
-          {buttonText && buttonLink && (
-            <a
+
+          {/* Dynamic Button or Learn More Button */}
+          {buttonText && buttonLink ? (
+            <Link
               href={buttonLink}
-              className="inline-block self-start bg-green-200 hover:bg-green-300 text-green-800 font-bold px-8 py-3 transition-colors duration-300"
+              className="inline-block self-start bg-mainBlue hover:bg-blue-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg"
             >
               {buttonText}
-            </a>
-          )}
-          */}
+            </Link>
+          ) : showLearnMoreButton ? (
+            <Link
+              href="/learn-more"
+              className="inline-block self-start bg-mainBlue hover:bg-blue-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg"
+            >
+              Learn More
+            </Link>
+          ) : null}
         </motion.div>
       </div>
     </motion.section>
