@@ -888,7 +888,7 @@ export interface TeamMember {
   profileImage: string | Media;
   email: string;
   phone: string;
-  boardType: 'advisory' | 'executive' | 'staff';
+  boardType: 'executive' | 'staff' | 'alumni';
   slug: string;
   description?: string | null;
   updatedAt: string;
@@ -2047,6 +2047,33 @@ export interface Header {
                 url?: string | null;
                 label: string;
               };
+              /**
+               * Add sub-dropdown items for nested navigation. Leave empty for no sub-dropdown.
+               */
+              children?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'posts';
+                            value: string | Post;
+                          } | null)
+                        | ({
+                            relationTo: 'theme-pages';
+                            value: string | ThemePage;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
               id?: string | null;
             }[]
           | null;
@@ -2262,6 +2289,20 @@ export interface HeaderSelect<T extends boolean = true> {
                     reference?: T;
                     url?: T;
                     label?: T;
+                  };
+              children?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    id?: T;
                   };
               id?: T;
             };

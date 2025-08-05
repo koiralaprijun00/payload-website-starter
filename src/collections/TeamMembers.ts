@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 import { anyone } from '../access/anyone'
 
 const TeamMembers: CollectionConfig = {
@@ -8,6 +9,30 @@ const TeamMembers: CollectionConfig = {
   },
   access: {
     read: anyone,
+  },
+  hooks: {
+    afterChange: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating team pages`)
+          revalidatePath('/executive-team')
+          revalidatePath('/staff')
+          revalidatePath('/alumni')
+        }
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating team pages after delete`)
+          revalidatePath('/executive-team')
+          revalidatePath('/staff')
+          revalidatePath('/alumni')
+        }
+        return doc
+      },
+    ],
   },
   fields: [
     { name: 'name', type: 'text', required: true },
@@ -19,9 +44,9 @@ const TeamMembers: CollectionConfig = {
       name: 'boardType',
       type: 'select',
       options: [
-        { label: 'Advisory Board', value: 'advisory' },
-        { label: 'Executive Board', value: 'executive' },
-        { label: 'Staff Members', value: 'staff' },
+        { label: 'Executive Team', value: 'executive' },
+        { label: 'Staff', value: 'staff' },
+        { label: 'Alumni', value: 'alumni' },
       ],
       required: true,
     },

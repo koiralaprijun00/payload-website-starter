@@ -9,8 +9,10 @@ import { useRouter, usePathname } from 'next/navigation'
 
 export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderType['navItems']> }) {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
+  const [subDropdownOpen, setSubDropdownOpen] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null)
+  const [mobileSubDropdownOpen, setMobileSubDropdownOpen] = useState<string | null>(null)
   const [loadingLink, setLoadingLink] = useState<string | null>(null)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
@@ -27,7 +29,19 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   }
 
   const handleMouseLeave = () => {
-    closeTimeout.current = setTimeout(() => setDropdownOpen(null), 120)
+    closeTimeout.current = setTimeout(() => {
+      setDropdownOpen(null)
+      setSubDropdownOpen(null)
+    }, 120)
+  }
+
+  const handleSubMouseEnter = (subLabel: string) => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current)
+    setSubDropdownOpen(subLabel)
+  }
+
+  const handleSubMouseLeave = () => {
+    closeTimeout.current = setTimeout(() => setSubDropdownOpen(null), 120)
   }
 
   const handleLinkClick = (href: string, label: string) => {
@@ -126,6 +140,58 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                         'slug' in child.link.reference.value
                           ? `/${child.link.reference.value.slug}`
                           : '#')
+
+                      // Check if this child has sub-children
+                      const hasSubChildren = child.children && child.children.length > 0
+
+                      if (hasSubChildren) {
+                        return (
+                          <div
+                            key={child.id || childIdx}
+                            className="relative"
+                            onMouseEnter={() => handleSubMouseEnter(child.link.label || '')}
+                            onMouseLeave={handleSubMouseLeave}
+                          >
+                            <div className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center justify-between cursor-pointer">
+                              <span>{child.link.label}</span>
+                              <ChevronDown className="w-3 h-3 rotate-[-90deg]" />
+                            </div>
+                            {subDropdownOpen === child.link.label && (
+                              <div className="absolute left-full top-0 ml-1 w-48 bg-white border rounded shadow-lg z-50">
+                                {child.children.map((grandChild, grandChildIdx) => {
+                                  if (!grandChild.link || !grandChild.link.label) return null
+
+                                  const grandChildHref =
+                                    grandChild.link.url ||
+                                    (grandChild.link.reference &&
+                                    typeof grandChild.link.reference === 'object' &&
+                                    grandChild.link.reference.value &&
+                                    typeof grandChild.link.reference.value === 'object' &&
+                                    'slug' in grandChild.link.reference.value
+                                      ? `/${grandChild.link.reference.value.slug}`
+                                      : '#')
+
+                                  return (
+                                    <button
+                                      key={grandChild.id || grandChildIdx}
+                                      onClick={() =>
+                                        handleLinkClick(grandChildHref, grandChild.link.label || '')
+                                      }
+                                      className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                                      disabled={loadingLink === grandChild.link.label}
+                                    >
+                                      {loadingLink === grandChild.link.label && (
+                                        <Loader2 className="w-3 h-3 animate-spin" />
+                                      )}
+                                      {grandChild.link.label}
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      }
 
                       return (
                         <button
@@ -233,6 +299,67 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                             'slug' in child.link.reference.value
                               ? `/${child.link.reference.value.slug}`
                               : '#')
+
+                          // Check if this child has sub-children
+                          const hasSubChildren = child.children && child.children.length > 0
+                          const isSubDropdownOpen = mobileSubDropdownOpen === child.link.label
+
+                          if (hasSubChildren) {
+                            return (
+                              <div key={child.id || childIdx} className="relative">
+                                <button
+                                  className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center justify-between"
+                                  type="button"
+                                  onClick={() =>
+                                    setMobileSubDropdownOpen(
+                                      isSubDropdownOpen ? null : child.link.label || null,
+                                    )
+                                  }
+                                >
+                                  <span>{child.link.label}</span>
+                                  <ChevronDown
+                                    className={`w-3 h-3 transition-transform ${isSubDropdownOpen ? 'rotate-180' : ''}`}
+                                  />
+                                </button>
+                                {isSubDropdownOpen && (
+                                  <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
+                                    {child.children.map((grandChild, grandChildIdx) => {
+                                      if (!grandChild.link || !grandChild.link.label) return null
+
+                                      const grandChildHref =
+                                        grandChild.link.url ||
+                                        (grandChild.link.reference &&
+                                        typeof grandChild.link.reference === 'object' &&
+                                        grandChild.link.reference.value &&
+                                        typeof grandChild.link.reference.value === 'object' &&
+                                        'slug' in grandChild.link.reference.value
+                                          ? `/${grandChild.link.reference.value.slug}`
+                                          : '#')
+
+                                      return (
+                                        <button
+                                          key={grandChild.id || grandChildIdx}
+                                          onClick={() =>
+                                            handleLinkClick(
+                                              grandChildHref,
+                                              grandChild.link.label || '',
+                                            )
+                                          }
+                                          className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
+                                          disabled={loadingLink === grandChild.link.label}
+                                        >
+                                          {loadingLink === grandChild.link.label && (
+                                            <Loader2 className="w-3 h-3 animate-spin" />
+                                          )}
+                                          {grandChild.link.label}
+                                        </button>
+                                      )
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          }
 
                           return (
                             <button

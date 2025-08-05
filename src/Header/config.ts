@@ -29,7 +29,19 @@ export const Header: GlobalConfig = {
           name: 'children',
           label: 'Dropdown Items',
           type: 'array',
-          fields: [link({ appearances: false })],
+          fields: [
+            link({ appearances: false }),
+            {
+              name: 'children',
+              label: 'Sub-dropdown Items',
+              type: 'array',
+              fields: [link({ appearances: false })],
+              admin: {
+                description:
+                  'Add sub-dropdown items for nested navigation. Leave empty for no sub-dropdown.',
+              },
+            },
+          ],
           admin: {
             description:
               'Add dropdown items for this navigation item. Leave empty for no dropdown.',
