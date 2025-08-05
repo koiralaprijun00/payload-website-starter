@@ -966,22 +966,6 @@ export interface Publication {
   summary?: string | null;
   document: string | Media;
   category?: (string | null) | Category;
-  month?:
-    | (
-        | 'January'
-        | 'February'
-        | 'March'
-        | 'April'
-        | 'May'
-        | 'June'
-        | 'July'
-        | 'August'
-        | 'September'
-        | 'October'
-        | 'November'
-        | 'December'
-      )
-    | null;
   year?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -1749,7 +1733,6 @@ export interface PublicationsSelect<T extends boolean = true> {
   summary?: T;
   document?: T;
   category?: T;
-  month?: T;
   year?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -16,20 +16,7 @@ interface Category {
   title: string
 }
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+// Removed months array - no longer needed
 
 export default function PublicationsClient({
   publications,
@@ -41,15 +28,13 @@ export default function PublicationsClient({
   categories: Category[]
 }) {
   const [selectedYear, setSelectedYear] = useState<number | ''>('')
-  const [selectedMonth, setSelectedMonth] = useState<string>('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   const filtered = publications.filter((pub) => {
     const yearMatch = selectedYear === '' || pub.year === selectedYear
-    const monthMatch = selectedMonth === '' || pub.month === selectedMonth
     const categoryMatch =
       selectedCategory === '' || (pub.category && pub.category.id === selectedCategory)
-    return yearMatch && monthMatch && categoryMatch
+    return yearMatch && categoryMatch
   })
 
   return (
@@ -71,18 +56,6 @@ export default function PublicationsClient({
                 </option>
               ),
           )}
-        </select>
-        <select
-          className="border rounded px-3 py-2 text-sm w-full sm:w-auto"
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-        >
-          <option value="">All Months</option>
-          {months.map((month) => (
-            <option key={month} value={month}>
-              {month}
-            </option>
-          ))}
         </select>
         <select
           className="border rounded px-3 py-2 text-sm w-full sm:w-auto"
@@ -116,9 +89,7 @@ export default function PublicationsClient({
               )}
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                 <h2 className="text-lg font-semibold truncate">{pub.title}</h2>
-                <span className="text-xs text-gray-500 whitespace-nowrap">
-                  {[pub.month, pub.year].filter(Boolean).join(' ')}
-                </span>
+                <span className="text-xs text-gray-500 whitespace-nowrap">{pub.year}</span>
               </div>
               {pub.summary && (
                 <p className="text-gray-600 text-sm mt-1 line-clamp-2">{pub.summary}</p>

@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 
 const Publications: CollectionConfig = {
   slug: 'publications',
@@ -15,6 +16,26 @@ const Publications: CollectionConfig = {
     create: () => true,
     update: () => true,
     delete: () => true,
+  },
+  hooks: {
+    afterChange: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating publications page`)
+          revalidatePath('/publications')
+        }
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating publications page after delete`)
+          revalidatePath('/publications')
+        }
+        return doc
+      },
+    ],
   },
   fields: [
     {
@@ -43,26 +64,7 @@ const Publications: CollectionConfig = {
       required: false,
       label: 'Category',
     },
-    {
-      name: 'month',
-      type: 'select',
-      label: 'Month',
-      required: false,
-      options: [
-        { label: 'January', value: 'January' },
-        { label: 'February', value: 'February' },
-        { label: 'March', value: 'March' },
-        { label: 'April', value: 'April' },
-        { label: 'May', value: 'May' },
-        { label: 'June', value: 'June' },
-        { label: 'July', value: 'July' },
-        { label: 'August', value: 'August' },
-        { label: 'September', value: 'September' },
-        { label: 'October', value: 'October' },
-        { label: 'November', value: 'November' },
-        { label: 'December', value: 'December' },
-      ],
-    },
+    // Month field removed - no longer needed
     {
       name: 'year',
       type: 'number',

@@ -4,13 +4,12 @@ import PublicationsClient from './PublicationsClient'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
 interface Publication {
   id: string
   title: string
   summary?: string
-  month?: string
   year?: number
   documentUrl: string
   category?: { id: string; title: string } | null

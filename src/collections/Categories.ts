@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidatePath } from 'next/cache'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
@@ -14,6 +15,26 @@ export const Categories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+  },
+  hooks: {
+    afterChange: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating publications page due to category change`)
+          revalidatePath('/publications')
+        }
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating publications page due to category delete`)
+          revalidatePath('/publications')
+        }
+        return doc
+      },
+    ],
   },
   fields: [
     {

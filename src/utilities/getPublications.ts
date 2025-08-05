@@ -32,7 +32,6 @@ export async function getPublications() {
       id: doc.id,
       title: doc.title,
       summary: doc.summary,
-      month: doc.month,
       year: doc.year,
       category,
       documentUrl,
