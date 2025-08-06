@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Project, Category } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
@@ -127,16 +128,16 @@ export default async function ProjectsPage({
                 <div>
                   <div className="font-bold mb-2">Projects</div>
                   <div className="flex flex-wrap gap-2">
-                    {themes.map((theme) => (
-                      <label key={theme.id}>
+                    {categories.map((category) => (
+                      <label key={category.id}>
                         <input
                           type="checkbox"
-                          name="themes"
-                          value={theme.id}
-                          defaultChecked={selectedThemes.includes(theme.id)}
+                          name="categories"
+                          value={category.id}
+                          defaultChecked={selectedCategories.includes(category.id)}
                           className="mr-1"
                         />
-                        {theme.title}
+                        {category.title}
                       </label>
                     ))}
                   </div>
@@ -301,37 +302,38 @@ export default async function ProjectsPage({
                   />
                 )}
                 <div className="flex-1">
-                  {Array.isArray(project.categories) && project.categories.length > 0 && (
-                    <div className="mb-2 flex flex-wrap gap-2 items-center">
-                      {project.categories.map((categoryRef, idx) => {
-                        if (
-                          typeof categoryRef === 'object' &&
-                          categoryRef !== null &&
-                          'title' in categoryRef
-                        ) {
+                  {Array.isArray((project as any).categories) &&
+                    (project as any).categories.length > 0 && (
+                      <div className="mb-2 flex flex-wrap gap-2 items-center">
+                        {(project as any).categories.map((categoryRef: any, idx: number) => {
+                          if (
+                            typeof categoryRef === 'object' &&
+                            categoryRef !== null &&
+                            'title' in categoryRef
+                          ) {
+                            return (
+                              <span
+                                key={categoryRef.id || idx}
+                                className="flex items-center gap-2 uppercase text-sm font-bold text-mainBlue"
+                              >
+                                <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
+                                {categoryRef.title}
+                              </span>
+                            )
+                          }
+                          const categoryObj = categories.find((c) => c.id === categoryRef)
                           return (
                             <span
-                              key={categoryRef.id || idx}
+                              key={categoryRef}
                               className="flex items-center gap-2 uppercase text-sm font-bold text-mainBlue"
                             >
-                              <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
-                              {categoryRef.title}
+                              <span className="h-3 w-3 rounded-full bg-orange-500 inline-block" />
+                              {categoryObj?.title}
                             </span>
                           )
-                        }
-                        const categoryObj = categories.find((c) => c.id === categoryRef)
-                        return (
-                          <span
-                            key={categoryRef}
-                            className="flex items-center gap-2 uppercase text-sm font-bold text-mainBlue"
-                          >
-                            <span className="h-3 w-3 rounded-full bg-orange-500 inline-block" />
-                            {categoryObj?.title}
-                          </span>
-                        )
-                      })}
-                    </div>
-                  )}
+                        })}
+                      </div>
+                    )}
                   <h2 className="text-2xl font-extrabold text-mainBlue mb-2">{project.title}</h2>
                   <p className="mb-4 text-gray-700">{project.summary}</p>
                   <a
