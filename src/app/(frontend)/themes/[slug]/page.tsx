@@ -3,7 +3,7 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 import type { ThemePage } from '@/payload-types'
-import { generateMeta } from '@/utilities/generateMeta'
+
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
@@ -82,21 +82,21 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     return {}
   }
 
-  return generateMeta({
-    title: themePage.title,
-    description: themePage.introSection?.tagline || '',
+  const title = `${themePage.title} | Payload Website Template`
+  const description = themePage.introSection?.tagline || ''
+  const imageUrl =
+    typeof themePage.hero.image === 'object' && themePage.hero.image?.url
+      ? themePage.hero.image.url
+      : ''
+
+  return {
+    title,
+    description,
     openGraph: {
-      title: themePage.title,
-      description: themePage.introSection?.tagline || '',
+      title,
+      description,
       url: `/themes/${slug}`,
-      images: [
-        {
-          url:
-            typeof themePage.hero.image === 'object' && themePage.hero.image?.url
-              ? themePage.hero.image.url
-              : '',
-        },
-      ],
+      images: imageUrl ? [{ url: imageUrl }] : undefined,
     },
-  })
+  }
 }
