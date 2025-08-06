@@ -9,7 +9,6 @@ import { useRouter, usePathname } from 'next/navigation'
 
 export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderType['navItems']> }) {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
-  const [subDropdownOpen, setSubDropdownOpen] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState<string | null>(null)
   const [mobileSubDropdownOpen, setMobileSubDropdownOpen] = useState<string | null>(null)
@@ -31,17 +30,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   const handleMouseLeave = () => {
     closeTimeout.current = setTimeout(() => {
       setDropdownOpen(null)
-      setSubDropdownOpen(null)
     }, 120)
-  }
-
-  const handleSubMouseEnter = (subLabel: string) => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current)
-    setSubDropdownOpen(subLabel)
-  }
-
-  const handleSubMouseLeave = () => {
-    closeTimeout.current = setTimeout(() => setSubDropdownOpen(null), 120)
   }
 
   const handleLinkClick = (href: string, label: string) => {
@@ -127,7 +116,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                   <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
                 {dropdownOpen === item.link.label && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
+                  <div className="absolute left-0 mt-2 w-56 bg-white border rounded shadow-lg z-50">
                     {item.children.map((child, childIdx) => {
                       if (!child.link || !child.link.label) return null
 
@@ -146,18 +135,20 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
 
                       if (hasSubChildren) {
                         return (
-                          <div
-                            key={child.id || childIdx}
-                            className="relative"
-                            onMouseEnter={() => handleSubMouseEnter(child.link.label || '')}
-                            onMouseLeave={handleSubMouseLeave}
-                          >
-                            <div className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center justify-between cursor-pointer">
-                              <span>{child.link.label}</span>
-                              <ChevronDown className="w-3 h-3 rotate-[-90deg]" />
-                            </div>
-                            {subDropdownOpen === child.link.label && child.children && (
-                              <div className="absolute left-full top-0 ml-1 w-48 bg-white border rounded shadow-lg z-50">
+                          <div key={child.id || childIdx}>
+                            <button
+                              onClick={() => handleLinkClick(childHref, child.link.label || '')}
+                              className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                              disabled={loadingLink === child.link.label}
+                            >
+                              {loadingLink === child.link.label && (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                              )}
+                              {child.link.label}
+                            </button>
+                            {/* Show all grandchildren immediately */}
+                            {child.children && (
+                              <div className="ml-4 pl-2">
                                 {child.children.map((grandChild, grandChildIdx) => {
                                   if (!grandChild.link || !grandChild.link.label) return null
 
@@ -177,7 +168,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                       onClick={() =>
                                         handleLinkClick(grandChildHref, grandChild.link.label || '')
                                       }
-                                      className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                                      className="w-full text-left py-2 border-l-2 border-gray-200 pl-2 mb-1 text-sm font-light text-gray-600 hover:bg-blue-100 flex items-center gap-2"
                                       disabled={loadingLink === grandChild.link.label}
                                     >
                                       {loadingLink === grandChild.link.label && (
