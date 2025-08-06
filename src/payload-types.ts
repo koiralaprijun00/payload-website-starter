@@ -77,7 +77,6 @@ export interface Config {
     projects: Project;
     'volunteer-submissions': VolunteerSubmission;
     notices: Notice;
-    'gallery-images': GalleryImage;
     publications: Publication;
     redirects: Redirect;
     forms: Form;
@@ -100,7 +99,6 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     notices: NoticesSelect<false> | NoticesSelect<true>;
-    'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -1023,24 +1021,6 @@ export interface Notice {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-images".
- */
-export interface GalleryImage {
-  id: string;
-  image: string | Media;
-  title?: string | null;
-  description?: string | null;
-  tags?:
-    | {
-        tag?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publications".
  */
 export interface Publication {
@@ -1265,10 +1245,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'notices';
         value: string | Notice;
-      } | null)
-    | ({
-        relationTo: 'gallery-images';
-        value: string | GalleryImage;
       } | null)
     | ({
         relationTo: 'publications';
@@ -1853,23 +1829,6 @@ export interface NoticesSelect<T extends boolean = true> {
   image?: T;
   content?: T;
   publishedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery-images_select".
- */
-export interface GalleryImagesSelect<T extends boolean = true> {
-  image?: T;
-  title?: T;
-  description?: T;
-  tags?:
-    | T
-    | {
-        tag?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

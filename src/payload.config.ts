@@ -24,7 +24,7 @@ import { Projects } from './collections/Projects'
 import ProjectsPageSettings from './globals/ProjectsPageSettings'
 import VolunteerSubmissions from './collections/VolunteerSubmissions'
 import Notices from './collections/Notices'
-import GalleryImages from './collections/GalleryImages'
+
 import Publications from './collections/Publications'
 import { LearnMore } from './globals/LearnMore'
 
@@ -86,7 +86,7 @@ export default buildConfig({
     Projects,
     VolunteerSubmissions,
     Notices,
-    GalleryImages, // Added GalleryImages collection
+
     Publications, // Add Publications collection
   ],
   cors: [getServerSideURL()].filter(Boolean),
