@@ -22,6 +22,10 @@ export const hero: Field = {
       label: 'Type',
       options: [
         {
+          label: 'None',
+          value: 'none',
+        },
+        {
           label: 'Home Page with Notice Sidebar',
           value: 'homePageNoticeV2',
         },
