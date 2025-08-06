@@ -227,15 +227,10 @@ export interface Page {
     sectionDescription?: string | null;
     buttonText?: string | null;
     buttonLink?: string | null;
-    tabs?:
-      | {
-          label?: string | null;
-          title?: string | null;
-          text?: string | null;
-          link: '/ecosystem' | '/community' | '/research' | '/species';
-          id?: string | null;
-        }[]
-      | null;
+    /**
+     * Tabs will be automatically generated from all Theme Pages in the system.
+     */
+    enableSection?: boolean | null;
   };
   homePageProjects?: {
     sectionLabel?: string | null;
@@ -1428,15 +1423,7 @@ export interface PagesSelect<T extends boolean = true> {
         sectionDescription?: T;
         buttonText?: T;
         buttonLink?: T;
-        tabs?:
-          | T
-          | {
-              label?: T;
-              title?: T;
-              text?: T;
-              link?: T;
-              id?: T;
-            };
+        enableSection?: T;
       };
   homePageProjects?:
     | T

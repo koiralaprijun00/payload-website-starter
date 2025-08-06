@@ -95,28 +95,14 @@ export const Pages: CollectionConfig<'pages'> = {
                 { name: 'buttonText', type: 'text', label: 'Button Text' },
                 { name: 'buttonLink', type: 'text', label: 'Button Link' },
                 {
-                  name: 'tabs',
-                  type: 'array',
-                  label: 'Tabs',
-                  fields: [
-                    { name: 'label', type: 'text', label: 'Tab Label' },
-                    { name: 'title', type: 'text', label: 'Tab Title' },
-                    { name: 'text', type: 'textarea', label: 'Tab Text' },
-                    {
-                      name: 'link',
-                      type: 'select',
-                      label: 'Theme Page',
-                      options: [
-                        { label: 'Ecosystem', value: '/ecosystem' },
-                        { label: 'Community', value: '/community' },
-                        { label: 'Research', value: '/research' },
-                        { label: 'Species', value: '/species' },
-                      ],
-                      required: true,
-                    },
-                  ],
-                  minRows: 1,
-                  maxRows: 10,
+                  name: 'enableSection',
+                  type: 'checkbox',
+                  label: 'Enable Conservation Section',
+                  defaultValue: true,
+                  admin: {
+                    description:
+                      'Tabs will be automatically generated from all Theme Pages in the system.',
+                  },
                 },
               ],
             },

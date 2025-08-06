@@ -31,6 +31,7 @@ async function getThemePages(): Promise<ThemePage[]> {
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
+
   const pages = await payload.find({
     collection: 'pages',
     draft: false,
@@ -77,11 +78,13 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  // At this point we know page is not null
+  const nonNullPage = page as NonNullable<typeof page>
+  const { hero, layout } = nonNullPage
 
   // Fetch all theme pages for conservation section tab images
   let themePages: ThemePage[] = []
-  if (page.conservationSection && page.conservationSection.tabs) {
+  if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
     themePages = await getThemePages()
   }
 
@@ -94,38 +97,40 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
-      {page.conservationSection && (
-        <ConservationSectionClient
-          sectionHeading={page.conservationSection.sectionHeading || ''}
-          sectionDescription={page.conservationSection.sectionDescription || ''}
-          buttonText={page.conservationSection.buttonText || ''}
-          buttonLink={page.conservationSection.buttonLink || ''}
-          tabs={themePages.map((tp) => {
-            let image: string | { url: string } | undefined = ''
-            if (tp.hero && tp.hero.image) {
-              if (typeof tp.hero.image === 'string') {
-                image = tp.hero.image
-              } else if (typeof tp.hero.image === 'object' && tp.hero.image.url) {
-                image = { url: tp.hero.image.url }
+      {nonNullPage.conservationSection &&
+        nonNullPage.conservationSection.enableSection !== false &&
+        themePages.length > 0 && (
+          <ConservationSectionClient
+            sectionHeading={nonNullPage.conservationSection.sectionHeading || ''}
+            sectionDescription={nonNullPage.conservationSection.sectionDescription || ''}
+            buttonText={nonNullPage.conservationSection.buttonText || ''}
+            buttonLink={nonNullPage.conservationSection.buttonLink || ''}
+            tabs={themePages.map((tp) => {
+              let image: string | { url: string } | undefined = ''
+              if (tp.hero && tp.hero.image) {
+                if (typeof tp.hero.image === 'string') {
+                  image = tp.hero.image
+                } else if (typeof tp.hero.image === 'object' && tp.hero.image.url) {
+                  image = { url: tp.hero.image.url }
+                }
               }
-            }
-            return {
-              label: tp.title,
-              title: tp.introSection?.heading || tp.title,
-              text: typeof tp.introSection?.content === 'string' ? tp.introSection.content : '',
-              link: '/' + tp.slug,
-              image,
-            }
-          })}
-        />
-      )}
+              return {
+                label: tp.title,
+                title: tp.introSection?.tagline || tp.title,
+                text: tp.introSection?.content || '',
+                link: '/themes/' + tp.slug,
+                image,
+              }
+            })}
+          />
+        )}
 
-      {page.homePageProjects && (
+      {nonNullPage.homePageProjects && (
         <HomePageProjectsClient
-          sectionLabel={page.homePageProjects.sectionLabel || ''}
-          heading={page.homePageProjects.heading || ''}
-          subheading={page.homePageProjects.subheading || ''}
-          blocks={(page.homePageProjects.blocks || []).map((block) => {
+          sectionLabel={nonNullPage.homePageProjects.sectionLabel || ''}
+          heading={nonNullPage.homePageProjects.heading || ''}
+          subheading={nonNullPage.homePageProjects.subheading || ''}
+          blocks={(nonNullPage.homePageProjects.blocks || []).map((block) => {
             let link: string | ProjectRelationship | null = null
             if (typeof block.link === 'string') {
               link = block.link
@@ -154,14 +159,14 @@ export default async function Page({ params: paramsPromise }: Args) {
           })}
         />
       )}
-      {page.homePageImpact && (
+      {nonNullPage.homePageImpact && (
         <HomePageImpactClient
-          sectionLabel={page.homePageImpact.sectionLabel || ''}
-          heading={page.homePageImpact.heading || ''}
-          description={page.homePageImpact.description || ''}
-          buttonText={page.homePageImpact.buttonText || ''}
-          buttonLink={page.homePageImpact.buttonLink || ''}
-          blocks={(page.homePageImpact.blocks || []).map((block): ImpactBlock => {
+          sectionLabel={nonNullPage.homePageImpact.sectionLabel || ''}
+          heading={nonNullPage.homePageImpact.heading || ''}
+          description={nonNullPage.homePageImpact.description || ''}
+          buttonText={nonNullPage.homePageImpact.buttonText || ''}
+          buttonLink={nonNullPage.homePageImpact.buttonLink || ''}
+          blocks={(nonNullPage.homePageImpact.blocks || []).map((block): ImpactBlock => {
             let icon: string | { url: string } = ''
             if (block.icon && typeof block.icon === 'object' && block.icon !== null) {
               if ('url' in block.icon && typeof block.icon.url === 'string') {
