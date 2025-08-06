@@ -91,18 +91,22 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">{project.title}</h1>
 
-              {/* Project Themes */}
-              {Array.isArray(project.themes) && project.themes.length > 0 && (
+              {/* Project Categories */}
+              {Array.isArray(project.categories) && project.categories.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.themes.map((themeRef, idx) => {
-                    if (typeof themeRef === 'object' && themeRef !== null && 'title' in themeRef) {
+                  {project.categories.map((categoryRef, idx) => {
+                    if (
+                      typeof categoryRef === 'object' &&
+                      categoryRef !== null &&
+                      'title' in categoryRef
+                    ) {
                       return (
                         <span
-                          key={themeRef.id || idx}
+                          key={categoryRef.id || idx}
                           className="inline-flex items-center gap-2 bg-blue-100 text-mainBlue px-3 py-1 rounded-full text-sm font-semibold"
                         >
                           <Tag size={14} />
-                          {themeRef.title}
+                          {categoryRef.title}
                         </span>
                       )
                     }

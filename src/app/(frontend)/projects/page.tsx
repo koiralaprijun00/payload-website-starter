@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, ThemePage } from '@/payload-types'
+import { Project, Category } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
@@ -14,7 +14,7 @@ const STATUS = [
 
 type ProjectSearchParams = {
   search?: string
-  themes?: string
+  categories?: string
   area?: string
   year?: string
   status?: string
@@ -22,20 +22,20 @@ type ProjectSearchParams = {
 
 async function fetchProjects({
   search = '',
-  themes = [],
+  categories = [],
   area = [],
   year = [],
   status = [],
 }: {
   search?: string
-  themes?: string[]
+  categories?: string[]
   area?: string[]
   year?: (string | number)[]
   status?: string[]
 }): Promise<Project[]> {
   const params = new URLSearchParams()
   if (search) params.append('where[title][contains]', search)
-  if (themes.length) params.append('where[themes][in]', themes.join(','))
+  if (categories.length) params.append('where[categories][in]', categories.join(','))
   if (area.length) params.append('where[area][in]', area.join(','))
   if (year.length) params.append('where[year][in]', year.join(','))
   if (status.length) params.append('where[status][in]', status.join(','))
@@ -49,8 +49,8 @@ async function fetchProjects({
   return docs
 }
 
-async function fetchThemes(): Promise<ThemePage[]> {
-  const req = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages`, {
+async function fetchCategories(): Promise<Category[]> {
+  const req = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/categories`, {
     next: { revalidate: 86400 },
   })
   if (!req.ok) return []
@@ -80,15 +80,15 @@ export default async function ProjectsPage({
     if (Array.isArray(val)) return val.filter(Boolean)
     return val.split(',').filter(Boolean)
   }
-  const selectedThemes = parseMulti(searchParams.themes)
+  const selectedCategories = parseMulti(searchParams.categories)
   const selectedAreas = parseMulti(searchParams.area)
   const selectedYears = parseMulti(searchParams.year)
   const selectedStatus = parseMulti(searchParams.status)
-  const [themes, projects] = await Promise.all([
-    fetchThemes(),
+  const [categories, projects] = await Promise.all([
+    fetchCategories(),
     fetchProjects({
       search: searchParams?.search || '',
-      themes: selectedThemes,
+      categories: selectedCategories,
       area: selectedAreas,
       year: selectedYears,
       status: selectedStatus,
@@ -206,18 +206,18 @@ export default async function ProjectsPage({
             {/* Desktop filter groups */}
             <div className="hidden md:block space-y-8">
               <div>
-                <div className="font-bold mb-2">Projects</div>
+                <div className="font-bold mb-2">Categories</div>
                 <div className="flex flex-wrap gap-2">
-                  {themes.map((theme) => (
-                    <label key={theme.id}>
+                  {categories.map((category) => (
+                    <label key={category.id}>
                       <input
                         type="checkbox"
-                        name="themes"
-                        value={theme.id}
-                        defaultChecked={selectedThemes.includes(theme.id)}
+                        name="categories"
+                        value={category.id}
+                        defaultChecked={selectedCategories.includes(category.id)}
                         className="mr-1"
                       />
-                      {theme.title}
+                      {category.title}
                     </label>
                   ))}
                 </div>
@@ -301,32 +301,32 @@ export default async function ProjectsPage({
                   />
                 )}
                 <div className="flex-1">
-                  {Array.isArray(project.themes) && project.themes.length > 0 && (
+                  {Array.isArray(project.categories) && project.categories.length > 0 && (
                     <div className="mb-2 flex flex-wrap gap-2 items-center">
-                      {project.themes.map((themeRef, idx) => {
+                      {project.categories.map((categoryRef, idx) => {
                         if (
-                          typeof themeRef === 'object' &&
-                          themeRef !== null &&
-                          'title' in themeRef
+                          typeof categoryRef === 'object' &&
+                          categoryRef !== null &&
+                          'title' in categoryRef
                         ) {
                           return (
                             <span
-                              key={themeRef.id || idx}
+                              key={categoryRef.id || idx}
                               className="flex items-center gap-2 uppercase text-sm font-bold text-mainBlue"
                             >
                               <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
-                              {themeRef.title}
+                              {categoryRef.title}
                             </span>
                           )
                         }
-                        const themeObj = themes.find((t) => t.id === themeRef)
+                        const categoryObj = categories.find((c) => c.id === categoryRef)
                         return (
                           <span
-                            key={themeRef}
+                            key={categoryRef}
                             className="flex items-center gap-2 uppercase text-sm font-bold text-mainBlue"
                           >
                             <span className="h-3 w-3 rounded-full bg-orange-500 inline-block" />
-                            {themeObj?.title}
+                            {categoryObj?.title}
                           </span>
                         )
                       })}

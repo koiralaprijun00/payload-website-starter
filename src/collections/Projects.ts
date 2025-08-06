@@ -58,11 +58,14 @@ export const Projects: CollectionConfig = {
       editor: comprehensiveLexical,
     },
     {
-      name: 'themes',
+      name: 'categories',
       type: 'relationship',
-      relationTo: 'theme-pages',
+      relationTo: 'categories',
       hasMany: true,
       required: true,
+      admin: {
+        allowCreate: false,
+      },
     },
     {
       name: 'area',

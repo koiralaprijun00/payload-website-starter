@@ -20,8 +20,9 @@ export const Categories: CollectionConfig = {
     afterChange: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating publications page due to category change`)
+          payload.logger.info(`Revalidating publications and projects pages due to category change`)
           revalidatePath('/publications')
+          revalidatePath('/projects')
         }
         return doc
       },
@@ -29,8 +30,9 @@ export const Categories: CollectionConfig = {
     afterDelete: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating publications page due to category delete`)
+          payload.logger.info(`Revalidating publications and projects pages due to category delete`)
           revalidatePath('/publications')
+          revalidatePath('/projects')
         }
         return doc
       },
