@@ -26,6 +26,7 @@ import VolunteerSubmissions from './collections/VolunteerSubmissions'
 import Notices from './collections/Notices'
 
 import Publications from './collections/Publications'
+import Careers from './collections/Careers'
 import { LearnMore } from './globals/LearnMore'
 
 const filename = fileURLToPath(import.meta.url)
@@ -88,6 +89,7 @@ export default buildConfig({
     Notices,
 
     Publications, // Add Publications collection
+    Careers, // Add Careers collection
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, About, ProjectsPageSettings, LearnMore],

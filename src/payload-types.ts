@@ -78,6 +78,7 @@ export interface Config {
     'volunteer-submissions': VolunteerSubmission;
     notices: Notice;
     publications: Publication;
+    careers: Career;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +101,7 @@ export interface Config {
     'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     notices: NoticesSelect<false> | NoticesSelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
+    careers: CareersSelect<false> | CareersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1035,6 +1037,66 @@ export interface Publication {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers".
+ */
+export interface Career {
+  id: string;
+  title: string;
+  /**
+   * Whether this position is currently accepting applications
+   */
+  status: 'open' | 'closed';
+  /**
+   * When applications close for this position
+   */
+  deadline?: string | null;
+  location?: string | null;
+  type?: ('full-time' | 'part-time' | 'contract' | 'internship' | 'volunteer') | null;
+  experience?: string | null;
+  /**
+   * Brief description shown in the listing
+   */
+  summary?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  responsibilities?:
+    | {
+        responsibility: string;
+        id?: string | null;
+      }[]
+    | null;
+  requirements?:
+    | {
+        requirement: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Email where applications should be sent
+   */
+  applicationEmail?: string | null;
+  /**
+   * Special instructions for applicants
+   */
+  applicationInstructions?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1249,6 +1311,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'publications';
         value: string | Publication;
+      } | null)
+    | ({
+        relationTo: 'careers';
+        value: string | Career;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1842,6 +1908,36 @@ export interface PublicationsSelect<T extends boolean = true> {
   document?: T;
   category?: T;
   year?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers_select".
+ */
+export interface CareersSelect<T extends boolean = true> {
+  title?: T;
+  status?: T;
+  deadline?: T;
+  location?: T;
+  type?: T;
+  experience?: T;
+  summary?: T;
+  description?: T;
+  responsibilities?:
+    | T
+    | {
+        responsibility?: T;
+        id?: T;
+      };
+  requirements?:
+    | T
+    | {
+        requirement?: T;
+        id?: T;
+      };
+  applicationEmail?: T;
+  applicationInstructions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
