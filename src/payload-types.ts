@@ -169,7 +169,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'homePageNoticeV2';
+    type: 'none' | 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
@@ -2393,7 +2393,7 @@ export interface AboutPage {
 export interface ProjectsPageSetting {
   id: string;
   hero: {
-    type: 'homePageNoticeV2';
+    type: 'none' | 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
