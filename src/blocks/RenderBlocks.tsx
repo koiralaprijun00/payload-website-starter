@@ -5,11 +5,8 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-import { HomePageV1Hero } from '@/heros/home-page-v1'
-import { HighImpactHero } from '@/heros/HighImpact'
-import { MediumImpactHero } from '@/heros/MediumImpact'
-import { LowImpactHero } from '@/heros/LowImpact'
 import { PostHero } from '@/heros/PostHero'
+import { HomePageNoticeV2Hero } from '@/heros/home-page-notive-v2'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,14 +17,8 @@ const blockComponents = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hero: (block: any) => {
     switch (block.type) {
-      case 'homePageV1':
-        return <HomePageV1Hero {...block} />
-      case 'highImpact':
-        return <HighImpactHero {...block} />
-      case 'mediumImpact':
-        return <MediumImpactHero {...block} />
-      case 'lowImpact':
-        return <LowImpactHero {...block} />
+      case 'homePageNoticeV2':
+        return <HomePageNoticeV2Hero {...block} />
       case 'postHero':
         // PostHero expects a 'post' prop, so wrap block as post
         return <PostHero post={block} />

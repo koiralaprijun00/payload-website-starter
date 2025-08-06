@@ -18,29 +18,9 @@ export const hero: Field = {
     {
       name: 'type',
       type: 'select',
-      defaultValue: 'lowImpact',
+      defaultValue: 'homePageNoticeV2',
       label: 'Type',
       options: [
-        {
-          label: 'None',
-          value: 'none',
-        },
-        {
-          label: 'High Impact',
-          value: 'highImpact',
-        },
-        {
-          label: 'Medium Impact',
-          value: 'mediumImpact',
-        },
-        {
-          label: 'Low Impact',
-          value: 'lowImpact',
-        },
-        {
-          label: 'Home Page V1',
-          value: 'homePageV1',
-        },
         {
           label: 'Home Page with Notice Sidebar',
           value: 'homePageNoticeV2',
@@ -53,7 +33,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Category',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type }) => ['homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -61,7 +41,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Title',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type }) => ['homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -69,7 +49,7 @@ export const hero: Field = {
       type: 'textarea',
       label: 'Description',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type }) => ['homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -77,7 +57,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Text',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type }) => ['homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -85,7 +65,7 @@ export const hero: Field = {
       type: 'text',
       label: 'Button Link',
       admin: {
-        condition: (_, { type }) => ['homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type }) => ['homePageNoticeV2'].includes(type),
       },
     },
     {
@@ -111,8 +91,7 @@ export const hero: Field = {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'homePageV1', 'homePageNoticeV2'].includes(type),
+        condition: (_, { type } = {}) => ['homePageNoticeV2'].includes(type),
       },
       relationTo: 'media',
       required: true,
