@@ -197,8 +197,8 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
                   latitude={locationMap.coordinates.latitude}
                   longitude={locationMap.coordinates.longitude}
                   locationDescription={locationMap.locationDescription}
-                  acresValue={metrics?.acresConserved?.value}
-                  acresHeading={metrics?.acresConserved?.heading}
+                  _acresValue={metrics?.acresConserved?.value}
+                  _acresHeading={metrics?.acresConserved?.heading}
                   className="h-full"
                 />
               </div>

@@ -9,8 +9,8 @@ interface InteractiveMapProps {
   longitude: number
   zoom?: number
   locationDescription?: string | null
-  acresValue?: string | null
-  acresHeading?: string | null
+  _acresValue?: string | null
+  _acresHeading?: string | null
   className?: string
 }
 
@@ -19,8 +19,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   longitude,
   zoom = 10,
   locationDescription,
-  acresValue,
-  acresHeading,
+  _acresValue,
+  _acresHeading,
   className = '',
 }) => {
   const [viewState, setViewState] = useState({

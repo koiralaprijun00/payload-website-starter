@@ -1,25 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import { ChevronDown, MapPin, Clock, Users, Mail } from 'lucide-react'
-import { RichText } from '@/components/RichText'
-
-interface Career {
-  id: string
-  title: string
-  status: 'open' | 'closed'
-  deadline?: string | null
-  location?: string | null
-  type?: string | null
-  experience?: string | null
-  summary?: string | null
-  description?: any
-  responsibilities?: Array<{ responsibility: string; id?: string }> | null
-  requirements?: Array<{ requirement: string; id?: string }> | null
-  applicationEmail?: string | null
-  applicationInstructions?: string | null
-  createdAt: string
-  updatedAt: string
-}
+import RichText from '@/components/RichText'
+import type { Career } from '@/payload-types'
 
 interface CareersClientProps {
   careers: Career[]
@@ -170,7 +153,7 @@ export default function CareersClient({ careers }: CareersClientProps) {
                                 Job Description
                               </h4>
                               <div className="prose prose-sm max-w-none">
-                                <RichText content={career.description} />
+                                <RichText data={career.description} />
                               </div>
                             </div>
                           )}
@@ -278,11 +261,12 @@ export default function CareersClient({ careers }: CareersClientProps) {
         <div className="text-center py-16">
           <h2 className="text-2xl font-semibold text-gray-600 mb-4">No Current Openings</h2>
           <p className="text-gray-500 mb-6">
-            We don't have any open positions at the moment, but we're always looking for talented
-            individuals to join our mission.
+            We don&apos;t have any open positions at the moment, but we&apos;re always looking for
+            talented individuals to join our mission.
           </p>
           <p className="text-gray-500">
-            Feel free to send us your resume and we'll keep it on file for future opportunities.
+            Feel free to send us your resume and we&apos;ll keep it on file for future
+            opportunities.
           </p>
         </div>
       )}

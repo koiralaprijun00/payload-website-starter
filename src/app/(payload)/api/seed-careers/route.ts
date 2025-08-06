@@ -1,25 +1,21 @@
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { seedCareers } from '@/endpoints/seed/careers'
 import { NextRequest } from 'next/server'
 
-export async function GET(request: NextRequest): Promise<Response> {
+export async function GET(_request: NextRequest): Promise<Response> {
   try {
-    const payload = await getPayload({ config: configPromise })
-
-    // Only seed careers without clearing other data
-    await seedCareers(payload)
+    // Career seeding temporarily disabled due to complex Lexical structure
+    // You can manually add career positions through the Payload CMS admin panel at /admin
 
     return Response.json({
-      success: true,
-      message: 'Careers seeded successfully! Your existing data was preserved.',
+      success: false,
+      message:
+        'Career seeding is currently disabled. Please add career positions manually through the admin panel at /admin.',
     })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Career seeding failed:', error)
     return Response.json(
       {
         success: false,
-        error: error.message || 'Career seeding failed',
+        error: error instanceof Error ? error.message : 'Career seeding failed',
       },
       { status: 500 },
     )

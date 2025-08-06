@@ -1,11 +1,12 @@
 import type { Field } from 'payload'
 
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
+// Unused lexical imports - commented out
+// import {
+//   FixedToolbarFeature,
+//   HeadingFeature,
+//   InlineToolbarFeature,
+//   lexicalEditor,
+// } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
 import { comprehensiveLexical } from '@/fields/comprehensiveLexical'

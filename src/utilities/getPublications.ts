@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import type { Media, Category } from '@/payload-types'
+import type { Media } from '@/payload-types'
 
 export async function getPublications() {
   const payload = await getPayload({ config: configPromise })
