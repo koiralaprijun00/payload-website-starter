@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
@@ -92,28 +93,30 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
               <h1 className="text-4xl font-bold text-gray-900 mb-4">{project.title}</h1>
 
               {/* Project Categories */}
-              {Array.isArray(project.categories) && project.categories.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.categories.map((categoryRef, idx) => {
-                    if (
-                      typeof categoryRef === 'object' &&
-                      categoryRef !== null &&
-                      'title' in categoryRef
-                    ) {
-                      return (
-                        <span
-                          key={categoryRef.id || idx}
-                          className="inline-flex items-center gap-2 bg-blue-100 text-mainBlue px-3 py-1 rounded-full text-sm font-semibold"
-                        >
-                          <Tag size={14} />
-                          {categoryRef.title}
-                        </span>
-                      )
-                    }
-                    return null
-                  })}
-                </div>
-              )}
+
+              {Array.isArray((project as any).categories) &&
+                (project as any).categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {(project as any).categories.map((categoryRef: any, idx: number) => {
+                      if (
+                        typeof categoryRef === 'object' &&
+                        categoryRef !== null &&
+                        'title' in categoryRef
+                      ) {
+                        return (
+                          <span
+                            key={categoryRef.id || idx}
+                            className="inline-flex items-center gap-2 bg-blue-100 text-mainBlue px-3 py-1 rounded-full text-sm font-semibold"
+                          >
+                            <Tag size={14} />
+                            {categoryRef.title}
+                          </span>
+                        )
+                      }
+                      return null
+                    })}
+                  </div>
+                )}
 
               <p className="text-xl text-gray-700 leading-relaxed">{project.summary}</p>
             </div>
