@@ -100,23 +100,20 @@ export default async function Page({ params: paramsPromise }: Args) {
           sectionDescription={page.conservationSection.sectionDescription || ''}
           buttonText={page.conservationSection.buttonText || ''}
           buttonLink={page.conservationSection.buttonLink || ''}
-          tabs={(page.conservationSection.tabs || []).map((tab) => {
-            // Find the theme page by link (e.g. '/ecosystem')
-            const themeSlug = tab.link.replace('/', '')
-            const themePage = themePages.find((tp) => tp.slug === themeSlug)
+          tabs={themePages.map((tp) => {
             let image: string | { url: string } | undefined = ''
-            if (themePage && themePage.hero && themePage.hero.image) {
-              if (typeof themePage.hero.image === 'string') {
-                image = themePage.hero.image
-              } else if (typeof themePage.hero.image === 'object' && themePage.hero.image.url) {
-                image = { url: themePage.hero.image.url }
+            if (tp.hero && tp.hero.image) {
+              if (typeof tp.hero.image === 'string') {
+                image = tp.hero.image
+              } else if (typeof tp.hero.image === 'object' && tp.hero.image.url) {
+                image = { url: tp.hero.image.url }
               }
             }
             return {
-              label: tab.label || '',
-              title: tab.title || '',
-              text: tab.text || '',
-              link: tab.link || '',
+              label: tp.title,
+              title: tp.introSection?.heading || tp.title,
+              text: typeof tp.introSection?.content === 'string' ? tp.introSection.content : '',
+              link: '/' + tp.slug,
               image,
             }
           })}

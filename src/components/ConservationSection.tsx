@@ -40,8 +40,28 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
 
   const activeTabData = tabs.find((tab) => tab.label === activeTab) || tabs[0]
   if (!activeTabData) return null
-  const imageUrl =
+
+  const rawImageUrl =
     typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
+
+  // Ensure we have a valid URL for the Image component
+  let imageUrl = ''
+  if (rawImageUrl) {
+    try {
+      // If it's already a full URL, use it
+      if (rawImageUrl.startsWith('http')) {
+        imageUrl = rawImageUrl
+      } else {
+        // If it's a relative path, construct full URL
+        imageUrl = `${process.env.NEXT_PUBLIC_PAYLOAD_URL || ''}${rawImageUrl}`
+      }
+      // Test if URL is valid
+      new URL(imageUrl)
+    } catch {
+      // If URL construction fails, use empty string
+      imageUrl = ''
+    }
+  }
 
   const leftColVariants: Variants = {
     hidden: { opacity: 0, x: -40 },

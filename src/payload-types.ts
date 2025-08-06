@@ -169,7 +169,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV2';
+    type: 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
@@ -872,7 +872,7 @@ export interface Project {
     };
     [k: string]: unknown;
   };
-  themes: (string | ThemePage)[];
+  categories: (string | Category)[];
   area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
   year: number;
   status: 'ongoing' | 'completed';
@@ -1797,7 +1797,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   image?: T;
   summary?: T;
   body?: T;
-  themes?: T;
+  categories?: T;
   area?: T;
   year?: T;
   status?: T;
@@ -2406,7 +2406,7 @@ export interface AboutPage {
 export interface ProjectsPageSetting {
   id: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'homePageV1' | 'homePageNoticeV2';
+    type: 'homePageNoticeV2';
     category?: string | null;
     title?: string | null;
     description?: string | null;
