@@ -1052,33 +1052,6 @@ export interface Career {
    * Brief description shown in the listing
    */
   summary?: string | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  responsibilities?:
-    | {
-        responsibility: string;
-        id?: string | null;
-      }[]
-    | null;
-  requirements?:
-    | {
-        requirement: string;
-        id?: string | null;
-      }[]
-    | null;
   /**
    * Email where applications should be sent
    */
@@ -1910,19 +1883,6 @@ export interface CareersSelect<T extends boolean = true> {
   type?: T;
   experience?: T;
   summary?: T;
-  description?: T;
-  responsibilities?:
-    | T
-    | {
-        responsibility?: T;
-        id?: T;
-      };
-  requirements?:
-    | T
-    | {
-        requirement?: T;
-        id?: T;
-      };
   applicationEmail?: T;
   applicationInstructions?: T;
   updatedAt?: T;

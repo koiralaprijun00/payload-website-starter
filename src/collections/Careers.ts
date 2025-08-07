@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
 import { revalidatePath } from 'next/cache'
-import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 
 const Careers: CollectionConfig = {
   slug: 'careers',
@@ -103,39 +102,6 @@ const Careers: CollectionConfig = {
       admin: {
         description: 'Brief description shown in the listing',
       },
-    },
-    {
-      name: 'description',
-      type: 'richText',
-      label: 'Full Job Description',
-      editor: comprehensiveLexical,
-      required: false,
-    },
-    {
-      name: 'responsibilities',
-      type: 'array',
-      label: 'Key Responsibilities',
-      fields: [
-        {
-          name: 'responsibility',
-          type: 'text',
-          required: true,
-        },
-      ],
-      required: false,
-    },
-    {
-      name: 'requirements',
-      type: 'array',
-      label: 'Requirements',
-      fields: [
-        {
-          name: 'requirement',
-          type: 'text',
-          required: true,
-        },
-      ],
-      required: false,
     },
     {
       name: 'applicationEmail',
