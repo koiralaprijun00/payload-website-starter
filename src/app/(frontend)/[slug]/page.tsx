@@ -18,6 +18,8 @@ import HomePageImpactClient from '@/components/HomePageImpactClient'
 import type { ImpactBlock } from '@/components/HomePageImpact'
 import type { ProjectRelationship } from '@/components/HomePageProjects'
 import { ThemePage } from '@/payload-types'
+import { getPosts } from '@/utilities/getPosts'
+import HomePageBlogCarousel from '@/components/HomePageBlogCarousel'
 
 async function getThemePages(): Promise<ThemePage[]> {
   const req = await fetch(
@@ -86,6 +88,12 @@ export default async function Page({ params: paramsPromise }: Args) {
   let themePages: ThemePage[] = []
   if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
     themePages = await getThemePages()
+  }
+
+  // Fetch posts for homepage only
+  let posts = []
+  if (slug === 'home') {
+    posts = await getPosts()
   }
 
   return (
@@ -188,6 +196,8 @@ export default async function Page({ params: paramsPromise }: Args) {
           })}
         />
       )}
+      {/* Latest Posts Section - only on homepage */}
+      {slug === 'home' && posts.length > 0 && <HomePageBlogCarousel posts={posts} />}
       <RenderBlocks blocks={layout} />
     </article>
   )

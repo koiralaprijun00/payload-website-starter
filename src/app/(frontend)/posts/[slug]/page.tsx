@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -63,12 +62,6 @@ export default async function Post({ params: paramsPromise }: Args) {
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 max-w-[48rem] mx-auto"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )}
         </div>
       </div>
     </article>
@@ -105,7 +98,6 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
       categories: true,
       meta: true,
       heroImage: true,
-      relatedPosts: true,
       content: true,
       updatedAt: true,
       createdAt: true,
