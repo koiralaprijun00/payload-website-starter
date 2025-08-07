@@ -3,7 +3,7 @@ import React from 'react'
 import { Project, Category } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
-import { RenderBlocks } from '@/blocks/RenderBlocks'
+import ProjectsHero from '@/components/ProjectsHero'
 import { ChevronDown } from 'lucide-react'
 
 const AREAS = ['Bardiya', 'Surkhet', 'Salyan', 'Banke', 'Kailali', 'Dailekh', 'Kathmandu']
@@ -98,7 +98,15 @@ export default async function ProjectsPage({
 
   return (
     <>
-      {settings?.hero && <RenderBlocks blocks={settings.hero} />}
+      <ProjectsHero
+        title={settings?.heroTitle || 'Our Projects'}
+        subtitle={settings?.heroSubtitle || 'Making a Difference'}
+        description={
+          settings?.heroDescription ||
+          'Discover our impactful conservation and community development projects across Nepal'
+        }
+        rightImage={settings?.heroImage?.url || '/ujyalo-logo.png'}
+      />
       <div className="flex flex-col md:flex-row gap-8 md:gap-12 max-w-7xl mx-auto py-8 md:py-12 px-4">
         {/* Sidebar Filters */}
         <aside className="w-full md:w-72 shrink-0 mb-8 md:mb-0">

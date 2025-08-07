@@ -2352,62 +2352,68 @@ export interface AboutPage {
  */
 export interface ProjectsPageSetting {
   id: string;
-  hero: {
-    type: 'none' | 'homePageNoticeV2';
-    category?: string | null;
-    title?: string | null;
-    description?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
-    pillLabel?: string | null;
-    richText?: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    links?:
-      | {
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'posts';
-                  value: string | Post;
-                } | null)
-              | ({
-                  relationTo: 'theme-pages';
-                  value: string | ThemePage;
-                } | null);
-            url?: string | null;
-            label: string;
-            /**
-             * Choose how the link should be rendered.
-             */
-            appearance?: ('default' | 'outline') | null;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroDescription?: string | null;
+  heroImage?: (string | null) | Media;
+  hero?:
+    | {
+        type: 'none' | 'homePageNoticeV2';
+        category?: string | null;
+        title?: string | null;
+        description?: string | null;
+        buttonText?: string | null;
+        buttonLink?: string | null;
+        pillLabel?: string | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
           };
-          id?: string | null;
-        }[]
-      | null;
-    media?: (string | null) | Media;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'hero';
-  }[];
+          [k: string]: unknown;
+        } | null;
+        links?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null)
+                  | ({
+                      relationTo: 'theme-pages';
+                      value: string | ThemePage;
+                    } | null);
+                url?: string | null;
+                label: string;
+                /**
+                 * Choose how the link should be rendered.
+                 */
+                appearance?: ('default' | 'outline') | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        media?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2591,6 +2597,10 @@ export interface AboutPageSelect<T extends boolean = true> {
  * via the `definition` "projects-page-settings_select".
  */
 export interface ProjectsPageSettingsSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroDescription?: T;
+  heroImage?: T;
   hero?:
     | T
     | {
