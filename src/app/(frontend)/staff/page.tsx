@@ -41,6 +41,23 @@ async function getStaffMembers(): Promise<TeamMember[]> {
   return res.docs as TeamMember[]
 }
 
+// Helper to fetch alumni members from Payload
+async function getAlumniMembers(): Promise<TeamMember[]> {
+  const payload = await getPayload({ config: configPromise })
+  const res = await payload.find({
+    collection: 'team-members',
+    where: {
+      boardType: {
+        equals: 'alumni',
+      },
+    },
+    depth: 1,
+    limit: 100,
+    sort: 'name',
+  })
+  return res.docs as TeamMember[]
+}
+
 function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
     <Link
@@ -90,7 +107,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 }
 
 export default async function StaffPage() {
-  const members = await getStaffMembers()
+  const [members, alumni] = await Promise.all([getStaffMembers(), getAlumniMembers()])
 
   return (
     <div className="min-h-screen">
@@ -126,15 +143,33 @@ export default async function StaffPage() {
             </div>
           )}
 
+          {/* Alumni Section */}
+          {alumni.length > 0 && (
+            <div className="mb-16">
+              <div className="mb-12">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Alumni</h2>
+                <p className="text-gray-600 max-w-2xl">
+                  Past staff members who have contributed to our mission
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {alumni.map((member, idx) => (
+                  <TeamMemberCard key={member.id || member.email || idx} member={member} />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Empty State */}
-          {members.length === 0 && (
+          {members.length === 0 && alumni.length === 0 && (
             <div className="text-center py-16">
               <div className="max-w-md mx-auto">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-                  No Staff Members Found
+                  No Staff Members or Alumni Found
                 </h3>
                 <p className="text-gray-600">
-                  Staff member profiles will appear here once they are added to the system.
+                  Staff member and alumni profiles will appear here once they are added to the
+                  system.
                 </p>
               </div>
             </div>
