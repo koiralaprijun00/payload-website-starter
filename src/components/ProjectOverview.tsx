@@ -73,20 +73,20 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
   const { overviewDescription, speciesAtRisk, partners, metrics, locationMap } = data
 
   return (
-    <section className="bg-gray-100 py-12">
+    <section className="py-12">
       <div className="container mx-auto px-6 max-w-7xl">
-        {/* Section Header */}
-        <div className="mb-8">
-          <div className="inline-block bg-white px-3 py-1 rounded border-l-4 border-green-600">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
-              PROJECT OVERVIEW
-            </span>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Main Content (2/3 width) */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 mt-0 lg:mt-48">
+            {/* Section Header - moved here */}
+            <div className="mb-8">
+              <div className="inline-block bg-white px-3 py-1 rounded border-l-4 border-green-600">
+                <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  PROJECT OVERVIEW
+                </span>
+              </div>
+            </div>
+
             {/* Overview Description */}
             {overviewDescription && (
               <div className="mb-8">
@@ -189,10 +189,10 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({ data }) => {
           </div>
 
           {/* Right Column - Map (1/3 width) */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 -mt-12">
             {/* Interactive Map with Coordinates */}
             {locationMap?.coordinates?.latitude && locationMap?.coordinates?.longitude ? (
-              <div className="h-[500px] lg:h-[600px]">
+              <div className="h-[700px] lg:h-[800px]">
                 <InteractiveMap
                   latitude={locationMap.coordinates.latitude}
                   longitude={locationMap.coordinates.longitude}
