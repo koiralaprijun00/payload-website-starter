@@ -91,7 +91,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   // Fetch posts for homepage only
-  let posts = []
+  let posts: any[] = []
   if (slug === 'home') {
     posts = await getPosts()
   }
