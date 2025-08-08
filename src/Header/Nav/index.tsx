@@ -236,7 +236,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
           />
           {/* Menu panel */}
           <nav
-            className="fixed top-6 left-1/2 -translate-x-1/2 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-6 pt-10 flex flex-col gap-4 animate-fade-in relative"
+            className="fixed top-6 left-1/2 -translate-x-1/2 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-6 pt-10 flex flex-col gap-4 animate-fade-in"
             style={{ minHeight: '60vh' }}
           >
             {/* Close button inside panel */}

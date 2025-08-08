@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { MapPin, Clock, Users, Mail } from 'lucide-react'
+import React, { useState } from 'react'
+import { MapPin, Clock, Users, Mail, ChevronDown } from 'lucide-react'
 import type { Career } from '@/payload-types'
 
 interface CareersClientProps {
@@ -8,6 +8,17 @@ interface CareersClientProps {
 }
 
 export default function CareersClient({ careers }: CareersClientProps) {
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
+
+  const toggleExpanded = (id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
@@ -35,83 +46,106 @@ export default function CareersClient({ careers }: CareersClientProps) {
         <div className="mb-12">
           <h2 className="text-2xl font-semibold mb-6 text-green-800">Open Positions</h2>
           <div className="bg-white rounded-xl shadow divide-y divide-gray-200 overflow-hidden">
-            {openPositions.map((career) => (
-              <div key={career.id} className="border-b border-gray-200 last:border-b-0">
-                <div className="px-6 py-6">
-                  {/* Header */}
-                  <div className="flex items-start gap-4">
-                    <div className="flex-1 min-w-0">
-                      {/* Status Badge */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          Open
-                        </span>
-                        {career.deadline && (
-                          <span className="text-sm text-orange-600 font-medium">
-                            Deadline: {formatDate(career.deadline)}
+            {openPositions.map((career) => {
+              const isExpanded = expandedIds.has(career.id)
+              const hasDetails = Boolean(career.summary || career.applicationInstructions)
+              return (
+                <div key={career.id} className="border-b border-gray-200 last:border-b-0">
+                  <div className="px-6 py-6">
+                    {/* Header */}
+                    <div className="flex items-start gap-4">
+                      <div className="flex-1 min-w-0">
+                        {/* Status Badge */}
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Open
                           </span>
-                        )}
-                      </div>
-
-                      {/* Title and Details */}
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">{career.title}</h3>
-
-                      {/* Job Details */}
-                      <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-gray-600">
-                        {career.location && (
-                          <div className="flex items-center gap-1">
-                            <MapPin className="w-4 h-4" />
-                            {career.location}
-                          </div>
-                        )}
-                        {career.type && (
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {career.type.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
-                          </div>
-                        )}
-                        {career.experience && (
-                          <div className="flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            {career.experience}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Summary */}
-                      {career.summary && (
-                        <p className="text-gray-700 text-sm leading-relaxed mb-4">
-                          {career.summary}
-                        </p>
-                      )}
-
-                      {/* Application Instructions */}
-                      {career.applicationInstructions && (
-                        <div className="bg-gray-50 rounded-lg p-4 mt-4">
-                          <h4 className="text-lg font-semibold text-gray-900 mb-2">How to Apply</h4>
-                          <p className="text-gray-700 whitespace-pre-wrap">
-                            {career.applicationInstructions}
-                          </p>
+                          {career.deadline && (
+                            <span className="text-sm text-orange-600 font-medium">
+                              Deadline: {formatDate(career.deadline)}
+                            </span>
+                          )}
                         </div>
-                      )}
-                    </div>
 
-                    {/* Apply button */}
-                    {career.applicationEmail && (
-                      <div className="flex-shrink-0">
-                        <a
-                          href={`mailto:${career.applicationEmail}?subject=Application: ${career.title}`}
-                          className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 transition text-sm font-medium whitespace-nowrap flex items-center gap-1"
-                        >
-                          <Mail className="w-4 h-4" />
-                          Apply Now
-                        </a>
+                        {/* Title and Details */}
+                        <h3 className="text-xl font-semibold text-gray-900 mb-3">{career.title}</h3>
+
+                        {/* Job Details */}
+                        <div className="flex flex-wrap items-center gap-4 mb-3 text-sm text-gray-600">
+                          {career.location && (
+                            <div className="flex items-center gap-1">
+                              <MapPin className="w-4 h-4" />
+                              {career.location}
+                            </div>
+                          )}
+                          {career.type && (
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-4 h-4" />
+                              {career.type
+                                .replace('-', ' ')
+                                .replace(/\b\w/g, (l) => l.toUpperCase())}
+                            </div>
+                          )}
+                          {career.experience && (
+                            <div className="flex items-center gap-1">
+                              <Users className="w-4 h-4" />
+                              {career.experience}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Details (collapsible) */}
+                        {hasDetails && isExpanded && (
+                          <div id={`career-details-${career.id}`} className="mt-2 space-y-4">
+                            {career.summary && (
+                              <p className="text-gray-700 text-sm leading-relaxed">
+                                {career.summary}
+                              </p>
+                            )}
+                            {career.applicationInstructions && (
+                              <div className="bg-gray-50 rounded-lg p-4">
+                                <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                                  How to Apply
+                                </h4>
+                                <p className="text-gray-700 whitespace-pre-wrap">
+                                  {career.applicationInstructions}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
-                    )}
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {career.applicationEmail && (
+                          <a
+                            href={`mailto:${career.applicationEmail}?subject=Application: ${career.title}`}
+                            className="px-4 py-2 bg-mainBlue text-white rounded hover:bg-mainBlue transition text-sm font-medium whitespace-nowrap flex items-center gap-1"
+                          >
+                            <Mail className="w-4 h-4" />
+                            Apply Now
+                          </a>
+                        )}
+                        {hasDetails && (
+                          <button
+                            onClick={() => toggleExpanded(career.id)}
+                            className="px-3 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 hover:bg-gray-100 inline-flex items-center gap-1"
+                            aria-expanded={isExpanded}
+                            aria-controls={`career-details-${career.id}`}
+                          >
+                            <ChevronDown
+                              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                            />
+                            <span>{isExpanded ? 'Hide details' : 'Details'}</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}
