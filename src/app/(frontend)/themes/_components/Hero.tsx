@@ -8,7 +8,7 @@ type Props = {
 }
 
 const Hero = ({ title, image }: Props) => {
-  const imageUrl = getMediaUrl(image?.url)
+  const imageUrl = getMediaUrl(image?.url, image?.updatedAt as unknown as string)
 
   return (
     <section

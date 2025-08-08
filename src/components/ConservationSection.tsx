@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
@@ -29,10 +29,38 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
   const [activeTab, setActiveTab] = useState(tabs[0]?.label || '')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isVisible, setIsVisible] = useState(false)
+  const preloadedUrlsRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     setIsVisible(true)
   }, [])
+
+  const resolveImageUrl = (img?: { url: string } | string): string => {
+    const raw = typeof img === 'string' ? img : img?.url || ''
+    if (!raw) return ''
+    try {
+      if (raw.startsWith('http')) return raw
+      return `${process.env.NEXT_PUBLIC_PAYLOAD_URL || ''}${raw}`
+    } catch {
+      return ''
+    }
+  }
+
+  const preloadImage = (url: string) => {
+    if (!url || preloadedUrlsRef.current.has(url)) return
+    const i = new window.Image()
+    i.src = url
+    preloadedUrlsRef.current.add(url)
+  }
+
+  // Preload all tab images on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    tabs.forEach((t) => {
+      const url = resolveImageUrl(t.image)
+      if (url) preloadImage(url)
+    })
+  }, [tabs])
 
   if (!tabs || tabs.length === 0) {
     return null
@@ -41,27 +69,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
   const activeTabData = tabs.find((tab) => tab.label === activeTab) || tabs[0]
   if (!activeTabData) return null
 
-  const rawImageUrl =
-    typeof activeTabData.image === 'string' ? activeTabData.image : activeTabData.image?.url || ''
-
-  // Ensure we have a valid URL for the Image component
-  let imageUrl = ''
-  if (rawImageUrl) {
-    try {
-      // If it's already a full URL, use it
-      if (rawImageUrl.startsWith('http')) {
-        imageUrl = rawImageUrl
-      } else {
-        // If it's a relative path, construct full URL
-        imageUrl = `${process.env.NEXT_PUBLIC_PAYLOAD_URL || ''}${rawImageUrl}`
-      }
-      // Test if URL is valid
-      new URL(imageUrl)
-    } catch {
-      // If URL construction fails, use empty string
-      imageUrl = ''
-    }
-  }
+  const imageUrl = resolveImageUrl(activeTabData.image)
 
   const leftColVariants: Variants = {
     hidden: { opacity: 0, x: -40 },
@@ -94,45 +102,29 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
               {sectionHeading}
             </h1>
             <p className="text-md text-gray-900 leading-tight">{sectionDescription}</p>
-            {/* <a href={buttonLink}>
-              <button className="group bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 mt-4 font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                <span className="flex items-center space-x-2">
-                  <span>{buttonText}</span>
-                  <svg
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </a> */}
           </motion.div>
 
           {/* Right Column */}
           <motion.div className="space-y-6" variants={rightColVariants}>
             {/* Navigation Tabs */}
             <div className="flex flex-wrap gap-2 mb-2">
-              {tabs.map((tab, idx) => (
-                <button
-                  key={`${tab.label}-${idx}`}
-                  onClick={() => setActiveTab(tab.label)}
-                  className={`px-3 py-1.5 text-sm font-medium transition-all duration-300 transform hover:scale-105 border ${
-                    activeTab === tab.label
-                      ? 'bg-orange-500 text-white shadow-md border-orange-500'
-                      : 'bg-white text-gray-600 hover:bg-gray-100 border-gray-300'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+              {tabs.map((tab, idx) => {
+                const tabImageUrl = resolveImageUrl(tab.image)
+                return (
+                  <button
+                    key={`${tab.label}-${idx}`}
+                    onClick={() => setActiveTab(tab.label)}
+                    onMouseEnter={() => preloadImage(tabImageUrl)}
+                    className={`px-3 py-1.5 text-sm font-medium transition-all duration-300 transform hover:scale-105 border ${
+                      activeTab === tab.label
+                        ? 'bg-orange-500 text-white shadow-md border-orange-500'
+                        : 'bg-white text-gray-600 hover:bg-gray-100 border-gray-300'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                )
+              })}
             </div>
 
             {/* Main Image + Content Box Wrapper */}
@@ -152,6 +144,8 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                     className="object-cover rounded"
                     style={{ objectFit: 'cover' }}
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                    loading="eager"
                   />
                 </motion.div>
               )}
