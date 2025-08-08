@@ -236,9 +236,17 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
           />
           {/* Menu panel */}
           <nav
-            className="fixed top-6 left-1/2 -translate-x-1/2 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-6 flex flex-col gap-4 animate-fade-in"
+            className="fixed top-6 left-1/2 -translate-x-1/2 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-6 pt-10 flex flex-col gap-4 animate-fade-in relative"
             style={{ minHeight: '60vh' }}
           >
+            {/* Close button inside panel */}
+            <button
+              aria-label="Close navigation menu"
+              className="absolute top-3 right-3 p-2 rounded-full bg-gray-100 text-blue-900 hover:bg-gray-200"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X className="w-5 h-5" />
+            </button>
             {navItems.map((item, idx) => {
               // Handle missing link data
               if (!item.link || !item.link.label) {
