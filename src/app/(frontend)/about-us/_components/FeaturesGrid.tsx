@@ -43,7 +43,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
               <span className="text-orange-600 font-bold uppercase tracking-wide text-sm mb-2 block">
                 {mainStatement.subheading}
               </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-green-900 mb-8">
+              <h2 className="text-4xl md:text-5xl font-bold text-mainBlue mb-8">
                 {mainStatement.title}
               </h2>
               <p className="text-lg text-gray-700 mb-8">{mainStatement.description}</p>
@@ -54,7 +54,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
         <div className="space-y-10">
           {supportingBlocks.map((block, idx) => (
             <div key={block.id || idx}>
-              <span className="text-black font-bold uppercase tracking-wide text-xs mb-1 block">
+              <span className="text-orange-600 font-bold uppercase tracking-wide text-xs mb-1 block">
                 {block.subheading}
               </span>
               <h3
