@@ -868,7 +868,10 @@ export interface Project {
     [k: string]: unknown;
   };
   categories: (string | Category)[];
-  area: 'Bardiya' | 'Surkhet' | 'Salyan' | 'Banke' | 'Kailali' | 'Dailekh' | 'Kathmandu';
+  /**
+   * Enter any area. You can filter multiple areas on the listing page using commas.
+   */
+  area: string;
   year: number;
   status: 'ongoing' | 'completed';
   projectOverview?: {

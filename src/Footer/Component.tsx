@@ -1,5 +1,5 @@
 import React from 'react'
-import { Phone, Mail, Heart } from 'lucide-react'
+import { Phone, Mail, Heart, MapPin } from 'lucide-react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import type { Footer as FooterType } from '@/payload-types'
@@ -62,10 +62,11 @@ export async function Footer() {
           {/* Left Column - Contact Info */}
           <div className="text-white space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
             {/* Address */}
-            <div className="mb-4">
-              <p className="text-base text-gray-200 mr-0">
+            <div className="flex items-center justify-end gap-3 mb-2">
+              <MapPin className="w-6 h-6 text-white" />
+              <span className="text-base text-gray-200">
                 {footerData?.address || 'Kathmandu, Nepal'}
-              </p>
+              </span>
             </div>
             {/* Phone */}
             <div className="flex items-center justify-end gap-3 mb-2">

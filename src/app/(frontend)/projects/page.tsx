@@ -6,7 +6,6 @@ import Image from 'next/image'
 import ProjectsHero from '@/components/ProjectsHero'
 import { ChevronDown } from 'lucide-react'
 
-const AREAS = ['Bardiya', 'Surkhet', 'Salyan', 'Banke', 'Kailali', 'Dailekh', 'Kathmandu']
 const YEARS = [2025, 2024, 2023, 2022, 2021, 2020, 2019]
 const STATUS = [
   { label: 'Ongoing', value: 'ongoing' },
@@ -99,13 +98,9 @@ export default async function ProjectsPage({
   return (
     <>
       <ProjectsHero
-        title={settings?.heroTitle || 'Our Projects'}
-        subtitle={settings?.heroSubtitle || 'Making a Difference'}
-        description={
-          settings?.heroDescription ||
-          'Discover our impactful conservation and community development projects across Nepal'
-        }
-        rightImage={settings?.heroImage?.url || '/ujyalo-logo.png'}
+        title="Our Projects"
+        subtitle="Conservation & Community"
+        description="Discover our impactful conservation and community development projects across Nepal, protecting wildlife and empowering local communities."
       />
       <div className="flex flex-col md:flex-row gap-8 md:gap-12 max-w-7xl mx-auto py-8 md:py-12 px-4">
         {/* Sidebar Filters */}
@@ -152,20 +147,14 @@ export default async function ProjectsPage({
                 </div>
                 <div>
                   <div className="font-bold mb-2">Project Area</div>
-                  <div className="flex flex-wrap gap-2">
-                    {AREAS.map((area) => (
-                      <label key={area}>
-                        <input
-                          type="checkbox"
-                          name="area"
-                          value={area}
-                          defaultChecked={selectedAreas.includes(area)}
-                          className="mr-1"
-                        />
-                        {area}
-                      </label>
-                    ))}
-                  </div>
+                  <input
+                    type="text"
+                    name="area"
+                    placeholder="e.g., Bardiya, Kathmandu"
+                    defaultValue={selectedAreas.join(',')}
+                    className="w-full border border-gray-300 rounded px-4 py-2"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Use commas for multiple areas</p>
                 </div>
                 <div>
                   <div className="font-bold mb-2">Year</div>
@@ -233,20 +222,14 @@ export default async function ProjectsPage({
               </div>
               <div>
                 <div className="font-bold mb-2">Project Area</div>
-                <div className="flex flex-wrap gap-2">
-                  {AREAS.map((area) => (
-                    <label key={area}>
-                      <input
-                        type="checkbox"
-                        name="area"
-                        value={area}
-                        defaultChecked={selectedAreas.includes(area)}
-                        className="mr-1"
-                      />
-                      {area}
-                    </label>
-                  ))}
-                </div>
+                <input
+                  type="text"
+                  name="area"
+                  placeholder="e.g., Bardiya, Kathmandu"
+                  defaultValue={selectedAreas.join(',')}
+                  className="w-full border border-gray-300 rounded px-4 py-2"
+                />
+                <p className="text-xs text-gray-500 mt-1">Use commas for multiple areas</p>
               </div>
               <div>
                 <div className="font-bold mb-2">Year</div>

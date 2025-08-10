@@ -69,9 +69,12 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'area',
-      type: 'select',
-      options: ['Bardiya', 'Surkhet', 'Salyan', 'Banke', 'Kailali', 'Dailekh', 'Kathmandu'],
+      type: 'text',
       required: true,
+      admin: {
+        description:
+          'Enter any area. You can filter multiple areas on the listing page using commas.',
+      },
     },
     {
       name: 'year',
