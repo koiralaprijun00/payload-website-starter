@@ -2316,6 +2316,7 @@ export interface AboutPage {
       }
     | {
         icon: string;
+        subheading: string;
         title: string;
         description: string;
         id?: string | null;
@@ -2574,6 +2575,7 @@ export interface AboutPageSelect<T extends boolean = true> {
           | T
           | {
               icon?: T;
+              subheading?: T;
               title?: T;
               description?: T;
               id?: T;

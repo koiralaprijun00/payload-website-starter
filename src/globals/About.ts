@@ -33,6 +33,7 @@ const About: GlobalConfig = {
           slug: 'iconCard',
           fields: [
             { name: 'icon', type: 'text', required: true },
+            { name: 'subheading', type: 'text', required: true },
             { name: 'title', type: 'text', required: true },
             { name: 'description', type: 'textarea', required: true },
           ],

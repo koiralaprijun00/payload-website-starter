@@ -12,6 +12,7 @@ type IconCard = {
   id?: string
   blockType: 'iconCard'
   icon: string
+  subheading: string
   title: string
   description: string
 }
@@ -40,7 +41,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
           {mainStatement && (
             <>
               <span className="text-orange-600 font-bold uppercase tracking-wide text-sm mb-2 block">
-                What We Stand For
+                {mainStatement.subheading}
               </span>
               <h2 className="text-4xl md:text-5xl font-bold text-green-900 mb-8">
                 {mainStatement.title}
@@ -54,15 +55,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
           {supportingBlocks.map((block, idx) => (
             <div key={block.id || idx}>
               <span className="text-black font-bold uppercase tracking-wide text-xs mb-1 block">
-                {block.title.toLowerCase().includes('mission')
-                  ? 'Our Mission'
-                  : block.title.toLowerCase().includes('vision')
-                    ? 'Our Vision'
-                    : block.title.toLowerCase().includes('goal')
-                      ? 'Our Goal'
-                      : block.title.toLowerCase().includes('objectives')
-                        ? 'Our Objectives'
-                        : ''}
+                {block.subheading}
               </span>
               <h3
                 className={`font-bold text-xl mb-1 ${block.title.toLowerCase().includes('vision') ? 'text-black' : 'text-black'}`}

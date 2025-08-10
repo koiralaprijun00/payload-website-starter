@@ -8,6 +8,7 @@ import NoticeSidebar from '@/components/NoticeSidebar'
 import { ChevronRight, Clock, Bell, X } from 'lucide-react'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
+import Link from 'next/link'
 
 export interface Notice {
   id: string
@@ -171,7 +172,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
 
   const handleButtonClick = () => {
     if (buttonLink) {
-      window.open(buttonLink, '_blank')
+      window.location.href = buttonLink
     }
   }
 
@@ -217,13 +218,13 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
               )}
 
               {/* Button */}
-              <button
-                onClick={handleButtonClick}
+              <Link
+                href={buttonLink || '#'}
                 className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-900 font-semibold hover:bg-blue-50 transition-colors duration-200 hover:shadow-lg"
               >
                 {displayButtonText}
                 <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-2" />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -314,10 +315,13 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
 
             {/* Footer */}
             <div className="p-6 border-t border-gray-200">
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 transition-colors duration-200 flex items-center justify-center gap-2">
+              <Link
+                href="/notices"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 transition-colors duration-200 flex items-center justify-center gap-2"
+              >
                 View All Notices
                 <ChevronRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
