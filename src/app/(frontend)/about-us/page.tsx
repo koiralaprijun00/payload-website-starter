@@ -19,7 +19,7 @@ export default async function AboutUsPage() {
   const { aboutPageData } = await getAboutPageData()
 
   return (
-    <div className="bg-white text-mainBlue">
+    <div className="text-mainBlue">
       <Hero {...aboutPageData.hero} />
       <FeaturesGrid features={aboutPageData.featuresGrid} />
       <section className="container mx-auto py-8 md:py-16">

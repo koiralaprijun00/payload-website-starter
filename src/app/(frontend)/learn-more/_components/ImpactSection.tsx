@@ -49,7 +49,7 @@ export default function ImpactSection({
     <section className="w-full max-w-6xl mx-auto px-4 py-16">
       <div className="max-w-3xl mb-10">
         {sectionLabel && (
-          <div className="uppercase text-sm font-semibold tracking-wide text-blue-700 mb-2">
+          <div className="uppercase text-lg md:text-xl font-semibold tracking-wide text-blue-700 mb-3">
             {sectionLabel}
           </div>
         )}

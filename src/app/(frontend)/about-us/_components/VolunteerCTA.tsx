@@ -65,7 +65,7 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
             type="button"
             size="lg"
             variant="outline"
-            className="bg-mainBlue text-white hover:bg-blue-900"
+            className="bg-mainBlue text-white hover:bg-blue-900 hover:text-white"
             onClick={() => setOpen(true)}
           >
             {data.buttonText}
