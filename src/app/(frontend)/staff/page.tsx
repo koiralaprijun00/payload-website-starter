@@ -129,12 +129,6 @@ export default async function StaffPage() {
           {/* Staff Section */}
           {members.length > 0 && (
             <div className="mb-16">
-              <div className="mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Staff Members</h2>
-                <p className="text-gray-600 max-w-2xl">
-                  Dedicated professionals implementing our mission and supporting our communities
-                </p>
-              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {members.map((member, idx) => (
                   <TeamMemberCard key={member.id || member.email || idx} member={member} />
