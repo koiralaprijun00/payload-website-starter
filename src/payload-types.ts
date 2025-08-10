@@ -253,7 +253,6 @@ export interface Page {
     heading?: string | null;
     description?: string | null;
     buttonText?: string | null;
-    buttonLink?: string | null;
     blocks?:
       | {
           icon?: (string | null) | Media;
@@ -1426,7 +1425,6 @@ export interface PagesSelect<T extends boolean = true> {
         heading?: T;
         description?: T;
         buttonText?: T;
-        buttonLink?: T;
         blocks?:
           | T
           | {

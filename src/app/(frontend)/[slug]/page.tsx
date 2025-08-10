@@ -173,7 +173,6 @@ export default async function Page({ params: paramsPromise }: Args) {
           heading={nonNullPage.homePageImpact.heading || ''}
           description={nonNullPage.homePageImpact.description || ''}
           buttonText={nonNullPage.homePageImpact.buttonText || ''}
-          buttonLink={nonNullPage.homePageImpact.buttonLink || ''}
           blocks={(nonNullPage.homePageImpact.blocks || []).map((block): ImpactBlock => {
             let icon: string | { url: string } = ''
             if (block.icon && typeof block.icon === 'object' && block.icon !== null) {

@@ -156,7 +156,6 @@ export const Pages: CollectionConfig<'pages'> = {
                 { name: 'heading', type: 'text', label: 'Heading' },
                 { name: 'description', type: 'textarea', label: 'Description' },
                 { name: 'buttonText', type: 'text', label: 'Button Text' },
-                { name: 'buttonLink', type: 'text', label: 'Button Link' },
                 {
                   name: 'blocks',
                   type: 'array',

@@ -17,7 +17,6 @@ export interface HomePageImpactProps {
   heading: string
   description: string
   buttonText?: string
-  buttonLink?: string
   showLearnMoreButton?: boolean
   blocks: ImpactBlock[]
 }
@@ -44,7 +43,6 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
   heading,
   description,
   buttonText,
-  buttonLink,
   showLearnMoreButton = true,
   blocks,
 }) => {
@@ -293,10 +291,10 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
           </h2>
           <p className="text-lg text-gray-700 mb-8">{description}</p>
 
-          {/* Dynamic Button or Learn More Button */}
-          {buttonText && buttonLink ? (
+          {/* Button - Always links to learn-more page */}
+          {buttonText ? (
             <Link
-              href={buttonLink}
+              href="/learn-more"
               className="inline-block self-start bg-mainBlue hover:bg-blue-800 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg"
             >
               {buttonText}
