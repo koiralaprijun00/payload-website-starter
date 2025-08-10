@@ -2427,11 +2427,6 @@ export interface ProjectsPageSetting {
  */
 export interface LearnMore {
   id: string;
-  title: string;
-  /**
-   * Optional subtitle that appears below the main title
-   */
-  subtitle?: string | null;
   /**
    * The main content for the Learn More page. Use rich text formatting to style your content.
    */
@@ -2647,8 +2642,6 @@ export interface ProjectsPageSettingsSelect<T extends boolean = true> {
  * via the `definition` "learn-more_select".
  */
 export interface LearnMoreSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

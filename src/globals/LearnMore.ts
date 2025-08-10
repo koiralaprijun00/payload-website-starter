@@ -22,21 +22,7 @@ export const LearnMore: GlobalConfig = {
     ],
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-      label: 'Page Title',
-      defaultValue: 'Learn More About Our Impact',
-    },
-    {
-      name: 'subtitle',
-      type: 'text',
-      label: 'Page Subtitle',
-      admin: {
-        description: 'Optional subtitle that appears below the main title',
-      },
-    },
+    // Removed hero title/subtitle fields as the top banner is no longer used
     {
       name: 'content',
       type: 'richText',
