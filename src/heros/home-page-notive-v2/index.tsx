@@ -170,6 +170,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
     setNoticesVisible(!noticesVisible)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleButtonClick = () => {
     if (buttonLink) {
       window.location.href = buttonLink
@@ -197,7 +198,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
             className="absolute left-8 bottom-8 max-w-md"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             variants={contentBoxVariants}
           >
             <div className="bg-blue-900 bg-opacity-95 backdrop-blur-sm p-6 shadow-2xl">
