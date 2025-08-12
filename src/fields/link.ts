@@ -19,9 +19,15 @@ type LinkType = (options?: {
   appearances?: LinkAppearances[] | false
   disableLabel?: boolean
   overrides?: Partial<GroupField>
+  allowNone?: boolean
 }) => Field
 
-export const link: LinkType = ({ appearances, disableLabel = false, overrides = {} } = {}) => {
+export const link: LinkType = ({
+  appearances,
+  disableLabel = false,
+  overrides = {},
+  allowNone = false,
+} = {}) => {
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
@@ -49,6 +55,14 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
                 label: 'Custom URL',
                 value: 'custom',
               },
+              ...(allowNone
+                ? ([
+                    {
+                      label: 'No link',
+                      value: 'none',
+                    },
+                  ] as const)
+                : ([] as const)),
             ],
           },
           {
@@ -76,7 +90,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       },
       label: 'Document to link to',
       relationTo: ['pages', 'posts', 'theme-pages'],
-      required: true,
+      required: ({ siblingData }) => siblingData?.type === 'reference',
     },
     {
       name: 'url',
@@ -85,7 +99,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
         condition: (_, siblingData) => siblingData?.type === 'custom',
       },
       label: 'Custom URL',
-      required: true,
+      required: ({ siblingData }) => siblingData?.type === 'custom',
     },
   ]
 
