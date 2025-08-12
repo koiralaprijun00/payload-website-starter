@@ -2,6 +2,7 @@
 import React, { useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 
 interface BlogPost {
   id: string
@@ -54,11 +55,7 @@ export default function HomePageBlogCarouselClient({ posts }: HomePageBlogCarous
           </button>
         </div>
       </div>
-      <div
-        ref={scrollRef}
-        className="flex gap-8 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-300"
-        style={{ scrollBehavior: 'smooth' }}
-      >
+      <div ref={scrollRef} className="flex gap-8 overflow-x-hidden pb-4">
         {posts.map((post) => (
           <div
             key={post.id}
@@ -67,9 +64,11 @@ export default function HomePageBlogCarouselClient({ posts }: HomePageBlogCarous
             <Link href={`/posts/${post.slug}`}>
               <div className="w-full h-56 rounded-md overflow-hidden mb-4 bg-gray-100">
                 {post.heroImage?.url && (
-                  <img
+                  <Image
                     src={post.heroImage.url}
                     alt={post.heroImage.alt || post.title}
+                    width={640}
+                    height={360}
                     className="w-full h-full object-cover"
                   />
                 )}
@@ -80,6 +79,15 @@ export default function HomePageBlogCarouselClient({ posts }: HomePageBlogCarous
             </Link>
           </div>
         ))}
+      </div>
+      <div className="mt-6 text-center">
+        <Link
+          href="/posts"
+          className="inline-flex items-center gap-2 text-blue-900 font-semibold hover:underline"
+        >
+          See all posts
+          <ChevronRight className="w-4 h-4" />
+        </Link>
       </div>
     </section>
   )
