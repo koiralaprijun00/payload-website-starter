@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
+import RichText from '@/components/RichText'
 
 async function getAchievement(slug: string) {
   const base = process.env.NEXT_PUBLIC_PAYLOAD_URL
@@ -28,11 +29,7 @@ export default async function AchievementPage({ params }: { params: Promise<{ sl
           <Image src={heroUrl} alt={doc.title} fill className="object-cover rounded" />
         </div>
       )}
-      {/* eslint-disable-next-line @next/next/no-danger */}
-      <div
-        className="prose max-w-none"
-        dangerouslySetInnerHTML={{ __html: doc.content?.root ? '' : '' }}
-      />
+      <div className="prose max-w-none">{doc.content ? <RichText data={doc.content} /> : null}</div>
     </article>
   )
 }

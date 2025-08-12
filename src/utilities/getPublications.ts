@@ -2,7 +2,16 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Media } from '@/payload-types'
 
-export async function getPublications() {
+type PublicationSummary = {
+  id: string
+  title: string
+  summary?: string
+  year?: number
+  category: { id: string; title: string } | null
+  documentUrl: string
+}
+
+export async function getPublications(): Promise<PublicationSummary[]> {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'publications',
