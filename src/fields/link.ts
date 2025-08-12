@@ -92,7 +92,7 @@ export const link: LinkType = ({
       relationTo: ['pages', 'posts', 'theme-pages'],
       required: false,
       // Enforce required only when this input is visible
-      validate: (value, { siblingData }) => {
+      validate: (value: unknown, { siblingData }: { siblingData?: any }) => {
         if (siblingData?.type === 'reference') {
           return value ? true : 'Please select a document to link to.'
         }
@@ -108,7 +108,7 @@ export const link: LinkType = ({
       label: 'Custom URL',
       required: false,
       // Enforce required only when this input is visible
-      validate: (value, { siblingData }) => {
+      validate: (value: unknown, { siblingData }: { siblingData?: any }) => {
         if (siblingData?.type === 'custom') {
           return value ? true : 'Please enter a URL.'
         }
