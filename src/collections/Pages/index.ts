@@ -88,7 +88,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'conservationSection',
               type: 'group',
-              label: 'Conservation Section',
+              label: 'Four Themes',
               fields: [
                 { name: 'sectionHeading', type: 'text', label: 'Section Heading' },
                 { name: 'sectionDescription', type: 'textarea', label: 'Section Description' },

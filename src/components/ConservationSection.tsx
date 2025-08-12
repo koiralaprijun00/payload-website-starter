@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 
@@ -149,39 +150,41 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                   />
                 </motion.div>
               )}
-              {/* Content Box - Overlapping */}
-              <motion.div
-                className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 hover:shadow-xl hover:-translate-y-2"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-              >
-                <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
-                  <span>{activeTabData.title}</span>
-                  <div className="w-2 h-2 bg-white animate-bounce"></div>
-                </h2>
-                <p className="text-blue-100 leading-relaxed mb-6">{activeTabData.text}</p>
-                <a
-                  href={activeTabData.link || '#'}
-                  className="group flex items-center space-x-2 text-white font-medium hover:text-orange-200 transition-colors duration-300"
+              {/* Content Box - Overlapping (entire box clickable) */}
+              <Link href={activeTabData.link || '#'} className="block group">
+                <motion.div
+                  className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
                 >
-                  <span>Learn More</span>
-                  <svg
-                    className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </a>
-              </motion.div>
+                  <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
+                    <span>{activeTabData.title}</span>
+                    <div className="w-2 h-2 bg-white animate-bounce"></div>
+                  </h2>
+                  <p className="text-blue-100 leading-relaxed mb-4">{activeTabData.text}</p>
+                  {/* Keep a subtle affordance */}
+                  <div className="flex items-center space-x-2 text-white/90 font-medium transition-colors duration-300">
+                    <span className="underline decoration-white/40 group-hover:decoration-white">
+                      Learn More
+                    </span>
+                    <svg
+                      className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </div>
+                </motion.div>
+              </Link>
             </div>
           </motion.div>
         </div>

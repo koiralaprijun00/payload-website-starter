@@ -2157,7 +2157,7 @@ export interface Header {
   navItems?:
     | {
         link: {
-          type?: ('reference' | 'custom') | null;
+          type?: ('reference' | 'custom' | 'none') | null;
           newTab?: boolean | null;
           reference?:
             | ({
@@ -2181,7 +2181,7 @@ export interface Header {
         children?:
           | {
               link: {
-                type?: ('reference' | 'custom') | null;
+                type?: ('reference' | 'custom' | 'none') | null;
                 newTab?: boolean | null;
                 reference?:
                   | ({
@@ -2205,7 +2205,7 @@ export interface Header {
               children?:
                 | {
                     link: {
-                      type?: ('reference' | 'custom') | null;
+                      type?: ('reference' | 'custom' | 'none') | null;
                       newTab?: boolean | null;
                       reference?:
                         | ({
