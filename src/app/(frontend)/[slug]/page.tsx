@@ -20,6 +20,8 @@ import type { ProjectRelationship } from '@/components/HomePageProjects'
 import { ThemePage } from '@/payload-types'
 import { getPosts } from '@/utilities/getPosts'
 import HomePageBlogCarousel from '@/components/HomePageBlogCarousel'
+import HomePageAchievementsTabs from '@/components/HomePageAchievementsTabs.client'
+import { getAchievements } from '@/utilities/getAchievements'
 
 async function getThemePages(): Promise<ThemePage[]> {
   const req = await fetch(
@@ -193,6 +195,21 @@ export default async function Page({ params: paramsPromise }: Args) {
               bgColor: block.bgColor || '',
             }
           })}
+        />
+      )}
+      {slug === 'home' && (
+        <HomePageAchievementsTabs
+          items={(await getAchievements()).map((a) => ({
+            slug: a.slug,
+            title: a.title,
+            description: a.summary || '',
+            image:
+              a.heroImage && typeof a.heroImage === 'object' && a.heroImage.url
+                ? { url: a.heroImage.url as string }
+                : undefined,
+            bullets: (a.highlights || []).map((h) => h.text),
+            ctaText: a.ctaText || 'Learn more',
+          }))}
         />
       )}
       {/* Latest Posts Section - only on homepage */}

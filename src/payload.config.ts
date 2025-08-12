@@ -85,6 +85,7 @@ export default buildConfig({
     TeamMembers,
     ThemePages,
     Projects,
+    (await import('./collections/Achievements')).Achievements,
     VolunteerSubmissions,
     Notices,
 

@@ -75,6 +75,7 @@ export interface Config {
     'team-members': TeamMember;
     'theme-pages': ThemePage;
     projects: Project;
+    achievements: Achievement;
     'volunteer-submissions': VolunteerSubmission;
     notices: Notice;
     publications: Publication;
@@ -98,6 +99,7 @@ export interface Config {
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     'theme-pages': ThemePagesSelect<false> | ThemePagesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'volunteer-submissions': VolunteerSubmissionsSelect<false> | VolunteerSubmissionsSelect<true>;
     notices: NoticesSelect<false> | NoticesSelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
@@ -976,6 +978,43 @@ export interface TeamMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  summary?: string | null;
+  heroImage?: (string | null) | Media;
+  highlights?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "volunteer-submissions".
  */
 export interface VolunteerSubmission {
@@ -1269,6 +1308,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: string | Achievement;
       } | null)
     | ({
         relationTo: 'volunteer-submissions';
@@ -1828,6 +1871,28 @@ export interface ProjectsSelect<T extends boolean = true> {
               mapImage?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  summary?: T;
+  heroImage?: T;
+  highlights?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  ctaText?: T;
+  ctaLink?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
