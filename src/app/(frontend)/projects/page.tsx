@@ -3,6 +3,7 @@ import React from 'react'
 import { Project, Category } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
+import Link from 'next/link'
 import ProjectsHero from '@/components/ProjectsHero'
 import { ChevronDown } from 'lucide-react'
 
@@ -73,7 +74,7 @@ export default async function ProjectsPage({
 }: {
   searchParams: Promise<ProjectSearchParams>
 }) {
-  const settings = await fetchProjectsPageSettings()
+  const _settings = await fetchProjectsPageSettings()
   const searchParams = await searchParamsPromise
   const parseMulti = (val?: string | string[]) => {
     if (!val) return []
@@ -278,10 +279,12 @@ export default async function ProjectsPage({
         <main className="flex-1 space-y-12 md:space-y-16">
           {projects.length === 0 && <div>No projects found.</div>}
           {projects.map((project) => {
+            const href = `/projects/${project.slug}`
             return (
-              <div
+              <Link
+                href={href}
                 key={project.id}
-                className="flex flex-col md:flex-row gap-4 md:gap-8 items-start border-b pb-12 last:border-b-0"
+                className="group flex flex-col md:flex-row gap-4 md:gap-8 items-start border-b pb-12 last:border-b-0 focus:outline-none focus:ring-2 focus:ring-mainOrange"
               >
                 {typeof project.image !== 'string' && project.image && (
                   <Image
@@ -325,17 +328,16 @@ export default async function ProjectsPage({
                         })}
                       </div>
                     )}
-                  <h2 className="text-2xl font-extrabold text-mainBlue mb-2">{project.title}</h2>
+                  <h2 className="text-2xl font-extrabold text-mainBlue mb-2 group-hover:underline">
+                    {project.title}
+                  </h2>
                   <p className="mb-4 text-gray-700">{project.summary}</p>
-                  <a
-                    href={`/projects/${project.slug}`}
-                    className="text-mainBlue font-bold flex items-center gap-2 group"
-                  >
-                    Learn More{' '}
+                  <div className="text-mainBlue font-bold flex items-center gap-2">
+                    <span>Learn More</span>
                     <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </a>
+                  </div>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </main>
