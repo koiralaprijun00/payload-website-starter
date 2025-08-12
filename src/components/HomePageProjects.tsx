@@ -205,6 +205,17 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
           </motion.div>
         )}
       </motion.div>
+
+      {/* See all projects CTA */}
+      <div className="mt-8 text-center">
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-2 text-blue-900 font-semibold hover:underline"
+        >
+          See all projects
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
     </motion.section>
   )
 }
