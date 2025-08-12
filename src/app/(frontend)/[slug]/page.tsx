@@ -93,9 +93,21 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   // Fetch posts for homepage only
-  let posts: unknown[] = []
+  type CarouselPost = {
+    id: string
+    title: string
+    slug: string
+    heroImage?: { url: string; alt?: string }
+  }
+  let posts: CarouselPost[] = []
   if (slug === 'home') {
-    posts = await getPosts()
+    const fetched = await getPosts()
+    posts = fetched.map((p) => ({
+      id: p.id,
+      title: p.title,
+      slug: p.slug,
+      heroImage: p.heroImage ? { url: p.heroImage.url, alt: p.heroImage.alt } : undefined,
+    }))
   }
 
   return (
