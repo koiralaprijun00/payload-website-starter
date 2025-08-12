@@ -30,7 +30,13 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[12rem] w-full h-auto max-h-[48px]', className)}
+      className={clsx(
+        // Size
+        'w-auto h-auto max-h-16 md:max-h-20',
+        // Appearance: support both transparent and non-transparent assets
+        'bg-transparent',
+        className,
+      )}
       src={logoSrc}
     />
   )

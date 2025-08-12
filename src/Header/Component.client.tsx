@@ -30,7 +30,7 @@ export const HeaderClient: React.FC<{
     <header className="relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 flex justify-between px-0">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" logo={logo} />
+          <Logo loading="eager" priority="high" className="max-h-16 md:max-h-20" logo={logo} />
         </Link>
         <HeaderNav navItems={navItems} />
       </div>
