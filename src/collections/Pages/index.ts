@@ -119,9 +119,9 @@ export const Pages: CollectionConfig<'pages'> = {
                   type: 'array',
                   label: 'Project Blocks',
                   fields: [
-                    { name: 'title', type: 'text', label: 'Title' },
-                    { name: 'description', type: 'textarea', label: 'Description' },
-                    { name: 'value', type: 'text', label: 'Value' },
+                    { name: 'title', type: 'text', label: 'Project Title' },
+                    { name: 'description', type: 'textarea', label: 'Short Description' },
+                    { name: 'value', type: 'text', label: 'Numeric Value' },
                     {
                       name: 'image',
                       type: 'upload',
