@@ -39,8 +39,9 @@ export default function GalleryClient({ images }: GalleryPageProps) {
   // Masonry breakpoints
   const breakpointColumnsObj = {
     default: 4,
+    1400: 4,
     1100: 3,
-    700: 2,
+    800: 2,
     500: 1,
   }
 
@@ -115,16 +116,16 @@ export default function GalleryClient({ images }: GalleryPageProps) {
       {/* LCP Optimization: Preload first 3 images */}
       <GalleryPreloader images={images} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <h1 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 xl:py-16">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-8 sm:mb-10 lg:mb-12 text-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
           Gallery
         </h1>
 
         {/* Optimized Masonry Grid */}
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          className="flex w-auto -ml-4"
-          columnClassName="pl-4 flex flex-col space-y-4"
+          className="flex w-auto -ml-2 sm:-ml-4"
+          columnClassName="pl-2 sm:pl-4 flex flex-col space-y-2 sm:space-y-4"
         >
           {images.map((image, index) => (
             <OptimizedGalleryImage

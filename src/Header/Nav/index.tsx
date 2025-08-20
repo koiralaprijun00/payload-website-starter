@@ -78,7 +78,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
         {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
       </button>
       {/* Desktop nav */}
-      <nav className="gap-8 items-center hidden md:flex">
+      <nav className="gap-4 sm:gap-6 lg:gap-8 items-center hidden md:flex">
         {navItems.map((item, idx) => {
           // Handle missing link data
           if (!item.link || !item.link.label) {
@@ -93,7 +93,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 key={item.id || idx}
                 href={item.link.url || '#'}
                 label={item.link.label}
-                className="font-light text-sm px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition flex items-center"
+                className="font-light text-xs sm:text-sm px-4 sm:px-6 py-2 rounded bg-mainOrange text-white hover:bg-orange-600 transition flex items-center"
               >
                 {item.link.label}
               </LoadingLink>
@@ -109,14 +109,14 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 onMouseLeave={handleMouseLeave}
               >
                 <button
-                  className="font-light text-sm text-blue-900 hover:underline focus:outline-none flex items-center gap-1"
+                  className="font-light text-xs sm:text-sm text-blue-900 hover:underline focus:outline-none flex items-center gap-1"
                   type="button"
                 >
                   {item.link.label}
-                  <ChevronDown className="w-4 h-4 ml-1" />
+                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
                 </button>
                 {dropdownOpen === item.link.label && (
-                  <div className="absolute left-0 mt-2 w-56 bg-white border rounded shadow-lg z-50">
+                  <div className="absolute left-0 mt-2 w-48 sm:w-56 bg-white border rounded shadow-lg z-50">
                     {item.children.map((child, childIdx) => {
                       if (!child.link || !child.link.label) return null
 
@@ -138,17 +138,17 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                           <div key={child.id || childIdx}>
                             <button
                               onClick={() => handleLinkClick(childHref, child.link.label || '')}
-                              className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                              className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
                               disabled={loadingLink === child.link.label}
                             >
                               {loadingLink === child.link.label && (
-                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <Loader2 className="w-2 h-2 sm:w-3 sm:h-3 animate-spin" />
                               )}
                               {child.link.label}
                             </button>
                             {/* Show all grandchildren immediately */}
                             {child.children && (
-                              <div className="ml-4 pl-2">
+                              <div className="ml-3 sm:ml-4 pl-2">
                                 {child.children.map((grandChild, grandChildIdx) => {
                                   if (!grandChild.link || !grandChild.link.label) return null
 
@@ -168,11 +168,11 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                       onClick={() =>
                                         handleLinkClick(grandChildHref, grandChild.link.label || '')
                                       }
-                                      className="w-full text-left py-2 border-l-2 border-gray-200 pl-2 mb-1 text-sm font-light text-gray-600 hover:bg-blue-100 flex items-center gap-2"
+                                      className="w-full text-left py-1.5 sm:py-2 border-l-2 border-gray-200 pl-2 mb-1 text-xs sm:text-sm font-light text-gray-600 hover:bg-blue-100 flex items-center gap-2"
                                       disabled={loadingLink === grandChild.link.label}
                                     >
                                       {loadingLink === grandChild.link.label && (
-                                        <Loader2 className="w-3 h-3 animate-spin" />
+                                        <Loader2 className="w-2 h-2 sm:w-3 sm:h-3 animate-spin" />
                                       )}
                                       {grandChild.link.label}
                                     </button>
@@ -188,11 +188,11 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                         <button
                           key={child.id || childIdx}
                           onClick={() => handleLinkClick(childHref, child.link.label || '')}
-                          className="w-full text-left px-4 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                          className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
                           disabled={loadingLink === child.link.label}
                         >
                           {loadingLink === child.link.label && (
-                            <Loader2 className="w-3 h-3 animate-spin" />
+                            <Loader2 className="w-2 h-2 sm:w-3 sm:h-3 animate-spin" />
                           )}
                           {child.link.label}
                         </button>
@@ -219,7 +219,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               key={item.id || idx}
               href={href}
               label={item.link.label}
-              className="font-light text-sm text-blue-900 hover:underline flex items-center"
+              className="font-light text-xs sm:text-sm text-blue-900 hover:underline flex items-center"
             >
               {item.link.label}
             </LoadingLink>
@@ -236,16 +236,16 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
           />
           {/* Menu panel */}
           <nav
-            className="fixed top-6 left-1/2 -translate-x-1/2 w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-6 pt-10 flex flex-col gap-4 animate-fade-in"
+            className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 w-[92vw] sm:w-[90vw] max-w-sm bg-white rounded-2xl shadow-2xl z-50 p-4 sm:p-6 pt-8 sm:pt-10 flex flex-col gap-3 sm:gap-4 animate-fade-in"
             style={{ minHeight: '60vh' }}
           >
             {/* Close button inside panel */}
             <button
               aria-label="Close navigation menu"
-              className="absolute top-3 right-3 p-2 rounded-full bg-gray-100 text-blue-900 hover:bg-gray-200"
+              className="absolute top-2 sm:top-3 right-2 sm:right-3 p-1.5 sm:p-2 rounded-full bg-gray-100 text-blue-900 hover:bg-gray-200"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             {navItems.map((item, idx) => {
               // Handle missing link data
@@ -261,7 +261,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                     key={item.id || idx}
                     href={item.link.url || '#'}
                     label={item.link.label}
-                    className="font-light text-sm px-6 py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-4 flex items-center justify-center"
+                    className="font-light text-sm px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-mainOrange text-white hover:bg-orange-600 transition text-center mt-3 sm:mt-4 flex items-center justify-center"
                   >
                     {item.link.label}
                   </LoadingLink>
@@ -285,7 +285,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                       />
                     </button>
                     {isDropdownOpen && (
-                      <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
+                      <div className="mt-1 ml-3 sm:ml-4 border-l pl-3 sm:pl-4 flex flex-col gap-1 sm:gap-2">
                         {item.children.map((child, childIdx) => {
                           if (!child.link || !child.link.label) return null
 
@@ -307,7 +307,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                             return (
                               <div key={child.id || childIdx} className="relative">
                                 <button
-                                  className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center justify-between"
+                                  className="w-full text-left px-2 py-1.5 sm:py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center justify-between"
                                   type="button"
                                   onClick={() =>
                                     setMobileSubDropdownOpen(
@@ -321,7 +321,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                   />
                                 </button>
                                 {isSubDropdownOpen && child.children && (
-                                  <div className="mt-1 ml-4 border-l pl-4 flex flex-col gap-2">
+                                  <div className="mt-1 ml-3 sm:ml-4 border-l pl-3 sm:pl-4 flex flex-col gap-1 sm:gap-2">
                                     {child.children.map((grandChild, grandChildIdx) => {
                                       if (!grandChild.link || !grandChild.link.label) return null
 
@@ -344,7 +344,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                               grandChild.link.label || '',
                                             )
                                           }
-                                          className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
+                                          className="w-full text-left px-2 py-1.5 sm:py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
                                           disabled={loadingLink === grandChild.link.label}
                                         >
                                           {loadingLink === grandChild.link.label && (
@@ -364,7 +364,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                             <button
                               key={child.id || childIdx}
                               onClick={() => handleLinkClick(childHref, child.link.label || '')}
-                              className="w-full text-left px-2 py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
+                              className="w-full text-left px-2 py-1.5 sm:py-2 text-sm font-light text-blue-900 hover:bg-blue-100 rounded flex items-center gap-2"
                               disabled={loadingLink === child.link.label}
                             >
                               {loadingLink === child.link.label && (

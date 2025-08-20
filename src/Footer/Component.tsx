@@ -57,39 +57,39 @@ export async function Footer() {
       />
 
       {/* Content */}
-      <div className="relative z-10 min-h-[70vh] lg:min-h-[90vh] flex flex-col items-center justify-center px-4 py-12 sm:py-16">
-        <div className="max-w-7xl w-full flex flex-col lg:flex-row justify-end items-center lg:items-center gap-12 sm:gap-16 text-center lg:text-left">
+      <div className="relative z-10 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[90vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        <div className="w-full max-w-7xl flex flex-col lg:flex-row justify-end items-center lg:items-center gap-8 sm:gap-12 lg:gap-16 text-center lg:text-left">
           {/* Left Column - Contact Info */}
-          <div className="text-white space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
+          <div className="text-white space-y-4 sm:space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
             {/* Address */}
-            <div className="flex items-center justify-end gap-3 mb-2">
-              <MapPin className="w-6 h-6 text-white" />
-              <span className="text-base text-gray-200">
+            <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3 mb-1 sm:mb-2">
+              <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <span className="text-sm sm:text-base text-gray-200">
                 {footerData?.address || 'Kathmandu, Nepal'}
               </span>
             </div>
             {/* Phone */}
-            <div className="flex items-center justify-end gap-3 mb-2">
-              <Phone className="w-6 h-6 text-white" />
-              <span className="text-base text-gray-200">{footerData?.phone || ''}</span>
+            <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3 mb-1 sm:mb-2">
+              <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <span className="text-sm sm:text-base text-gray-200">{footerData?.phone || ''}</span>
             </div>
             {/* Email */}
-            <div className="flex items-center justify-end gap-3">
-              <Mail className="w-6 h-6 text-white" />
-              <span className="text-base text-gray-200">{footerData?.email || ''}</span>
+            <div className="flex items-center justify-center lg:justify-end gap-2 sm:gap-3">
+              <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <span className="text-sm sm:text-base text-gray-200">{footerData?.email || ''}</span>
             </div>
           </div>
 
           {/* Center Column - Logo and Mission */}
           <div className="text-center flex-1 lg:flex-[1.4] order-1 lg:order-2 flex flex-col items-center">
-            <div className="bg-blue-800 bg-opacity-90 backdrop-blur-sm p-8 md:p-12 min-h-[24rem] md:min-h-[32rem] shadow-2xl flex flex-col items-center">
+            <div className="bg-blue-800 bg-opacity-90 backdrop-blur-sm p-6 sm:p-8 md:p-12 min-h-[20rem] sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[32rem] shadow-2xl flex flex-col items-center">
               {/* Logo */}
-              <div className="mb-6">
-                <div className="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center relative">
+              <div className="mb-4 sm:mb-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-white rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-800 rounded-full flex items-center justify-center relative">
                     <div className="text-white font-bold text-xs">
                       {/* Stylized logo representation */}
-                      <svg viewBox="0 0 40 40" className="w-10 h-10 fill-current">
+                      <svg viewBox="0 0 40 40" className="w-8 h-8 sm:w-10 sm:h-10 fill-current">
                         <circle cx="20" cy="15" r="8" />
                         <path d="M12 25 Q20 30 28 25 Q24 35 20 35 Q16 35 12 25" />
                         <circle cx="16" cy="18" r="2" />
@@ -101,10 +101,12 @@ export async function Footer() {
               </div>
 
               {/* Title */}
-              <h1 className="text-2xl lg:text-3xl font-bold text-white mb-6">Ujalyo Nepal</h1>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white mb-4 sm:mb-6">
+                Ujalyo Nepal
+              </h1>
 
               {/* Mission Statement */}
-              <p className="text-gray-100 text-base leading-relaxed mb-8">
+              <p className="text-gray-100 text-sm sm:text-base lg:text-lg leading-relaxed mb-6 sm:mb-8">
                 {footerData?.mission ||
                   'A world where humans and wildlife co-exist in harmony and both people and wildlife are equally valued.'}
               </p>
@@ -115,17 +117,17 @@ export async function Footer() {
                   href={footerData.donateButton.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-base"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 sm:py-3 px-4 sm:px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base"
                 >
-                  <Heart className="w-5 h-5" />
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                   {footerData.donateButton.text || 'DONATE NOW'}
                 </a>
               ) : (
                 <button
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-base"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 sm:py-3 px-4 sm:px-6 flex items-center gap-2 mx-auto transition-all duration-300 transform hover:scale-105 shadow-lg text-sm sm:text-base"
                   disabled
                 >
-                  <Heart className="w-5 h-5" />
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                   {footerData?.donateButton?.text || 'DONATE NOW'}
                 </button>
               )}
@@ -134,7 +136,7 @@ export async function Footer() {
 
           {/* Right Column - Navigation */}
           <div className="text-white flex-1 order-2 lg:order-3 text-center lg:text-left items-center lg:items-start flex flex-col">
-            <nav className="space-y-4">
+            <nav className="space-y-3 sm:space-y-4">
               {(footerData?.navItems || []).map((item, idx) => {
                 if (!item?.link?.label) return null
                 // Custom URL
@@ -143,7 +145,7 @@ export async function Footer() {
                     <a
                       key={idx}
                       href={item.link.url}
-                      className="block text-lg hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
+                      className="block text-base sm:text-lg hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
                       target={item.link.newTab ? '_blank' : undefined}
                       rel={item.link.newTab ? 'noopener noreferrer' : undefined}
                     >
@@ -178,7 +180,7 @@ export async function Footer() {
                     <a
                       key={idx}
                       href={href}
-                      className="block text-lg hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
+                      className="block text-base sm:text-lg hover:text-orange-400 transition-colors duration-300 hover:translate-x-2 transform"
                     >
                       {item.link.label}
                     </a>
@@ -191,8 +193,8 @@ export async function Footer() {
         </div>
 
         {/* Copyright Bar with 3 sections - Below content */}
-        <div className="w-full mt-8">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center text-gray-300 text-sm gap-4 md:gap-0 text-center md:text-left">
+        <div className="w-full mt-6 sm:mt-8">
+          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col md:flex-row justify-between items-center text-gray-300 text-xs sm:text-sm gap-3 sm:gap-4 md:gap-0 text-center md:text-left">
             {/* Left: Copyright */}
             <div className="flex-1 md:text-left">
               <p>&copy; 2024 Ujalyo Nepal. All rights reserved.</p>
@@ -200,13 +202,13 @@ export async function Footer() {
 
             {/* Center: Social Media Icons */}
             <div className="flex-1 flex justify-center order-last md:order-none">
-              <div className="flex gap-6">
+              <div className="flex gap-4 sm:gap-6">
                 {/* Debug: Show all icons if no social data */}
                 {(!footerData?.socials || footerData.socials.length === 0) && (
                   <>
                     <a href="#" aria-label="Facebook">
                       <svg
-                        className="w-5 h-5 text-white hover:text-blue-400 transition-colors duration-300"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-white hover:text-blue-400 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -215,7 +217,7 @@ export async function Footer() {
                     </a>
                     <a href="#" aria-label="Twitter">
                       <svg
-                        className="w-5 h-5 text-white hover:text-blue-400 transition-colors duration-300"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-white hover:text-blue-400 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -224,7 +226,7 @@ export async function Footer() {
                     </a>
                     <a href="#" aria-label="Instagram">
                       <svg
-                        className="w-5 h-5 text-white hover:text-blue-400 transition-colors duration-300"
+                        className="w-4 h-4 sm:w-5 sm:h-5 text-white hover:text-blue-400 transition-colors duration-300"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -239,7 +241,7 @@ export async function Footer() {
 
                   const getSocialIcon = (platform: string) => {
                     const iconClass =
-                      'w-5 h-5 text-white hover:text-blue-400 transition-colors duration-300'
+                      'w-4 h-4 sm:w-5 sm:h-5 text-white hover:text-blue-400 transition-colors duration-300'
 
                     switch (platform) {
                       case 'facebook':

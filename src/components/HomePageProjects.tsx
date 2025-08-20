@@ -50,7 +50,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
     const CardContent = (
       <div
-        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[220px] md:min-h-0 p-4 sm:p-6 h-full transition-all duration-200 ${url ? 'cursor-pointer group' : ''}`}
+        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[180px] sm:min-h-[200px] md:min-h-[220px] lg:min-h-0 p-3 sm:p-4 md:p-6 h-full transition-all duration-200 ${url ? 'cursor-pointer group' : ''}`}
       >
         {hasImage && imageUrl && (
           <div className="absolute inset-0 z-0">
@@ -60,21 +60,23 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
               fill
               className={`object-cover object-center transition-transform duration-300 ${url ? 'group-hover:scale-110' : ''}`}
               style={{ objectFit: 'cover', opacity: 0.7 }}
-              sizes="100vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             />
           </div>
         )}
         <div className={`relative z-10 flex flex-col h-full text-white`}>
           {block.value && (
-            <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 w-2 font-sansita">
+            <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-1 w-2 font-sansita">
               {block.value}
             </div>
           )}
           <div className="flex-1" />
           <div>
-            <div className="text-lg sm:text-md font-normal mb-1 font-sansita">{block.title}</div>
+            <div className="text-sm sm:text-base md:text-lg lg:text-xl font-normal mb-1 font-sansita">
+              {block.title}
+            </div>
             {block.description && (
-              <div className="text-xs sm:text-sm md:text-base font-normal opacity-90 leading-relaxed mt-2 font-fira-sans">
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg font-normal opacity-90 leading-relaxed mt-1 sm:mt-2 font-fira-sans">
                 {block.description}
               </div>
             )}
@@ -82,9 +84,9 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
         </div>
         {/* Arrow button on hover for link blocks */}
         {url && (
-          <div className="absolute bottom-4 right-4 z-20">
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/80 text-orange-500 shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-              <ArrowRight size={24} />
+          <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 z-20">
+            <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/80 text-orange-500 shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+              <ArrowRight size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
             </span>
           </div>
         )}
@@ -121,29 +123,31 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
   return (
     <motion.section
-      className="w-full max-w-7xl mx-auto px-2 sm:px-4 py-16 my-16"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 my-8 sm:my-12 lg:my-16"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
     >
-      <div className="flex flex-col items-center text-center mb-10">
+      <div className="flex flex-col items-center text-center mb-8 sm:mb-10 lg:mb-12">
         <div className="flex items-center space-x-2 mb-2">
-          <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
-          <span className="uppercase text-xs font-bold tracking-wider text-gray-700">
+          <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-orange-500 inline-block" />
+          <span className="uppercase text-xs sm:text-sm font-bold tracking-wider text-gray-700">
             {sectionLabel}
           </span>
         </div>
-        <h2 className="font-sansita text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight tracking-tight">
+        <h2 className="font-sansita text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-2 leading-tight tracking-tight">
           {heading}
         </h2>
-        <p className="text-base sm:text-lg text-gray-700 mb-6 font-fira-sans">{subheading}</p>
-        <hr className="w-1/2 border-t border-gray-300 my-4" />
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 font-fira-sans">
+          {subheading}
+        </p>
+        <hr className="w-1/2 border-t border-gray-300 my-3 sm:my-4" />
       </div>
 
       {/* Grid layout - Mobile: stacked, Desktop: 3 columns */}
       <motion.div
-        className="block md:hidden space-y-4"
+        className="block md:hidden space-y-3 sm:space-y-4"
         variants={containerVariants}
         initial="hidden"
         whileInView="show"
@@ -159,7 +163,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
       {/* Desktop layout – 3×3 magazine grid */}
       <motion.div
-        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[900px] gap-6"
+        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] gap-4 sm:gap-6 lg:gap-8"
         variants={containerVariants}
         initial="hidden"
         whileInView="show"
@@ -207,13 +211,13 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
       </motion.div>
 
       {/* See all projects CTA */}
-      <div className="mt-8 text-center">
+      <div className="mt-6 sm:mt-8 text-center">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 text-blue-900 font-semibold hover:underline"
+          className="inline-flex items-center gap-2 text-blue-900 font-semibold hover:underline text-sm sm:text-base lg:text-lg"
         >
           See all projects
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </Link>
       </div>
     </motion.section>

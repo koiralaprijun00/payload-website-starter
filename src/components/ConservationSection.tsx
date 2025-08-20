@@ -83,32 +83,34 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
 
   return (
     <motion.div
-      className="bg-white flex items-center justify-center px-8 my-16 pb-0 md:pb-40"
+      className="bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 my-8 sm:my-12 lg:my-16 pb-0 lg:pb-20 xl:pb-32 2xl:pb-40"
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.2 }}
       variants={{}}
     >
-      <div className="max-w-7xl w-full">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] items-start gap-10">
+      <div className="w-full max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] items-start gap-6 sm:gap-8 lg:gap-10 xl:gap-12">
           {/* Left Column */}
-          <motion.div className="space-y-2" variants={leftColVariants}>
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 bg-orange-500 animate-pulse"></div>
-              <span className="text-gray-600 font-medium tracking-wide uppercase text-sm">
+          <motion.div className="space-y-2 sm:space-y-3" variants={leftColVariants}>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-orange-500 animate-pulse"></div>
+              <span className="text-gray-600 font-medium tracking-wide uppercase text-xs sm:text-sm">
                 Our Themes
               </span>
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 leading-relaxed mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-relaxed mb-3 sm:mb-4">
               {sectionHeading}
             </h1>
-            <p className="text-md text-gray-900 leading-tight">{sectionDescription}</p>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-900 leading-tight">
+              {sectionDescription}
+            </p>
           </motion.div>
 
           {/* Right Column */}
-          <motion.div className="space-y-6" variants={rightColVariants}>
+          <motion.div className="space-y-4 sm:space-y-6" variants={rightColVariants}>
             {/* Navigation Tabs */}
-            <div className="flex flex-wrap gap-2 mb-2">
+            <div className="flex flex-wrap gap-2 mb-2 sm:mb-4">
               {tabs.map((tab, idx) => {
                 const tabImageUrl = resolveImageUrl(tab.image)
                 return (
@@ -116,7 +118,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                     key={`${tab.label}-${idx}`}
                     onClick={() => setActiveTab(tab.label)}
                     onMouseEnter={() => preloadImage(tabImageUrl)}
-                    className={`px-3 py-1.5 text-sm font-medium transition-all duration-300 transform hover:scale-105 border ${
+                    className={`px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium transition-all duration-300 transform hover:scale-105 border ${
                       activeTab === tab.label
                         ? 'bg-orange-500 text-white shadow-md border-orange-500'
                         : 'bg-white text-gray-600 hover:bg-gray-100 border-gray-300'
@@ -129,10 +131,10 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
             </div>
 
             {/* Main Image + Content Box Wrapper */}
-            <div className="relative mb-6 z-0">
+            <div className="relative mb-4 sm:mb-6 z-0">
               {imageUrl && (
                 <motion.div
-                  className="w-full h-64 sm:h-80 md:h-[32rem] relative rounded overflow-hidden"
+                  className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 2xl:h-96 relative rounded overflow-hidden"
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: false, amount: 0.2 }}
@@ -144,7 +146,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                     fill
                     className="object-cover rounded"
                     style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
                     priority
                     loading="eager"
                   />
@@ -153,24 +155,26 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
               {/* Content Box - Overlapping (entire box clickable) */}
               <Link href={activeTabData.link || '#'} className="block group">
                 <motion.div
-                  className="bg-blue-900 text-white px-4 py-4 md:px-8 md:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-4 md:absolute md:-left-20 md:-bottom-32 md:w-[85%] md:mt-0 z-10 transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                  className="bg-blue-900 text-white px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-3 sm:mt-4 lg:absolute lg:-left-16 xl:-left-20 2xl:-left-24 lg:-bottom-20 xl:-bottom-24 2xl:-bottom-32 lg:w-[85%] lg:mt-0 z-10 transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.2 }}
                   transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
                 >
-                  <h2 className="text-2xl font-bold mb-4 flex items-center space-x-3">
+                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 lg:mb-4 flex items-center space-x-2 sm:space-x-3">
                     <span>{activeTabData.title}</span>
-                    <div className="w-2 h-2 bg-white animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white animate-bounce"></div>
                   </h2>
-                  <p className="text-blue-100 leading-relaxed mb-4">{activeTabData.text}</p>
+                  <p className="text-blue-100 leading-relaxed mb-2 sm:mb-3 lg:mb-4 text-sm sm:text-base lg:text-lg">
+                    {activeTabData.text}
+                  </p>
                   {/* Keep a subtle affordance */}
-                  <div className="flex items-center space-x-2 text-white/90 font-medium transition-colors duration-300">
+                  <div className="flex items-center space-x-2 text-white/90 font-medium transition-colors duration-300 text-sm sm:text-base">
                     <span className="underline decoration-white/40 group-hover:decoration-white">
                       Learn More
                     </span>
                     <svg
-                      className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"
+                      className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-2 transition-transform duration-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"

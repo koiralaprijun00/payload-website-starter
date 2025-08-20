@@ -31,10 +31,7 @@ export const Logo = (props: Props) => {
       fetchPriority={priority}
       decoding="async"
       className={clsx(
-        // Size
-        'w-auto h-auto max-h-16 md:max-h-20',
-        // Appearance: support both transparent and non-transparent assets
-        'bg-transparent',
+        'max-w-[8rem] sm:max-w-[10rem] lg:max-w-[12rem] w-full h-auto max-h-[48px] sm:max-h-[56px] md:max-h-[64px] lg:max-h-[72px] xl:max-h-[80px]',
         className,
       )}
       src={logoSrc}
