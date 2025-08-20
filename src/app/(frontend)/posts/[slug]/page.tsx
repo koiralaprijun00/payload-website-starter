@@ -105,6 +105,17 @@ export default async function Post({ params: paramsPromise }: Args) {
       return <PayloadRedirects url="/posts" />
     }
 
+    // Log the post data for debugging
+    console.log(`Rendering post:`, {
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      hasContent: !!post.content,
+      hasHeroImage: !!post.heroImage,
+      hasCategories: !!post.categories,
+      hasAuthors: !!post.populatedAuthors,
+    })
+
     return (
       <article className="pt-8 pb-8">
         <PageClient />
@@ -125,13 +136,21 @@ export default async function Post({ params: paramsPromise }: Args) {
     )
   } catch (error) {
     console.error(`Error rendering post with slug ${slug}:`, error)
+    // Log more details about the error
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      })
+    }
     return <PayloadRedirects url="/posts" />
   }
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  
+
   try {
     if (!slug || typeof slug !== 'string') {
       console.warn('generateMetadata received invalid slug:', { slug, type: typeof slug })
@@ -140,7 +159,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
         description: 'Browse all posts',
       }
     }
-    
+
     const post = await queryPostBySlug({ slug })
 
     if (!post) {
@@ -193,6 +212,8 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
         content: true,
         updatedAt: true,
         createdAt: true,
+        id: true,
+        populatedAuthors: true,
       },
     })
 
@@ -202,11 +223,30 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
       console.warn(`No post found for slug: ${slug}`)
     } else if (!post.slug) {
       console.warn(`Post found but has no slug:`, { postId: post.id, title: post.title })
+    } else {
+      // Log successful post retrieval for debugging
+      console.log(`Successfully retrieved post for slug ${slug}:`, {
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        hasContent: !!post.content,
+        hasHeroImage: !!post.heroImage,
+        hasCategories: !!post.categories,
+        hasAuthors: !!post.populatedAuthors,
+      })
     }
 
     return post
   } catch (error) {
     console.error(`Error querying post with slug ${slug}:`, error)
+    // Log more details about the error
+    if (error instanceof Error) {
+      console.error('Database error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      })
+    }
     // Return null instead of throwing to prevent build failure
     return null
   }
