@@ -43,13 +43,15 @@ export async function generateStaticParams() {
       return { slug }
     })
 
-    console.log(`Generated ${params.length} valid post params from ${posts.docs.length} total posts`)
-    
+    console.log(
+      `Generated ${params.length} valid post params from ${posts.docs.length} total posts`,
+    )
+
     // If we have no valid posts, log a warning but don't fail the build
     if (validPosts.length === 0) {
       console.warn('No valid posts found for static generation')
     }
-    
+
     return params
   } catch (error) {
     console.error('Error in generateStaticParams:', error)
@@ -65,15 +67,16 @@ type Args = {
 }
 
 export default async function Post({ params: paramsPromise }: Args) {
+  const { slug = '' } = await paramsPromise
+
   try {
     const { isEnabled: draft } = await draftMode()
-    const { slug = '' } = await paramsPromise
-    
+
     if (!slug || typeof slug !== 'string') {
       console.warn('Post component received invalid slug:', { slug, type: typeof slug })
       return <PayloadRedirects url="/posts" />
     }
-    
+
     const url = '/posts/' + slug
     const post = await queryPostBySlug({ slug })
 
@@ -83,22 +86,26 @@ export default async function Post({ params: paramsPromise }: Args) {
     }
 
     if (!post.slug || typeof post.slug !== 'string') {
-      console.error(`Post found but has invalid slug:`, { postId: post.id, title: post.title, slug: post.slug })
+      console.error(`Post found but has invalid slug:`, {
+        postId: post.id,
+        title: post.title,
+        slug: post.slug,
+      })
       return <PayloadRedirects url="/posts" />
     }
 
     // Additional validation to ensure all required fields are present
     if (!post.title || !post.content) {
-      console.error(`Post missing required fields:`, { 
-        postId: post.id, 
-        slug: post.slug, 
-        hasTitle: !!post.title, 
-        hasContent: !!post.content 
+      console.error(`Post missing required fields:`, {
+        postId: post.id,
+        slug: post.slug,
+        hasTitle: !!post.title,
+        hasContent: !!post.content,
       })
       return <PayloadRedirects url="/posts" />
     }
 
-      return (
+    return (
       <article className="pt-8 pb-8">
         <PageClient />
 
@@ -125,7 +132,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   try {
     const { slug = '' } = await paramsPromise
-    
+
     if (!slug || typeof slug !== 'string') {
       console.warn('generateMetadata received invalid slug:', { slug, type: typeof slug })
       return {
@@ -133,7 +140,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
         description: 'Browse all posts',
       }
     }
-    
+
     const post = await queryPostBySlug({ slug })
 
     if (!post) {
@@ -190,13 +197,13 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     })
 
     const post = result.docs?.[0] || null
-    
+
     if (!post) {
       console.warn(`No post found for slug: ${slug}`)
     } else if (!post.slug) {
       console.warn(`Post found but has no slug:`, { postId: post.id, title: post.title })
     }
-    
+
     return post
   } catch (error) {
     console.error(`Error querying post with slug ${slug}:`, error)
