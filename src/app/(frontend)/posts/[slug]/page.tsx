@@ -130,9 +130,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { slug = '' } = await paramsPromise
+  
   try {
-    const { slug = '' } = await paramsPromise
-
     if (!slug || typeof slug !== 'string') {
       console.warn('generateMetadata received invalid slug:', { slug, type: typeof slug })
       return {
@@ -140,7 +140,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
         description: 'Browse all posts',
       }
     }
-
+    
     const post = await queryPostBySlug({ slug })
 
     if (!post) {
