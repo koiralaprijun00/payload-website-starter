@@ -61,7 +61,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({ features }) => {
                   {block.subheading}
                 </span>
                 <h3
-                  className={`font-bold text-lg sm:text-xl lg:text-2xl mb-1 ${block.title.toLowerCase().includes('vision') ? 'text-black' : 'text-black'}`}
+                  className={`font-bold text-lg sm:text-xl lg:text-2xl mb-1 ${block.title && typeof block.title === 'string' && block.title.toLowerCase().includes('vision') ? 'text-black' : 'text-black'}`}
                 >
                   {block.title}
                 </h3>

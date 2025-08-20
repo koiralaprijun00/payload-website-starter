@@ -87,7 +87,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
           }
 
           // Render Donate button dynamically
-          if (item.link.label && item.link.label.toLowerCase().includes('donate')) {
+          if (item.link.label && typeof item.link.label === 'string' && item.link.label.toLowerCase().includes('donate')) {
             return (
               <LoadingLink
                 key={item.id || idx}
@@ -255,7 +255,7 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               }
 
               // Donate button
-              if (item.link.label && item.link.label.toLowerCase().includes('donate')) {
+              if (item.link.label && typeof item.link.label === 'string' && item.link.label.toLowerCase().includes('donate')) {
                 return (
                   <LoadingLink
                     key={item.id || idx}
