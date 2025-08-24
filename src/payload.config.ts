@@ -24,6 +24,7 @@ import { Projects } from './collections/Projects'
 import ProjectsPageSettings from './globals/ProjectsPageSettings'
 import VolunteerSubmissions from './collections/VolunteerSubmissions'
 import Notices from './collections/Notices'
+import ConservationSection from './globals/ConservationSection'
 
 import Publications from './collections/Publications'
 import Careers from './collections/Careers'
@@ -93,7 +94,7 @@ export default buildConfig({
     Careers, // Add Careers collection
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, About, ProjectsPageSettings, LearnMore],
+  globals: [Header, Footer, About, ProjectsPageSettings, LearnMore, ConservationSection],
   plugins: [
     ...plugins,
     vercelBlobStorage({

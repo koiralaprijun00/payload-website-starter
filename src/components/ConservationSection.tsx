@@ -20,12 +20,14 @@ export interface ConservationSectionProps {
   tabs: ConservationTab[]
   buttonText?: string // Added optional buttonText
   buttonLink?: string // Added optional buttonLink
+  pillLabel?: string // Added optional pillLabel
 }
 
 const ConservationSection: React.FC<ConservationSectionProps> = ({
   sectionHeading,
   sectionDescription,
   tabs,
+  pillLabel = 'OUR PROGRAMMES', // Default to OUR PROGRAMMES
 }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]?.label || '')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -96,7 +98,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-orange-500 animate-pulse"></div>
               <span className="text-gray-600 font-medium tracking-wide uppercase text-xs sm:text-sm">
-                Our Themes
+                {pillLabel}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-relaxed mb-3 sm:mb-4">

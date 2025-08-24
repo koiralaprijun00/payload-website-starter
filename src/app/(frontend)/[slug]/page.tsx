@@ -22,6 +22,7 @@ import { getPosts } from '@/utilities/getPosts'
 import HomePageBlogCarousel from '@/components/HomePageBlogCarousel'
 import HomePageAchievementsTabs from '@/components/HomePageAchievementsTabs.client'
 import { getAchievements } from '@/utilities/getAchievements'
+import { getCachedConservationSectionSettings } from '@/utilities/getConservationSectionSettings'
 
 async function getThemePages(): Promise<ThemePage[]> {
   try {
@@ -96,6 +97,9 @@ export default async function Page({ params: paramsPromise }: Args) {
   const nonNullPage = page as NonNullable<typeof page>
   const { hero, layout } = nonNullPage
 
+  // Fetch conservation section settings
+  const conservationSettings = await getCachedConservationSectionSettings()
+
   // Fetch all theme pages for conservation section tab images
   let themePages: ThemePage[] = []
   if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
@@ -133,10 +137,11 @@ export default async function Page({ params: paramsPromise }: Args) {
         nonNullPage.conservationSection.enableSection !== false &&
         themePages.length > 0 && (
           <ConservationSectionClient
-            sectionHeading={nonNullPage.conservationSection.sectionHeading || ''}
-            sectionDescription={nonNullPage.conservationSection.sectionDescription || ''}
+            sectionHeading={nonNullPage.conservationSection.sectionHeading || conservationSettings?.defaultSectionHeading || ''}
+            sectionDescription={nonNullPage.conservationSection.sectionDescription || conservationSettings?.defaultSectionDescription || ''}
             buttonText={nonNullPage.conservationSection.buttonText || ''}
             buttonLink={nonNullPage.conservationSection.buttonLink || ''}
+            pillLabel={conservationSettings?.pillLabel || 'OUR PROGRAMMES'}
             tabs={themePages.map((tp) => {
               let image: string | { url: string } | undefined = ''
               if (tp.hero && tp.hero.image) {

@@ -122,6 +122,7 @@ export interface Config {
     'about-page': AboutPage;
     'projects-page-settings': ProjectsPageSetting;
     'learn-more': LearnMore;
+    'conservation-section': ConservationSection;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -129,6 +130,7 @@ export interface Config {
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'projects-page-settings': ProjectsPageSettingsSelect<false> | ProjectsPageSettingsSelect<true>;
     'learn-more': LearnMoreSelect<false> | LearnMoreSelect<true>;
+    'conservation-section': ConservationSectionSelect<false> | ConservationSectionSelect<true>;
   };
   locale: null;
   user: User & {
@@ -2514,6 +2516,29 @@ export interface LearnMore {
   createdAt?: string | null;
 }
 /**
+ * Manage the settings for the Conservation Section that appears on pages
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "conservation-section".
+ */
+export interface ConservationSection {
+  id: string;
+  /**
+   * The label that appears in the orange pill above the section heading (e.g., "OUR PROGRAMMES", "OUR THEMES")
+   */
+  pillLabel: string;
+  /**
+   * Default heading for the conservation section if not specified on individual pages
+   */
+  defaultSectionHeading?: string | null;
+  /**
+   * Default description for the conservation section if not specified on individual pages
+   */
+  defaultSectionDescription?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -2708,6 +2733,18 @@ export interface ProjectsPageSettingsSelect<T extends boolean = true> {
  */
 export interface LearnMoreSelect<T extends boolean = true> {
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "conservation-section_select".
+ */
+export interface ConservationSectionSelect<T extends boolean = true> {
+  pillLabel?: T;
+  defaultSectionHeading?: T;
+  defaultSectionDescription?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
