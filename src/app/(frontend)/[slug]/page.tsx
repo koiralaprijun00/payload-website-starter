@@ -133,8 +133,8 @@ export default async function Page({ params: paramsPromise }: Args) {
         nonNullPage.conservationSection.enableSection !== false &&
         themePages.length > 0 && (
           <ConservationSectionClient
-            sectionHeading={nonNullPage.conservationSection.sectionHeading || conservationSettings?.defaultSectionHeading || ''}
-            sectionDescription={nonNullPage.conservationSection.sectionDescription || conservationSettings?.defaultSectionDescription || ''}
+            sectionHeading={nonNullPage.conservationSection.sectionHeading || ''}
+            sectionDescription={nonNullPage.conservationSection.sectionDescription || ''}
             buttonText={nonNullPage.conservationSection.buttonText || ''}
             buttonLink={nonNullPage.conservationSection.buttonLink || ''}
             pillLabel={nonNullPage.conservationSection.pillLabel || 'OUR PROGRAMMES'}
