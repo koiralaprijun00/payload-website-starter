@@ -24,14 +24,38 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { doc } = args
 
+  // Early return if doc is null or undefined
+  if (!doc) {
+    return {
+      title: 'Payload Website Template',
+      description: '',
+      openGraph: mergeOpenGraph({
+        description: '',
+        images: undefined,
+        title: 'Payload Website Template',
+        url: '/',
+      }),
+    }
+  }
+
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
     ? doc?.meta?.title + ' | Payload Website Template'
     : 'Payload Website Template'
 
+  // Safe slug handling - ensure slug is a string or array before processing
+  let url = '/'
+  if (doc?.slug) {
+    if (Array.isArray(doc.slug)) {
+      url = doc.slug.join('/')
+    } else if (typeof doc.slug === 'string') {
+      url = '/' + doc.slug
+    }
+  }
+
   return {
-    description: doc?.meta?.description,
+    description: doc?.meta?.description || '',
     openGraph: mergeOpenGraph({
       description: doc?.meta?.description || '',
       images: ogImage
@@ -42,7 +66,7 @@ export const generateMeta = async (args: {
           ]
         : undefined,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url,
     }),
     title,
   }

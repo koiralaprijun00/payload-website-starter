@@ -4,13 +4,23 @@ import type { Media } from '@/payload-types'
 import RichText from '@/components/RichText'
 
 async function getAchievement(slug: string) {
-  const base = process.env.NEXT_PUBLIC_PAYLOAD_URL
-  const res = await fetch(`${base}/api/achievements?where[slug][equals]=${slug}&depth=1`, {
-    next: { revalidate: 600 },
-  })
-  if (!res.ok) return null
-  const json = await res.json()
-  return json.docs?.[0] || null
+  try {
+    const base = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!base) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning null for achievement')
+      return null
+    }
+
+    const res = await fetch(`${base}/api/achievements?where[slug][equals]=${slug}&depth=1`, {
+      next: { revalidate: 600 },
+    })
+    if (!res.ok) return null
+    const json = await res.json()
+    return json.docs?.[0] || null
+  } catch (error) {
+    console.warn('Failed to fetch achievement during build, returning null:', error)
+    return null
+  }
 }
 
 export default async function AchievementPage({ params }: { params: Promise<{ slug: string }> }) {

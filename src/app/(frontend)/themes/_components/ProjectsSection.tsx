@@ -9,13 +9,23 @@ type Props = {
 }
 
 async function fetchProjects(themeId: string): Promise<Project[]> {
-  const req = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/projects?where[themes][equals]=${themeId}&depth=1`,
-    { next: { revalidate: 86400 } },
-  )
-  if (!req.ok) return []
-  const { docs } = await req.json()
-  return docs
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty projects')
+      return []
+    }
+
+    const req = await fetch(`${baseUrl}/api/projects?where[themes][equals]=${themeId}&depth=1`, {
+      next: { revalidate: 86400 },
+    })
+    if (!req.ok) return []
+    const { docs } = await req.json()
+    return docs
+  } catch (error) {
+    console.warn('Failed to fetch projects during build, returning empty array:', error)
+    return []
+  }
 }
 
 const ProjectsSection = async ({ themeId }: Props) => {

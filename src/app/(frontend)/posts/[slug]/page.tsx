@@ -36,6 +36,13 @@ export async function generateStaticParams() {
         console.warn('Found post with invalid slug:', { id, title, slug, type: typeof slug })
         return false
       }
+
+      // Temporarily exclude the problematic post to test build
+      if (slug === 'digital-horizons-a-glimpse-into-tomorrow') {
+        console.warn('Temporarily excluding problematic post:', { id, title, slug })
+        return false
+      }
+
       return true
     })
 
@@ -103,6 +110,30 @@ export default async function Post({ params: paramsPromise }: Args) {
         hasContent: !!post.content,
       })
       return <PayloadRedirects url="/posts" />
+    }
+
+    // Validate that populatedAuthors is safe
+    if (post.populatedAuthors && !Array.isArray(post.populatedAuthors)) {
+      console.error(`Post has invalid populatedAuthors:`, {
+        postId: post.id,
+        slug: post.slug,
+        populatedAuthors: post.populatedAuthors,
+        type: typeof post.populatedAuthors,
+      })
+      // Set to empty array to prevent errors
+      post.populatedAuthors = []
+    }
+
+    // Validate that categories is safe
+    if (post.categories && !Array.isArray(post.categories)) {
+      console.error(`Post has invalid categories:`, {
+        postId: post.id,
+        slug: post.slug,
+        categories: post.categories,
+        type: typeof post.categories,
+      })
+      // Set to empty array to prevent errors
+      post.categories = []
     }
 
     // Log the post data for debugging

@@ -34,39 +34,69 @@ async function fetchProjects({
   year?: (string | number)[]
   status?: string[]
 }): Promise<Project[]> {
-  const params = new URLSearchParams()
-  if (search) params.append('where[title][contains]', search)
-  if (categories.length) params.append('where[categories][in]', categories.join(','))
-  if (area.length) params.append('where[area][in]', area.join(','))
-  if (year.length) params.append('where[year][in]', year.join(','))
-  if (status.length) params.append('where[status][in]', status.join(','))
-  params.append('depth', '2')
-  const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-  if (!baseUrl) throw new Error('NEXT_PUBLIC_PAYLOAD_URL is not set')
-  const url = `${baseUrl}/api/projects?${params.toString()}`
-  const req = await fetch(url, { next: { revalidate: 86400 } })
-  if (!req.ok) return []
-  const { docs } = await req.json()
-  return docs
+  try {
+    const params = new URLSearchParams()
+    if (search) params.append('where[title][contains]', search)
+    if (categories.length) params.append('where[categories][in]', categories.join(','))
+    if (area.length) params.append('where[area][in]', area.join(','))
+    if (year.length) params.append('where[year][in]', year.join(','))
+    if (status.length) params.append('where[status][in]', status.join(','))
+    params.append('depth', '2')
+
+    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty projects')
+      return []
+    }
+
+    const url = `${baseUrl}/api/projects?${params.toString()}`
+    const req = await fetch(url, { next: { revalidate: 86400 } })
+    if (!req.ok) return []
+    const { docs } = await req.json()
+    return docs
+  } catch (error) {
+    console.warn('Failed to fetch projects during build, returning empty array:', error)
+    return []
+  }
 }
 
 async function fetchCategories(): Promise<Category[]> {
-  const req = await fetch(`${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/categories`, {
-    next: { revalidate: 86400 },
-  })
-  if (!req.ok) return []
-  const { docs } = await req.json()
-  return docs
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty categories')
+      return []
+    }
+
+    const req = await fetch(`${baseUrl}/api/categories`, {
+      next: { revalidate: 86400 },
+    })
+    if (!req.ok) return []
+    const { docs } = await req.json()
+    return docs
+  } catch (error) {
+    console.warn('Failed to fetch categories during build, returning empty array:', error)
+    return []
+  }
 }
 
 async function fetchProjectsPageSettings() {
-  const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-  if (!baseUrl) throw new Error('NEXT_PUBLIC_PAYLOAD_URL is not set')
-  const req = await fetch(`${baseUrl}/api/globals/projects-page-settings`, {
-    next: { revalidate: 86400 },
-  })
-  if (!req.ok) return null
-  return await req.json()
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning null for projects page settings')
+      return null
+    }
+
+    const req = await fetch(`${baseUrl}/api/globals/projects-page-settings`, {
+      next: { revalidate: 86400 },
+    })
+    if (!req.ok) return null
+    return await req.json()
+  } catch (error) {
+    console.warn('Failed to fetch projects page settings during build, returning null:', error)
+    return null
+  }
 }
 
 export default async function ProjectsPage({

@@ -24,13 +24,23 @@ import HomePageAchievementsTabs from '@/components/HomePageAchievementsTabs.clie
 import { getAchievements } from '@/utilities/getAchievements'
 
 async function getThemePages(): Promise<ThemePage[]> {
-  const req = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/theme-pages?depth=2&limit=10`,
-    { next: { revalidate: 3600 } },
-  )
-  if (!req.ok) return []
-  const { docs } = await req.json()
-  return docs || []
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
+    if (!baseUrl) {
+      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty theme pages')
+      return []
+    }
+
+    const req = await fetch(`${baseUrl}/api/theme-pages?depth=2&limit=10`, {
+      next: { revalidate: 3600 },
+    })
+    if (!req.ok) return []
+    const { docs } = await req.json()
+    return docs || []
+  } catch (error) {
+    console.warn('Failed to fetch theme pages during build, returning empty array:', error)
+    return []
+  }
 }
 
 export async function generateStaticParams() {

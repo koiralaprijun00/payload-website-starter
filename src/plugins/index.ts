@@ -21,7 +21,12 @@ const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   const url = getServerSideURL()
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  // Safely handle null/undefined slugs
+  if (!doc?.slug || typeof doc.slug !== 'string') {
+    return url
+  }
+
+  return `${url}/${doc.slug}`
 }
 
 export const plugins: Plugin[] = [
@@ -49,7 +54,14 @@ export const plugins: Plugin[] = [
   }),
   nestedDocsPlugin({
     collections: ['categories'],
-    generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
+    generateURL: (docs) =>
+      docs.reduce((url, doc) => {
+        // Safely handle null/undefined slugs
+        if (!doc?.slug || typeof doc.slug !== 'string') {
+          return url
+        }
+        return `${url}/${doc.slug}`
+      }, ''),
   }),
   seoPlugin({
     generateTitle,
