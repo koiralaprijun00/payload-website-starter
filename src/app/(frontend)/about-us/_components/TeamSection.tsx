@@ -78,7 +78,6 @@ export default function TeamSection({ members = [] }: TeamSectionProps) {
     })
   }
 
-  const advisory = sortMembers(members.filter((m) => m.boardType === 'advisory'))
   const executive = sortMembers(members.filter((m) => m.boardType === 'executive'))
   const staff = sortMembers(members.filter((m) => m.boardType === 'staff'))
 
@@ -93,26 +92,6 @@ export default function TeamSection({ members = [] }: TeamSectionProps) {
           the Product
         </h2>
       </div>
-
-      {/* Advisory Board Section */}
-      {advisory.length > 0 && (
-        <div className="flex flex-col lg:flex-row items-start mb-12 gap-6">
-          {/* Left: Board type heading */}
-          <div className="w-full lg:w-64 flex-shrink-0">
-            <h3 className="text-lg font-semibold mb-6">Advisory Board Members</h3>
-          </div>
-          {/* Right: Team members */}
-          <div className="flex-1">
-            <div className="flex flex-wrap">
-              {advisory.map((member, idx) => (
-                <div key={member.id || member.email || idx} className="mr-4 lg:mr-6 last:mr-0 mb-6">
-                  <TeamMemberCard member={member} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Executive Board Section */}
       {executive.length > 0 && (
