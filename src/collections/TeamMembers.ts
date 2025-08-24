@@ -50,6 +50,14 @@ const TeamMembers: CollectionConfig = {
       ],
       required: true,
     },
+    {
+      name: 'sortOrder',
+      type: 'number',
+      required: false,
+      admin: {
+        description: 'Lower numbers appear first. Leave empty to sort alphabetically by name.',
+      },
+    },
     { name: 'slug', type: 'text', required: true, unique: true },
     { name: 'description', type: 'textarea', required: false },
     // Add more fields as needed (bio, etc.)

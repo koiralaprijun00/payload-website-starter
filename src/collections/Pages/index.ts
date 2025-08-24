@@ -90,6 +90,7 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'group',
               label: 'Four Themes',
               fields: [
+                { name: 'pillLabel', type: 'text', label: 'Pill Label', defaultValue: 'OUR PROGRAMMES', admin: { description: 'The label that appears in the orange pill above the section heading (e.g., "OUR PROGRAMMES", "OUR THEMES")' } },
                 { name: 'sectionHeading', type: 'text', label: 'Section Heading' },
                 { name: 'sectionDescription', type: 'textarea', label: 'Section Description' },
                 { name: 'buttonText', type: 'text', label: 'Button Text' },

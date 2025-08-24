@@ -22,6 +22,7 @@ type TeamMember = {
   phone: string
   boardType: 'executive' | 'staff' | 'alumni'
   description?: string
+  sortOrder?: number // Added sortOrder to the type
 }
 
 // Helper to fetch alumni members from Payload
@@ -36,9 +37,26 @@ async function getAlumniMembers(): Promise<TeamMember[]> {
     },
     depth: 1,
     limit: 100,
-    sort: 'name',
+    sort: 'sortOrder', // Sort by sortOrder first
   })
-  return res.docs as TeamMember[]
+
+  // Custom sorting: sortOrder first (lower numbers first), then alphabetically by name
+  const members = res.docs as TeamMember[]
+  return members.sort((a, b) => {
+    // If both have sortOrder, sort by that
+    if (a.sortOrder !== undefined && b.sortOrder !== undefined) {
+      return a.sortOrder - b.sortOrder
+    }
+    // If only one has sortOrder, prioritize the one with sortOrder
+    if (a.sortOrder !== undefined && b.sortOrder === undefined) {
+      return -1
+    }
+    if (a.sortOrder === undefined && b.sortOrder !== undefined) {
+      return 1
+    }
+    // If neither has sortOrder, sort alphabetically by name
+    return a.name.localeCompare(b.name)
+  })
 }
 
 function TeamMemberCard({ member }: { member: TeamMember }) {

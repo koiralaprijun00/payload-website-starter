@@ -14,7 +14,9 @@ type TeamMember = {
   role: string
   email: string
   phone: string
-  boardType: 'advisory' | 'executive' | 'staff'
+  boardType: 'executive' | 'staff' | 'alumni'
+  description?: string
+  sortOrder?: number // Added sortOrder to the type
 }
 
 type TeamSectionProps = {
@@ -49,9 +51,28 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 }
 
 export default function TeamSection({ members = [] }: TeamSectionProps) {
-  const advisory = members.filter((m) => m.boardType === 'advisory')
-  const executive = members.filter((m) => m.boardType === 'executive')
-  const staff = members.filter((m) => m.boardType === 'staff')
+  // Sort members by sortOrder first, then alphabetically by name
+  const sortMembers = (memberList: TeamMember[]) => {
+    return memberList.sort((a, b) => {
+      // If both have sortOrder, sort by that
+      if (a.sortOrder !== undefined && b.sortOrder !== undefined) {
+        return a.sortOrder - b.sortOrder
+      }
+      // If only one has sortOrder, prioritize the one with sortOrder
+      if (a.sortOrder !== undefined && b.sortOrder === undefined) {
+        return -1
+      }
+      if (a.sortOrder === undefined && b.sortOrder !== undefined) {
+        return 1
+      }
+      // If neither has sortOrder, sort alphabetically by name
+      return a.name.localeCompare(b.name)
+    })
+  }
+
+  const advisory = sortMembers(members.filter((m) => m.boardType === 'advisory'))
+  const executive = sortMembers(members.filter((m) => m.boardType === 'executive'))
+  const staff = sortMembers(members.filter((m) => m.boardType === 'staff'))
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gray-50">
