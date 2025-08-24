@@ -43,8 +43,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-theme="light"
     >
       <head>
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link href="/ujyalo-logo.png" rel="icon" sizes="32x32" />
+        <link href="/ujyalo-logo.png" rel="icon" type="image/png" />
+        <link rel="apple-touch-icon" href="/ujyalo-logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
@@ -66,9 +67,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
+  title: 'Ujalyo Bardiya',
+  description: 'Conservation and community development organization in Nepal',
+  openGraph: mergeOpenGraph({
+    title: 'Ujalyo Bardiya',
+    description: 'Conservation and community development organization in Nepal',
+  }),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@ujyalobardiya',
   },
 }

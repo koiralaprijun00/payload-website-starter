@@ -27,12 +27,12 @@ export const generateMeta = async (args: {
   // Early return if doc is null or undefined
   if (!doc) {
     return {
-      title: 'Payload Website Template',
+      title: 'Ujalyo Bardiya',
       description: '',
       openGraph: mergeOpenGraph({
         description: '',
         images: undefined,
-        title: 'Payload Website Template',
+        title: 'Ujalyo Bardiya',
         url: '/',
       }),
     }
@@ -40,9 +40,7 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+  const title = doc?.meta?.title ? doc?.meta?.title + ' | Ujalyo Bardiya' : 'Ujalyo Bardiya'
 
   // Safe slug handling - ensure slug is a string or array before processing
   let url = '/'
