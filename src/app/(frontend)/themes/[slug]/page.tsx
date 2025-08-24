@@ -82,7 +82,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     return {}
   }
 
-  const title = `${themePage.title} | Payload Website Template`
+  const title = `${themePage.title} | Ujalyo Bardiya`
   const description = themePage.introSection?.tagline || ''
   const imageUrl =
     typeof themePage.hero.image === 'object' && themePage.hero.image?.url
