@@ -26,23 +26,31 @@ type TeamSectionProps = {
 
 function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
-    <Link href={`/team-members/${member.slug}`} className="block hover:shadow-lg transition">
-      <div className="border border-gray-300 rounded-sm p-4 bg-white">
+    <Link
+      href={`/team-members/${member.slug}`}
+      className="block hover:shadow-lg transition-all duration-300 group"
+    >
+      <div className="border border-gray-200 rounded-lg p-4 bg-white hover:border-mainBlue">
         <div className="flex flex-col items-center">
+          {/* Profile Image - Now Rectangular */}
           {typeof member.profileImage.url === 'string' && member.profileImage.url.trim() !== '' && (
-            <Image
-              src={member.profileImage.url}
-              alt={member.name}
-              width={120}
-              height={120}
-              className="w-30 h-30 object-cover mb-3"
-            />
+            <div className="relative w-32 h-40 mb-3 overflow-hidden rounded-lg">
+              <Image
+                src={member.profileImage.url}
+                alt={member.name}
+                fill
+                className="object-cover rounded-lg border-2 border-gray-100 group-hover:border-mainBlue transition-all duration-300"
+                sizes="128px"
+              />
+            </div>
           )}
+
+          {/* Member Info - Simplified */}
           <div className="text-center">
-            <h4 className="font-semibold text-sm mb-1">{member.name}</h4>
-            <div className="text-xs text-gray-600 mb-1">{member.role}</div>
-            <div className="text-xs text-blue-600 mb-1">{member.email}</div>
-            <div className="text-xs text-gray-600">{member.phone}</div>
+            <h3 className="font-bold text-sm mb-1 text-gray-900 group-hover:text-mainBlue transition-colors">
+              {member.name}
+            </h3>
+            <p className="text-xs text-gray-600 font-medium">{member.role}</p>
           </div>
         </div>
       </div>

@@ -67,39 +67,30 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
     >
       <div className="border border-gray-200 rounded-lg p-6 bg-white hover:border-mainBlue">
         <div className="flex flex-col items-center">
-          {/* Profile Image */}
+          {/* Profile Image - Now Rectangular */}
           {typeof member.profileImage.url === 'string' && member.profileImage.url.trim() !== '' && (
-            <div className="relative w-32 h-32 mb-4">
+            <div className="relative w-48 h-64 mb-4 overflow-hidden rounded-lg">
               <Image
                 src={member.profileImage.url}
                 alt={member.name}
                 fill
-                className="object-cover rounded-full border-4 border-gray-100 group-hover:border-mainBlue transition-all duration-300"
-                sizes="128px"
+                className="object-cover rounded-lg border-2 border-gray-100 group-hover:border-mainBlue transition-all duration-300"
+                sizes="192px"
               />
             </div>
           )}
 
-          {/* Alumni Badge */}
-          <span className="inline-block bg-orange-50 text-orange-700 font-medium px-3 py-1 rounded-full mb-3 text-xs border border-orange-200">
+          {/* Board Type Badge */}
+          <span className="inline-block bg-gray-50 text-gray-700 font-medium px-3 py-1 rounded-full mb-3 text-xs border border-gray-100">
             Alumni
           </span>
 
-          {/* Member Info */}
+          {/* Member Info - Simplified */}
           <div className="text-center">
             <h3 className="font-bold text-lg mb-2 text-gray-900 group-hover:text-mainBlue transition-colors">
               {member.name}
             </h3>
-            <p className="text-sm text-gray-600 mb-2 font-medium">{member.role}</p>
-            <p className="text-xs text-blue-600 mb-1">{member.email}</p>
-            <p className="text-xs text-gray-500">{member.phone}</p>
-
-            {/* Description Preview */}
-            {member.description && (
-              <p className="text-xs text-gray-500 mt-3 line-clamp-2">
-                {member.description.slice(0, 100)}...
-              </p>
-            )}
+            <p className="text-sm text-gray-600 font-medium">{member.role}</p>
           </div>
         </div>
       </div>
