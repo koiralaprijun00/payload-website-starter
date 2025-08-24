@@ -133,19 +133,35 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                       // Check if this child has sub-children
                       const hasSubChildren = child.children && child.children.length > 0
 
+                      // Check if this child has a valid URL (if not, render as label)
+                      const hasValidUrl = child.link.url || 
+                        (child.link.reference &&
+                        typeof child.link.reference === 'object' &&
+                        child.link.reference.value &&
+                        typeof child.link.reference.value === 'object' &&
+                        'slug' in child.link.reference.value)
+
                       if (hasSubChildren) {
                         return (
                           <div key={child.id || childIdx}>
-                            <button
-                              onClick={() => handleLinkClick(childHref, child.link.label || '')}
-                              className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
-                              disabled={loadingLink === child.link.label}
-                            >
-                              {loadingLink === child.link.label && (
-                                <Loader2 className="w-2 h-2 sm:w-3 sm:h-3 animate-spin" />
-                              )}
-                              {child.link.label}
-                            </button>
+                            {/* Render as button only if it has a valid URL */}
+                            {hasValidUrl ? (
+                              <button
+                                onClick={() => handleLinkClick(childHref, child.link.label || '')}
+                                className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-light text-blue-900 hover:bg-blue-100 flex items-center gap-2"
+                                disabled={loadingLink === child.link.label}
+                              >
+                                {loadingLink === child.link.label && (
+                                  <Loader2 className="w-2 h-2 sm:w-3 sm:h-3 animate-spin" />
+                                )}
+                                {child.link.label}
+                              </button>
+                            ) : (
+                              /* Render as non-clickable label */
+                              <div className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-gray-700 bg-gray-50 border-b border-gray-200">
+                                {child.link.label}
+                              </div>
+                            )}
                             {/* Show all grandchildren immediately */}
                             {child.children && (
                               <div className="ml-3 sm:ml-4 pl-2">
@@ -180,6 +196,18 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                 })}
                               </div>
                             )}
+                          </div>
+                        )
+                      }
+
+                      // For items without sub-children, render as button only if they have a valid URL
+                      if (!hasValidUrl) {
+                        return (
+                          <div
+                            key={child.id || childIdx}
+                            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-gray-700 bg-gray-50 border-b border-gray-200"
+                          >
+                            {child.link.label}
                           </div>
                         )
                       }
