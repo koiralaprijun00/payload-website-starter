@@ -5,13 +5,7 @@ import { getMediaUrl } from '@/utilities/getMediaUrl'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProjectsHero from '@/components/ProjectsHero'
-import { ChevronDown } from 'lucide-react'
-
-const YEARS = [2025, 2024, 2023, 2022, 2021, 2020, 2019]
-const STATUS = [
-  { label: 'Ongoing', value: 'ongoing' },
-  { label: 'Completed', value: 'completed' },
-]
+import ProjectsFilter from '@/components/ProjectsFilter'
 
 type ProjectSearchParams = {
   search?: string
@@ -106,15 +100,24 @@ export default async function ProjectsPage({
 }) {
   const _settings = await fetchProjectsPageSettings()
   const searchParams = await searchParamsPromise
+
+  // Helper function to parse multiple values from search params
   const parseMulti = (val?: string | string[]) => {
     if (!val) return []
     if (Array.isArray(val)) return val.filter(Boolean)
-    return val.split(',').filter(Boolean)
+    if (typeof val === 'string') {
+      // Handle comma-separated values
+      return val.split(',').filter(Boolean)
+    }
+    return []
   }
+
+  // Parse search parameters
   const selectedCategories = parseMulti(searchParams.categories)
   const selectedAreas = parseMulti(searchParams.area)
   const selectedYears = parseMulti(searchParams.year)
   const selectedStatus = parseMulti(searchParams.status)
+
   const [categories, projects] = await Promise.all([
     fetchCategories(),
     fetchProjects({
@@ -136,177 +139,9 @@ export default async function ProjectsPage({
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-12 max-w-7xl mx-auto py-6 sm:py-8 lg:py-12 xl:py-16 px-4 sm:px-6 lg:px-8">
         {/* Sidebar Filters */}
         <aside className="w-full lg:w-72 xl:w-80 shrink-0 mb-6 lg:mb-0">
-          <div className="mb-6 sm:mb-8">
-            <div className="text-base sm:text-lg lg:text-xl font-bold text-mainBlue mb-1">
-              Browse and read the latest projects
-            </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-mainBlue">
-              All our Projects
-            </h1>
-          </div>
-          <form className="space-y-6 sm:space-y-8" method="GET">
-            <input
-              type="text"
-              name="search"
-              placeholder="Search projects"
-              defaultValue={searchParams?.search || ''}
-              className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 mb-4 text-sm sm:text-base"
-            />
-
-            {/* Mobile accordion to show/hide all filters */}
-            <details className="block lg:hidden mb-6">
-              <summary className="bg-mainBlue text-white py-2 px-4 rounded font-bold flex items-center justify-between cursor-pointer select-none text-sm sm:text-base">
-                <span>Filter Options</span>
-                <ChevronDown className="w-4 h-4" />
-              </summary>
-              <div className="mt-4 space-y-6 sm:space-y-8">
-                {/* Filter groups */}
-                <div>
-                  <div className="font-bold mb-2 text-sm sm:text-base">Projects</div>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map((category) => (
-                      <label key={category.id} className="text-sm sm:text-base">
-                        <input
-                          type="checkbox"
-                          name="categories"
-                          value={category.id}
-                          defaultChecked={selectedCategories.includes(category.id)}
-                          className="mr-1"
-                        />
-                        {category.title}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold mb-2 text-sm sm:text-base">Project Area</div>
-                  <input
-                    type="text"
-                    name="area"
-                    placeholder="e.g., Bardiya, Kathmandu"
-                    defaultValue={selectedAreas.join(',')}
-                    className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-sm sm:text-base"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Use commas for multiple areas</p>
-                </div>
-                <div>
-                  <div className="font-bold mb-2 text-sm sm:text-base">Year</div>
-                  <div className="flex flex-wrap gap-2">
-                    {YEARS.map((year) => (
-                      <label key={year} className="text-sm sm:text-base">
-                        <input
-                          type="checkbox"
-                          name="year"
-                          value={year}
-                          defaultChecked={selectedYears.includes(String(year))}
-                          className="mr-1"
-                        />
-                        {year}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <div className="font-bold mb-2 text-sm sm:text-base">Project status</div>
-                  <div className="flex gap-2">
-                    {STATUS.map((s) => (
-                      <label key={s.value} className="text-sm sm:text-base">
-                        <input
-                          type="checkbox"
-                          name="status"
-                          value={s.value}
-                          defaultChecked={selectedStatus.includes(s.value)}
-                          className="mr-1"
-                        />
-                        {s.label}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Apply button inside accordion on mobile */}
-                <button
-                  type="submit"
-                  className="w-full bg-mainBlue text-white py-2 rounded font-bold text-sm sm:text-base"
-                >
-                  Apply Filters
-                </button>
-              </div>
-            </details>
-
-            {/* Desktop filter groups */}
-            <div className="hidden lg:block space-y-6 sm:space-y-8">
-              <div>
-                <div className="font-bold mb-2 text-sm sm:text-base">Categories</div>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <label key={category.id} className="text-sm sm:text-base">
-                      <input
-                        type="checkbox"
-                        name="categories"
-                        value={category.id}
-                        defaultChecked={selectedCategories.includes(category.id)}
-                        className="mr-1"
-                      />
-                      {category.title}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="font-bold mb-2 text-sm sm:text-base">Project Area</div>
-                <input
-                  type="text"
-                  name="area"
-                  placeholder="e.g., Bardiya, Kathmandu"
-                  defaultValue={selectedAreas.join(',')}
-                  className="w-full border border-gray-300 rounded px-3 sm:px-4 py-2 text-sm sm:text-base"
-                />
-                <p className="text-xs text-gray-500 mt-1">Use commas for multiple areas</p>
-              </div>
-              <div>
-                <div className="font-bold mb-2 text-sm sm:text-base">Year</div>
-                <div className="flex flex-wrap gap-2">
-                  {YEARS.map((year) => (
-                    <label key={year} className="text-sm sm:text-base">
-                      <input
-                        type="checkbox"
-                        name="year"
-                        value={year}
-                        defaultChecked={selectedYears.includes(String(year))}
-                        className="mr-1"
-                      />
-                      {year}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <div className="font-bold mb-2 text-sm sm:text-base">Project status</div>
-                <div className="flex gap-2">
-                  {STATUS.map((s) => (
-                    <label key={s.value} className="text-sm sm:text-base">
-                      <input
-                        type="checkbox"
-                        name="status"
-                        value={s.value}
-                        defaultChecked={selectedStatus.includes(s.value)}
-                        className="mr-1"
-                      />
-                      {s.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-mainBlue text-white py-2 rounded mt-4 font-bold text-sm sm:text-base"
-              >
-                Apply Filters
-              </button>
-            </div>
-          </form>
+          <ProjectsFilter categories={categories} />
         </aside>
+
         {/* Project List */}
         <main className="flex-1 space-y-8 sm:space-y-10 lg:space-y-12 xl:space-y-16">
           {projects.length === 0 && (
