@@ -23,6 +23,29 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  // Enable tree shaking and optimize bundle size
+  experimental: {
+    optimizePackageImports: [
+      'framer-motion',
+      'lucide-react',
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-label',
+      '@radix-ui/react-select',
+      '@radix-ui/react-slot',
+    ],
+  },
+  // Optimize bundle splitting
+  webpack: (config, { dev, isServer }) => {
+    // Tree shake unused code in production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: false,
+      }
+    }
+    return config
+  },
   // Add proper cache headers for performance
   async headers() {
     return [

@@ -21,7 +21,7 @@ export const getCachedHomePageData = () =>
     {
       tags: ['pages', 'home-page'],
       revalidate: 300, // 5 minutes
-    }
+    },
   )
 
 /**
@@ -52,21 +52,22 @@ export const getCachedThemePages = () =>
     {
       tags: ['theme-pages'],
       revalidate: 300, // 5 minutes
-    }
+    },
   )
 
 /**
  * Generic cached Payload collection fetching
+ * Note: This is a generic utility - use specific utilities for better type safety
  */
 export const getCachedCollection = <T = any>(
-  collection: string,
+  collection: 'posts' | 'pages' | 'careers' | 'team-members' | 'achievements' | 'theme-pages',
   options: {
     where?: any
     depth?: number
     limit?: number
     sort?: string
     select?: any
-  } = {}
+  } = {},
 ) =>
   unstable_cache(
     async (): Promise<T[]> => {
@@ -87,5 +88,5 @@ export const getCachedCollection = <T = any>(
     {
       tags: [collection],
       revalidate: 300,
-    }
+    },
   )

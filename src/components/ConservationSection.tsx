@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 
 export interface ConservationTab {
   label: string

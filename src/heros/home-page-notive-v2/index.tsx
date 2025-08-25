@@ -6,8 +6,7 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import NoticeSidebar from '@/components/NoticeSidebar'
 import { ChevronRight, Clock, Bell, X } from 'lucide-react'
-import { motion } from 'framer-motion'
-import type { Variants } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import Link from 'next/link'
 
 export interface Notice {

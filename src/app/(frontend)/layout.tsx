@@ -15,21 +15,23 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-// Optimized Google Fonts loading
+// Optimized Google Fonts loading - reduced weights for better performance
 const firaSans = Fira_Sans({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700'], // Reduced from 9 to 4 weights
+  style: ['normal'], // Reduced from normal+italic to just normal
   display: 'swap',
   variable: '--font-fira-sans',
+  preload: true, // Preload for better performance
 })
 
 const sansita = Sansita({
   subsets: ['latin'],
-  weight: ['400', '700', '800', '900'],
-  style: ['normal', 'italic'],
+  weight: ['400', '700'], // Reduced from 4 to 2 weights
+  style: ['normal'], // Reduced from normal+italic to just normal
   display: 'swap',
   variable: '--font-sansita',
+  preload: true, // Preload for better performance
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

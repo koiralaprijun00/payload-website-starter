@@ -63,7 +63,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { pageNumber } = await paramsPromise
+  const { pageNumber: _pageNumber } = await paramsPromise
   return {
     title: 'Ujalyo Bardiya',
   }
