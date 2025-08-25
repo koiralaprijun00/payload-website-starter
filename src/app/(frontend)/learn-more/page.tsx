@@ -5,23 +5,16 @@ import RichText from '@/components/RichText'
 import type { LearnMore as LearnMoreType } from '@/payload-types'
 import type { Page } from '@/payload-types'
 import ImpactSection, { type RawImpactBlock } from './_components/ImpactSection'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getCachedHomePageData } from '@/utilities/requestDeduplication'
 
-export const dynamic = 'force-dynamic'
+// Convert to ISR with 10-minute revalidation
+export const revalidate = 600
 
 export default async function LearnMorePage() {
   const learnMoreData = (await getCachedGlobal('learn-more', 1)()) as LearnMoreType
 
-  // Get home page data to access impact blocks
-  const payload = await getPayload({ config: configPromise })
-  const homePageData = await payload.find({
-    collection: 'pages',
-    where: { slug: { equals: 'home' } },
-    depth: 2,
-    limit: 1,
-  })
-  const homePage = homePageData.docs[0] as Page | undefined
+  // Get home page data to access impact blocks using cached version
+  const homePage = (await getCachedHomePageData()()) as Page | undefined
 
   return (
     <div className="min-h-screen">

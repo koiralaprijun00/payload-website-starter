@@ -1,8 +1,9 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { unstable_cache } from 'next/cache'
 import type { Career } from '@/payload-types'
 
-export async function getCareers() {
+async function fetchCareers() {
   const payload = await getPayload({ config: configPromise })
   const res = await payload.find({
     collection: 'careers',
@@ -26,3 +27,16 @@ export async function getCareers() {
     updatedAt: career.updatedAt,
   }))
 }
+
+/**
+ * Returns cached careers with 10-minute revalidation
+ * Careers don't change frequently, so longer cache is appropriate
+ */
+export const getCachedCareers = () =>
+  unstable_cache(async () => fetchCareers(), ['careers'], {
+    tags: ['careers'],
+    revalidate: 600, // 10 minutes
+  })
+
+// Keep the original function for backward compatibility
+export const getCareers = getCachedCareers()

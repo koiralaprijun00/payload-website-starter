@@ -3,7 +3,8 @@ import type { Metadata } from 'next'
 import { getCareers } from '@/utilities/getCareers'
 import CareersClient from './CareersClient'
 
-export const dynamic = 'force-dynamic'
+// Convert to ISR with 10-minute revalidation (careers don't change frequently)
+export const revalidate = 600
 
 export const metadata: Metadata = {
   title: 'Ujalyo Bardiya',

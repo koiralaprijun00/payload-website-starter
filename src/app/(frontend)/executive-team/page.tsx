@@ -2,96 +2,14 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import {
+  getCachedExecutiveMembers,
+  getCachedAlumniMembers,
+  type TeamMember,
+} from '@/utilities/getTeamMembers'
 
-export const dynamic = 'force-dynamic'
-
-type TeamMember = {
-  id?: string
-  slug: string
-  profileImage: {
-    url: string
-    filename?: string
-    alt?: string
-    thumbnailURL?: string
-  }
-  name: string
-  role: string
-  email: string
-  phone: string
-  boardType: 'executive' | 'staff' | 'alumni'
-  description?: string
-  sortOrder?: number // Added sortOrder to the type
-}
-
-// Helper to fetch executive team members from Payload
-async function getExecutiveTeamMembers(): Promise<TeamMember[]> {
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'team-members',
-    where: {
-      boardType: {
-        equals: 'executive',
-      },
-    },
-    depth: 1,
-    limit: 100,
-    sort: 'sortOrder', // Sort by sortOrder first
-  })
-
-  // Custom sorting: sortOrder first (lower numbers first), then alphabetically by name
-  const members = res.docs as TeamMember[]
-  return members.sort((a, b) => {
-    // If both have sortOrder, sort by that
-    if (a.sortOrder !== undefined && b.sortOrder !== undefined) {
-      return a.sortOrder - b.sortOrder
-    }
-    // If only one has sortOrder, prioritize the one with sortOrder
-    if (a.sortOrder !== undefined && b.sortOrder === undefined) {
-      return -1
-    }
-    if (a.sortOrder === undefined && b.sortOrder !== undefined) {
-      return 1
-    }
-    // If neither has sortOrder, sort alphabetically by name
-    return a.name.localeCompare(b.name)
-  })
-}
-
-// Helper to fetch alumni members from Payload
-async function getAlumniMembers(): Promise<TeamMember[]> {
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'team-members',
-    where: {
-      boardType: {
-        equals: 'alumni',
-      },
-    },
-    depth: 1,
-    limit: 100,
-    sort: 'sortOrder', // Sort by sortOrder first
-  })
-
-  // Custom sorting: sortOrder first (lower numbers first), then alphabetically by name
-  const members = res.docs as TeamMember[]
-  return members.sort((a, b) => {
-    // If both have sortOrder, sort by that
-    if (a.sortOrder !== undefined && b.sortOrder !== undefined) {
-      return a.sortOrder - b.sortOrder
-    }
-    // If only one has sortOrder, prioritize the one with sortOrder
-    if (a.sortOrder !== undefined && b.sortOrder === undefined) {
-      return -1
-    }
-    if (a.sortOrder === undefined && b.sortOrder !== undefined) {
-      return 1
-    }
-    // If neither has sortOrder, sort alphabetically by name
-    return a.name.localeCompare(b.name)
-  })
-}
+// Convert to ISR with 5-minute revalidation
+export const revalidate = 300
 
 function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
@@ -133,7 +51,10 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 }
 
 export default async function ExecutiveTeamPage() {
-  const [members, alumni] = await Promise.all([getExecutiveTeamMembers(), getAlumniMembers()])
+  const [members, alumni] = await Promise.all([
+    getCachedExecutiveMembers()(),
+    getCachedAlumniMembers()(),
+  ])
 
   return (
     <div className="min-h-screen">

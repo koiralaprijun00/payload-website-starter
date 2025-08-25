@@ -22,26 +22,9 @@ import { getPosts } from '@/utilities/getPosts'
 import HomePageBlogCarousel from '@/components/HomePageBlogCarousel'
 import HomePageAchievementsTabs from '@/components/HomePageAchievementsTabs.client'
 import { getAchievements } from '@/utilities/getAchievements'
+import { getCachedThemePages } from '@/utilities/requestDeduplication'
 
-async function getThemePages(): Promise<ThemePage[]> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-    if (!baseUrl) {
-      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty theme pages')
-      return []
-    }
-
-    const req = await fetch(`${baseUrl}/api/theme-pages?depth=2&limit=10`, {
-      next: { revalidate: 3600 },
-    })
-    if (!req.ok) return []
-    const { docs } = await req.json()
-    return docs || []
-  } catch (error) {
-    console.warn('Failed to fetch theme pages during build, returning empty array:', error)
-    return []
-  }
-}
+// Moved to requestDeduplication utility for better caching
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -96,10 +79,10 @@ export default async function Page({ params: paramsPromise }: Args) {
   const nonNullPage = page as NonNullable<typeof page>
   const { hero, layout } = nonNullPage
 
-  // Fetch all theme pages for conservation section tab images
+  // Fetch all theme pages for conservation section tab images using cached version
   let themePages: ThemePage[] = []
   if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
-    themePages = await getThemePages()
+    themePages = await getCachedThemePages()()
   }
 
   // Fetch posts for homepage only
