@@ -123,13 +123,13 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
   return (
     <motion.section
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 my-8 sm:my-12 lg:my-16"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
     >
-      <div className="flex flex-col items-center text-center mb-8 sm:mb-10 lg:mb-12">
+      <div className="flex flex-col items-center text-center mb-12 sm:mb-16 lg:mb-20">
         <div className="flex items-center space-x-2 mb-2">
           <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-orange-500 inline-block" />
           <span className="uppercase text-xs sm:text-sm font-bold tracking-wider text-gray-700">
@@ -147,7 +147,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
       {/* Grid layout - Mobile: stacked, Desktop: 3 columns */}
       <motion.div
-        className="block md:hidden space-y-3 sm:space-y-4"
+        className="block md:hidden space-y-4 sm:space-y-6"
         variants={containerVariants}
         initial="hidden"
         whileInView="show"
@@ -163,7 +163,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
       {/* Desktop layout – 3×3 magazine grid */}
       <motion.div
-        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] gap-4 sm:gap-6 lg:gap-8"
+        className="hidden md:grid md:grid-cols-3 md:grid-rows-3 md:h-[600px] lg:h-[700px] xl:h-[800px] 2xl:h-[900px] gap-6 sm:gap-8 lg:gap-10"
         variants={containerVariants}
         initial="hidden"
         whileInView="show"

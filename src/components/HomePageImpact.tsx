@@ -48,18 +48,18 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
 }) => {
   return (
     <motion.section
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 my-8 sm:my-12 lg:my-16"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28"
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.2 }}
       variants={containerVariants}
     >
-      <div className="flex flex-col lg:flex-row lg:items-start gap-6 sm:gap-8 lg:gap-12">
+      <div className="flex flex-col lg:flex-row lg:items-start gap-8 sm:gap-12 lg:gap-16">
         {/* Left: Custom grid layout */}
         <motion.div className="flex-1 order-2 lg:order-1" variants={containerVariants}>
           {/* Mobile stacked layout */}
           <motion.div
-            className="flex flex-col gap-3 sm:gap-4 sm:hidden"
+            className="flex flex-col gap-4 sm:gap-6 sm:hidden"
             variants={containerVariants}
           >
             {blocks.map((block, idx) => (
@@ -107,7 +107,7 @@ const HomePageImpact: React.FC<HomePageImpactProps> = ({
             ))}
           </motion.div>
           <motion.div
-            className="grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl hidden sm:grid"
+            className="grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-4xl hidden sm:grid"
             variants={containerVariants}
             viewport={{ once: false, amount: 0.2 }}
           >

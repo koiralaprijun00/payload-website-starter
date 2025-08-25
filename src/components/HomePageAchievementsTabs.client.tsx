@@ -40,19 +40,19 @@ export default function HomePageAchievementsTabs({ items }: { items: Achievement
 
   return (
     <motion.section
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
     >
-      <div className="flex items-center gap-2 mb-4 sm:mb-6">
+      <div className="flex items-center gap-2 mb-6 sm:mb-8">
         <span className="h-2 w-2 bg-orange-500 inline-block" />
         <span className="uppercase text-xs sm:text-sm font-bold tracking-wider text-gray-700">
           Achievements
         </span>
       </div>
-      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6 sm:mb-8 lg:mb-12">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-12 sm:mb-16 lg:mb-20">
         Achievements
       </h2>
 

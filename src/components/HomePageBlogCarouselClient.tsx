@@ -30,15 +30,15 @@ export default function HomePageBlogCarouselClient({ posts }: HomePageBlogCarous
   }
 
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 xl:py-16">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-4 sm:gap-0">
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-12 sm:mb-16 gap-4 sm:gap-0">
         <div className="flex items-center gap-2 sm:gap-3">
           <span className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-orange-500 inline-block"></span>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900">
             OUR BLOG
           </h2>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             aria-label="Scroll left"
             onClick={() => scroll('left')}
@@ -55,7 +55,7 @@ export default function HomePageBlogCarouselClient({ posts }: HomePageBlogCarous
           </button>
         </div>
       </div>
-      <div ref={scrollRef} className="flex gap-4 sm:gap-6 lg:gap-8 overflow-x-hidden pb-4">
+      <div ref={scrollRef} className="flex gap-6 sm:gap-8 lg:gap-10 overflow-x-hidden pb-4">
         {posts.map((post) => (
           <div
             key={post.id}
