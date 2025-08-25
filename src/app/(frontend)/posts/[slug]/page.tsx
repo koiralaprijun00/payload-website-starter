@@ -186,7 +186,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     if (!slug || typeof slug !== 'string') {
       console.warn('generateMetadata received invalid slug:', { slug, type: typeof slug })
       return {
-        title: 'Posts | Ujalyo Bardiya',
+        title: 'Ujalyo Bardiya',
         description: 'Browse all posts',
       }
     }
@@ -196,7 +196,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     if (!post) {
       console.warn(`No post found for metadata generation with slug: ${slug}`)
       return {
-        title: 'Post Not Found | Ujalyo Bardiya',
+        title: 'Ujalyo Bardiya',
         description: 'The requested post could not be found',
       }
     }
@@ -205,7 +205,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   } catch (error) {
     console.error(`Error generating metadata for slug ${slug}:`, error)
     return {
-      title: 'Error | Ujalyo Bardiya',
+      title: 'Ujalyo Bardiya',
       description: 'An error occurred while loading the post',
     }
   }

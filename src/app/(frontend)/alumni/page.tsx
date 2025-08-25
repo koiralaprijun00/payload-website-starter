@@ -156,7 +156,7 @@ export default async function AlumniPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Alumni - Meet Our Former Team',
+    title: 'Ujalyo Bardiya',
     description:
       'Meet our alumni who have contributed to our organization&apos;s mission and growth for Nepal&apos;s environmental protection and community support.',
   }

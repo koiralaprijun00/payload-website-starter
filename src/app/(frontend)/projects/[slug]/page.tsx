@@ -243,7 +243,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = '' } = await paramsPromise
   const project = await queryProjectBySlug({ slug })
   return {
-    title: project?.title || 'Project',
+    title: 'Ujalyo Bardiya',
     description: project?.summary || '',
   }
 }

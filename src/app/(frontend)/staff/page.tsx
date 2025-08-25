@@ -185,7 +185,7 @@ export default async function StaffPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Staff - Meet Our Team',
+    title: 'Ujalyo Bardiya',
     description:
       "Meet our dedicated staff members implementing our mission on the ground for Nepal's environmental protection and community support.",
   }

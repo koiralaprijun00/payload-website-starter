@@ -40,7 +40,7 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title ? doc?.meta?.title + ' | Ujalyo Bardiya' : 'Ujalyo Bardiya'
+  const title = 'Ujalyo Bardiya'
 
   // Safe slug handling - ensure slug is a string or array before processing
   let url = '/'

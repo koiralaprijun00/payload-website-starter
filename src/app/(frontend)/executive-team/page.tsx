@@ -202,7 +202,7 @@ export default async function ExecutiveTeamPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Executive Team - Meet Our Leadership',
+    title: 'Ujalyo Bardiya',
     description:
       "Meet our executive leadership team driving organizational strategy and vision for Nepal's environmental protection and community support.",
   }

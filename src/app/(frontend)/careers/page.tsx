@@ -6,7 +6,7 @@ import CareersClient from './CareersClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Careers | Wildlife Conservation',
+  title: 'Ujalyo Bardiya',
   description:
     'Join our team and make a difference in wildlife conservation. Explore current job openings and career opportunities.',
 }

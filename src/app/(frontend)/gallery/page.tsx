@@ -6,7 +6,7 @@ import GalleryClient from './GalleryClient'
 export const dynamic = 'force-static'
 
 export const metadata: Metadata = {
-  title: 'Gallery | Wildlife Conservation',
+  title: 'Ujalyo Bardiya',
   description:
     'Explore our collection of wildlife photography showcasing conservation efforts and biodiversity.',
 }

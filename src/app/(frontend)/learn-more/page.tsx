@@ -81,7 +81,7 @@ export default async function LearnMorePage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Learn More - Our Work and Impact',
+    title: 'Ujalyo Bardiya',
     description: 'Learn more about our work, impact, and mission.',
   }
 }
