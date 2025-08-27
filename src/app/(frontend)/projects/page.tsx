@@ -136,14 +136,14 @@ export default async function ProjectsPage({
         subtitle="Conservation & Community"
         description="Discover our impactful conservation and community development projects across Nepal, protecting wildlife and empowering local communities."
       />
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-12 max-w-7xl mx-auto py-6 sm:py-8 lg:py-12 xl:py-16 px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-6 xl:gap-12 max-w-6xl mx-auto py-6 sm:py-8 lg:py-8 xl:py-16 px-4 sm:px-6 lg:px-6">
         {/* Sidebar Filters */}
-        <aside className="w-full lg:w-72 xl:w-80 shrink-0 mb-6 lg:mb-0">
+        <aside className="w-full lg:w-64 xl:w-80 shrink-0 mb-6 lg:mb-0">
           <ProjectsFilter categories={categories} />
         </aside>
 
         {/* Project List */}
-        <main className="flex-1 space-y-8 sm:space-y-10 lg:space-y-12 xl:space-y-16">
+        <main className="flex-1 space-y-6 sm:space-y-8 lg:space-y-8 xl:space-y-16">
           {projects.length === 0 && (
             <div className="text-center py-8 text-gray-500">No projects found.</div>
           )}

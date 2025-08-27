@@ -16,10 +16,10 @@ export default function ProjectsHero({
 }: ProjectsHeroProps) {
   return (
     <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] xl:h-[70vh] flex items-stretch bg-mainBlue">
-      <div className="relative z-10 w-full max-w-7xl mx-auto h-full">
+      <div className="relative z-10 w-full max-w-6xl mx-auto h-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch w-full h-full">
           {/* Left side - Subtitle at top, title/desc at bottom */}
-          <div className="flex flex-col justify-between h-full text-white px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="flex flex-col justify-between h-full text-white px-4 sm:px-6 lg:px-6 py-6 sm:py-8">
             {/* Subtitle at the top */}
             <div>
               <p className="text-orange-400 font-semibold text-sm sm:text-base tracking-wide uppercase mb-2">

@@ -122,7 +122,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
   return (
     <motion.section
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28"
+      className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-6 py-16 sm:py-20 lg:py-20 xl:py-28"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}

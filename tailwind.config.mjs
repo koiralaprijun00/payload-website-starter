@@ -141,18 +141,26 @@ const config = {
       padding: {
         '2xl': '2rem',
         DEFAULT: '1rem',
-        lg: '2rem',
+        lg: '1.5rem', // Reduced from 2rem to 1.5rem for better medium laptop fit
         md: '2rem',
         sm: '1rem',
         xl: '2rem',
       },
       screens: {
         '2xl': '86rem',
-        lg: '64rem',
+        lg: '58rem', // Reduced from 64rem to 58rem (928px) for 1024px screens
         md: '48rem',
         sm: '40rem',
         xl: '80rem',
       },
+    },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      mlg: '1200px', // New breakpoint for medium-large screens
+      xl: '1280px',
+      '2xl': '1536px',
     },
     extend: {
       animation: {

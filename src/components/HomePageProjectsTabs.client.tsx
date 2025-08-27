@@ -48,7 +48,7 @@ export default function HomePageProjectsTabs({
   const activeUrl = getProjectUrl(active?.link)
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-4 py-16">
+    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-6 py-16 sm:py-20 lg:py-20 xl:py-28">
       <div className="text-center mb-8">
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="h-2 w-2 rounded-full bg-orange-500 inline-block" />
@@ -56,12 +56,16 @@ export default function HomePageProjectsTabs({
             {sectionLabel}
           </span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{heading}</h2>
-        {subheading && <p className="text-base md:text-lg text-gray-700">{subheading}</p>}
+        <h2 className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-2">
+          {heading}
+        </h2>
+        {subheading && (
+          <p className="text-sm sm:text-base lg:text-base xl:text-lg text-gray-700">{subheading}</p>
+        )}
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
         {blocks.map((b, idx) => {
           const isActive = idx === activeIdx
           return (
@@ -69,7 +73,7 @@ export default function HomePageProjectsTabs({
               key={`${b.title}-${idx}`}
               type="button"
               onClick={() => setActiveIdx(idx)}
-              className={`px-4 py-2 rounded-full border transition-all ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm rounded-full border transition-all ${
                 isActive
                   ? 'bg-blue-600 text-white border-blue-600 shadow'
                   : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
@@ -82,9 +86,9 @@ export default function HomePageProjectsTabs({
       </div>
 
       {/* Content */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-6 xl:gap-8 items-start">
         {/* Left: Image */}
-        <div className="relative w-full h-64 sm:h-80 md:h-[28rem] rounded-xl overflow-hidden ring-2 ring-blue-200">
+        <div className="relative w-full h-56 sm:h-64 md:h-72 lg:h-80 xl:h-[28rem] rounded-xl overflow-hidden ring-2 ring-blue-200">
           {activeImageUrl && (
             <Image
               src={activeImageUrl}
@@ -96,18 +100,20 @@ export default function HomePageProjectsTabs({
         </div>
         {/* Right: Text */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+          <h3 className="text-xl sm:text-2xl lg:text-2xl xl:text-3xl font-bold text-gray-900 mb-3">
             {active?.title || ''}
           </h3>
           {active?.description && (
-            <p className="text-gray-700 mb-6 leading-relaxed">{active.description}</p>
+            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 leading-relaxed">
+              {active.description}
+            </p>
           )}
 
-          <ul className="space-y-3 mb-6">
+          <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
             {active?.value && (
               <li className="flex items-start gap-3 text-gray-800">
                 <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
-                <span className="font-medium">{active.value}</span>
+                <span className="text-sm sm:text-base font-medium">{active.value}</span>
               </li>
             )}
           </ul>
@@ -115,7 +121,7 @@ export default function HomePageProjectsTabs({
           {activeUrl && (
             <Link
               href={activeUrl}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-3 text-sm sm:text-base rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700"
             >
               Learn more
               <ChevronRight className="w-4 h-4" />

@@ -57,8 +57,8 @@ export async function Footer() {
       />
 
       {/* Content */}
-      <div className="relative z-10 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[90vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div className="w-full max-w-7xl flex flex-col lg:flex-row justify-end items-center lg:items-center gap-8 sm:gap-12 lg:gap-16 text-center lg:text-left">
+      <div className="relative z-10 min-h-[60vh] sm:min-h-[70vh] lg:min-h-[90vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-6 py-8 sm:py-12 lg:py-16">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row justify-end items-center lg:items-center gap-8 sm:gap-12 lg:gap-12 text-center lg:text-left">
           {/* Left Column - Contact Info */}
           <div className="text-white space-y-4 sm:space-y-6 flex-1 order-3 lg:order-1 text-center lg:text-right items-center lg:items-end flex flex-col">
             {/* Address */}

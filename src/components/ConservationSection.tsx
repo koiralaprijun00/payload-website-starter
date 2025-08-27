@@ -84,14 +84,14 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
 
   return (
     <motion.div
-      className="bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 xl:py-28"
+      className="bg-white flex items-center justify-center px-4 sm:px-6 lg:px-6 py-16 sm:py-20 lg:py-20 xl:py-28"
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.2 }}
       variants={{}}
     >
-      <div className="w-full max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] items-start gap-8 sm:gap-12 lg:gap-16">
+      <div className="w-full max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] items-start gap-8 sm:gap-12 lg:gap-12">
           {/* Left Column */}
           <motion.div className="space-y-2 sm:space-y-3" variants={leftColVariants}>
             <div className="flex items-center space-x-2 sm:space-x-3">
