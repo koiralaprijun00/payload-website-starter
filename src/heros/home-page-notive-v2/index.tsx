@@ -177,24 +177,31 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
   }
 
   return (
-    <div ref={heroRef} className="relative h-[75vh] bg-white overflow-hidden mb-36">
-      <div className="flex h-full">
-        {/* Image + Content */}
+    <div
+      ref={heroRef}
+      className="relative h-[75vh] bg-white overflow-hidden mb-36 -mx-4 sm:-mx-6 lg:-mx-6 xl:-mx-12 2xl:-mx-16"
+    >
+      {/* Full Width Image Background */}
+      {media && (
+        <>
+          <div className="absolute inset-0 w-full h-full">
+            <Media resource={media} fill imgClassName="object-cover w-full h-full" />
+          </div>
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-20" />
+        </>
+      )}
+
+      {/* Content Container */}
+      <div className="relative h-full flex">
+        {/* Content Area */}
         <div
-          className="relative flex-grow transition-all duration-700 ease-in-out"
+          className="flex-grow transition-all duration-700 ease-in-out"
           style={{ marginRight: noticesVisible ? '26rem' : undefined }}
         >
-          {media && (
-            <>
-              <Media resource={media} fill imgClassName="object-cover w-full h-full" />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-20" />
-            </>
-          )}
-
           {/* Blue Content Box */}
           <motion.div
-            className="absolute left-8 bottom-8 max-w-md"
+            className="absolute left-4 sm:left-6 lg:left-6 xl:left-12 2xl:left-16 bottom-8 max-w-md z-10"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
@@ -231,7 +238,7 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
 
         {/* Notices Sidebar */}
         <div
-          className="absolute top-0 right-8 h-full w-96 bg-white transition-transform duration-700 ease-in-out z-20"
+          className="absolute top-0 right-4 sm:right-6 lg:right-6 xl:right-12 2xl:right-16 h-full w-96 bg-white transition-transform duration-700 ease-in-out z-20"
           style={{
             transform: noticesVisible ? 'translateX(0)' : 'translateX(calc(100% + 2rem))',
           }}
