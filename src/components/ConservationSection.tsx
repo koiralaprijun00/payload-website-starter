@@ -91,7 +91,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
       variants={{}}
     >
       <div className="w-full max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] items-start gap-8 sm:gap-12 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] items-start gap-8 sm:gap-12 lg:gap-16 xl:gap-20">
           {/* Left Column */}
           <motion.div className="space-y-2 sm:space-y-3" variants={leftColVariants}>
             <div className="flex items-center space-x-2 sm:space-x-3">
@@ -100,7 +100,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
                 {pillLabel}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-relaxed mb-3 sm:mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-relaxed mb-3 sm:mb-4">
               {sectionHeading}
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-gray-900 leading-tight">
@@ -156,7 +156,7 @@ const ConservationSection: React.FC<ConservationSectionProps> = ({
               {/* Content Box - Overlapping (entire box clickable) */}
               <Link href={activeTabData.link || '#'} className="block group">
                 <motion.div
-                  className="bg-blue-900 text-white px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-3 sm:mt-4 lg:absolute lg:-left-16 xl:-left-20 2xl:-left-24 lg:-bottom-20 xl:-bottom-24 2xl:-bottom-32 lg:w-[85%] lg:mt-0 z-10 transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
+                  className="bg-blue-900 text-white px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4 shadow-lg rounded w-full left-0 bottom-0 relative mt-3 sm:mt-4 lg:absolute lg:-left-16 xl:-left-20 2xl:-left-24 lg:-bottom-28 xl:-bottom-32 2xl:-bottom-40 lg:w-[85%] lg:mt-0 z-10 transform transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-2"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.2 }}
