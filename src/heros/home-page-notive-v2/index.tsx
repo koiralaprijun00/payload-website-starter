@@ -238,9 +238,9 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
 
         {/* Notices Sidebar */}
         <div
-          className="absolute top-0 right-4 sm:right-6 lg:right-6 xl:right-12 2xl:right-16 h-full w-96 bg-white transition-transform duration-700 ease-in-out z-20"
+          className="absolute top-0 right-0 h-full w-96 bg-white transition-transform duration-700 ease-in-out z-20"
           style={{
-            transform: noticesVisible ? 'translateX(0)' : 'translateX(calc(100% + 2rem))',
+            transform: noticesVisible ? 'translateX(0)' : 'translateX(100%)',
           }}
         >
           <div className="h-full flex flex-col">
