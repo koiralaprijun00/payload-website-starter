@@ -20,9 +20,12 @@ export const Categories: CollectionConfig = {
     afterChange: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating publications and projects pages due to category change`)
+          payload.logger.info(`Revalidating content pages due to category change`)
           revalidatePath('/publications')
           revalidatePath('/projects')
+          revalidatePath('/notices')
+          // Revalidate theme pages that might display content with this category
+          revalidatePath('/themes/[slug]', 'page')
         }
         return doc
       },
@@ -30,9 +33,12 @@ export const Categories: CollectionConfig = {
     afterDelete: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating publications and projects pages due to category delete`)
+          payload.logger.info(`Revalidating content pages due to category delete`)
           revalidatePath('/publications')
           revalidatePath('/projects')
+          revalidatePath('/notices')
+          // Revalidate theme pages that might display content with this category
+          revalidatePath('/themes/[slug]', 'page')
         }
         return doc
       },

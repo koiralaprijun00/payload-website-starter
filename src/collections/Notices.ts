@@ -2,32 +2,56 @@ import { CollectionConfig } from 'payload'
 import { anyone } from '@/access/anyone'
 import { comprehensiveLexical } from '@/fields/comprehensiveLexical'
 import { slugField } from '@/fields/slug'
-
-const categoryOptions = [
-  { label: 'Ecosystem', value: 'ecosystem' },
-  { label: 'Species', value: 'species' },
-  { label: 'Community', value: 'community' },
-  { label: 'Policy', value: 'policy' },
-]
+import { revalidatePath } from 'next/cache'
 
 const Notices: CollectionConfig = {
   slug: 'notices',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['category', 'title', 'publishedAt'],
+    defaultColumns: ['categories', 'title', 'publishedAt'],
   },
   access: {
     read: anyone,
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
   },
+  hooks: {
+    afterChange: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating notice: ${doc.slug}`)
+          revalidatePath(`/notices/${doc.slug}`)
+          revalidatePath('/notices')
+          // Revalidate theme pages that might display this notice
+          revalidatePath('/themes/[slug]', 'page')
+        }
+        return doc
+      },
+    ],
+    afterDelete: [
+      ({ doc, req: { payload, context } }) => {
+        if (!context.disableRevalidate) {
+          payload.logger.info(`Revalidating notice after delete: ${doc.slug}`)
+          revalidatePath(`/notices/${doc.slug}`)
+          revalidatePath('/notices')
+          // Revalidate theme pages that might display this notice
+          revalidatePath('/themes/[slug]', 'page')
+        }
+        return doc
+      },
+    ],
+  },
   fields: [
     ...slugField(),
     {
-      name: 'category',
-      type: 'select',
+      name: 'categories',
+      type: 'relationship',
+      relationTo: 'categories',
+      hasMany: true,
       required: true,
-      options: categoryOptions,
+      admin: {
+        allowCreate: false,
+      },
     },
     {
       name: 'title',

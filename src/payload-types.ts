@@ -460,6 +460,10 @@ export interface ThemePage {
   title: string;
   slug?: string | null;
   slugLock?: boolean | null;
+  /**
+   * Select the programme category this theme page represents (e.g., Biodiversity, Livelihood, Climate Change, Capacity Building). This will automatically show related notices and projects.
+   */
+  programmeCategory?: (string | null) | Category;
   hero: {
     image: string | Media;
   };
@@ -493,6 +497,20 @@ export interface ThemePage {
     };
   };
   contentImage: string | Media;
+  relatedContent?: {
+    /**
+     * Automatically display notices that match this programme category
+     */
+    enableRelatedNotices?: boolean | null;
+    noticesHeading?: string | null;
+    noticesLimit?: number | null;
+    /**
+     * Automatically display projects that match this programme category
+     */
+    enableRelatedProjects?: boolean | null;
+    projectsHeading?: string | null;
+    projectsLimit?: number | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1042,7 +1060,7 @@ export interface Notice {
   id: string;
   slug?: string | null;
   slugLock?: boolean | null;
-  category: 'ecosystem' | 'species' | 'community' | 'policy';
+  categories: (string | Category)[];
   title: string;
   summary: string;
   image?: (string | null) | Media;
@@ -1770,6 +1788,7 @@ export interface ThemePagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
+  programmeCategory?: T;
   hero?:
     | T
     | {
@@ -1797,6 +1816,16 @@ export interface ThemePagesSelect<T extends boolean = true> {
         content?: T;
       };
   contentImage?: T;
+  relatedContent?:
+    | T
+    | {
+        enableRelatedNotices?: T;
+        noticesHeading?: T;
+        noticesLimit?: T;
+        enableRelatedProjects?: T;
+        projectsHeading?: T;
+        projectsLimit?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1925,7 +1954,7 @@ export interface VolunteerSubmissionsSelect<T extends boolean = true> {
 export interface NoticesSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
-  category?: T;
+  categories?: T;
   title?: T;
   summary?: T;
   image?: T;

@@ -5,6 +5,11 @@ import { Media } from '@/components/Media'
 import { CMSLink } from '@/components/Link'
 
 const categoryConfig: Record<string, { label: string; color: string }> = {
+  biodiversity: { label: 'Biodiversity', color: 'bg-emerald-500' },
+  livelihood: { label: 'Livelihood', color: 'bg-blue-500' },
+  'climate-change': { label: 'Climate Change', color: 'bg-purple-500' },
+  'capacity-building': { label: 'Capacity Building', color: 'bg-amber-500' },
+  // Fallback for legacy categories
   ecosystem: { label: 'Ecosystem', color: 'bg-emerald-500' },
   species: { label: 'Species', color: 'bg-blue-500' },
   community: { label: 'Community', color: 'bg-purple-500' },
@@ -33,7 +38,18 @@ export default function NoticesPage() {
     fetchNotices()
   }, [])
 
-  const categories: string[] = Array.from(new Set(notices.map((n: any) => n.category)))
+  // Extract unique categories from notices
+  const categories: string[] = Array.from(
+    new Set(
+      notices.flatMap((n: any) => {
+        if (!n.categories) return []
+        return Array.isArray(n.categories)
+          ? n.categories.map((cat: any) => (typeof cat === 'string' ? cat : cat.slug || cat.id))
+          : [typeof n.categories === 'string' ? n.categories : n.categories.slug || n.categories.id]
+      }),
+    ),
+  )
+
   const years = Array.from(new Set(notices.map((n: any) => getYear(n.publishedAt)))).filter(
     Boolean,
   ) as string[]
@@ -42,7 +58,17 @@ export default function NoticesPage() {
   const [selectedYear, setSelectedYear] = useState<string>('all')
 
   const filteredNotices: any[] = notices.filter((notice: any) => {
-    const matchCategory = selectedCategory === 'all' || notice.category === selectedCategory
+    const noticeCategories = notice.categories
+      ? Array.isArray(notice.categories)
+        ? notice.categories.map((cat: any) => (typeof cat === 'string' ? cat : cat.slug || cat.id))
+        : [
+            typeof notice.categories === 'string'
+              ? notice.categories
+              : notice.categories.slug || notice.categories.id,
+          ]
+      : []
+
+    const matchCategory = selectedCategory === 'all' || noticeCategories.includes(selectedCategory)
     const matchYear = selectedYear === 'all' || getYear(notice.publishedAt) === selectedYear
     return matchCategory && matchYear
   })
@@ -100,8 +126,27 @@ export default function NoticesPage() {
             </li>
           )}
           {filteredNotices.map((notice: any) => {
-            const config = categoryConfig[notice.category] || {
-              label: notice.category,
+            // Get the first category for display
+            const firstCategory = notice.categories
+              ? Array.isArray(notice.categories)
+                ? notice.categories[0]
+                : notice.categories
+              : null
+
+            const categorySlug = firstCategory
+              ? typeof firstCategory === 'string'
+                ? firstCategory
+                : firstCategory.slug || firstCategory.id
+              : ''
+
+            const categoryTitle = firstCategory
+              ? typeof firstCategory === 'string'
+                ? firstCategory
+                : firstCategory.title || categorySlug
+              : ''
+
+            const config = categoryConfig[categorySlug] || {
+              label: categoryTitle,
               color: 'bg-gray-400',
             }
             return (

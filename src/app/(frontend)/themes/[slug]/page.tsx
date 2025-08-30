@@ -11,6 +11,8 @@ import Hero from '@/app/(frontend)/themes/_components/Hero'
 import IntroSection from '@/app/(frontend)/themes/_components/IntroSection'
 import MainContent from '@/app/(frontend)/themes/_components/MainContent'
 import ContentImage from '@/app/(frontend)/themes/_components/ContentImage'
+import RelatedNotices from '@/app/(frontend)/themes/_components/RelatedNotices'
+import RelatedProjects from '@/app/(frontend)/themes/_components/RelatedProjects'
 
 async function queryThemePageBySlug({ slug }: { slug: string }): Promise<ThemePage | null> {
   const payload = await getPayload({ config: configPromise })
@@ -24,6 +26,8 @@ async function queryThemePageBySlug({ slug }: { slug: string }): Promise<ThemePa
         equals: slug,
       },
     },
+    // Make sure to populate the programmeCategory relationship
+    depth: 2,
   })
 
   return result.docs?.[0] || null
@@ -70,6 +74,29 @@ export default async function ThemePageComponent({ params: paramsPromise }: Args
       <IntroSection introSection={themePage.introSection} />
       <MainContent mainContent={themePage.mainContent} />
       <ContentImage image={themePage.contentImage as any} />
+
+      {/* Related Content Sections */}
+      {/* Show related notices if enabled OR if we have a programme category (fallback) */}
+      {(themePage.relatedContent?.enableRelatedNotices ||
+        (themePage.programmeCategory &&
+          !themePage.relatedContent?.enableRelatedNotices === false)) && (
+        <RelatedNotices
+          programmeCategory={themePage.programmeCategory as any}
+          heading={themePage.relatedContent?.noticesHeading || 'Latest Notices'}
+          limit={themePage.relatedContent?.noticesLimit || 6}
+        />
+      )}
+
+      {/* Show related projects if enabled OR if we have a programme category (fallback) */}
+      {(themePage.relatedContent?.enableRelatedProjects ||
+        (themePage.programmeCategory &&
+          !themePage.relatedContent?.enableRelatedProjects === false)) && (
+        <RelatedProjects
+          programmeCategory={themePage.programmeCategory as any}
+          heading={themePage.relatedContent?.projectsHeading || 'Projects'}
+          limit={themePage.relatedContent?.projectsLimit || 6}
+        />
+      )}
     </article>
   )
 }
