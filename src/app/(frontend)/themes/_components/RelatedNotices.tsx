@@ -154,23 +154,8 @@ export default function RelatedNotices({
                   <CMSLink
                     url={`/notices/${notice.slug || notice.id}`}
                     label="Read More"
-                    className="inline-flex items-center text-mainOrange font-semibold hover:text-orange-600 transition-colors"
-                  >
-                    Read More
-                    <svg
-                      className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </CMSLink>
+                    className="inline-flex items-center text-mainOrange font-semibold hover:text-orange-600 transition-all duration-300 hover:scale-105 hover:translate-x-1 group-hover:bg-orange-50 px-3 py-2 rounded-lg"
+                  />
                 </div>
               </article>
             )
@@ -181,7 +166,7 @@ export default function RelatedNotices({
           <CMSLink
             url="/notices"
             label="View All Notices"
-            className="inline-block px-8 py-3 border-2 border-mainOrange text-mainOrange font-semibold hover:bg-mainOrange hover:text-white transition-colors duration-300 rounded-lg"
+            className="inline-block px-8 py-3 border-2 border-mainOrange text-mainOrange font-semibold hover:bg-mainOrange hover:text-white transition-all duration-300 rounded-lg hover:scale-105 hover:shadow-lg transform"
           />
         </div>
       </div>
