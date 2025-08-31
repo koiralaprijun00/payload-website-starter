@@ -77,7 +77,7 @@ const VolunteerCTA: React.FC<VolunteerCTAProps> = ({ data }) => {
             </Button>
           </div>
           {/* Right: Image */}
-          <div className="w-full lg:flex-1 flex items-center lg:items-end justify-center lg:justify-end relative mt-4 sm:mt-6 lg:mt-0 lg:min-h-[200px] xl:min-h-[300px]">
+          <div className="hidden lg:flex w-full lg:flex-1 items-center lg:items-end justify-center lg:justify-end relative mt-4 sm:mt-6 lg:mt-0 lg:min-h-[200px] xl:min-h-[300px]">
             {data.image && data.image.url && (
               <Image
                 src={data.image.url}
