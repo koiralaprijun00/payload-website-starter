@@ -49,7 +49,7 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
 
     const CardContent = (
       <div
-        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[180px] sm:min-h-[200px] md:min-h-[220px] lg:min-h-0 p-3 sm:p-4 md:p-6 h-full transition-all duration-200 ${url ? 'cursor-pointer group' : ''}`}
+        className={`relative flex flex-col justify-between rounded-lg overflow-hidden shadow-md ${bg} min-h-[200px] sm:min-h-[220px] md:min-h-[240px] lg:min-h-0 p-4 sm:p-5 md:p-6 h-full transition-all duration-200 ${url ? 'cursor-pointer group' : ''}`}
       >
         {hasImage && imageUrl && (
           <div className="absolute inset-0 z-0">
@@ -58,24 +58,26 @@ const HomePageProjects: React.FC<HomePageProjectsProps> = ({
               alt={block.title}
               fill
               className={`object-cover object-center transition-transform duration-300 ${url ? 'group-hover:scale-110' : ''}`}
-              style={{ objectFit: 'cover', opacity: 0.7 }}
+              style={{ objectFit: 'cover', opacity: 0.6 }}
               sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
             />
+            {/* Subtle dark overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/20" />
           </div>
         )}
         <div className={`relative z-10 flex flex-col h-full text-white`}>
           {block.value && (
-            <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-1 w-2 font-sansita">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 font-sansita">
               {block.value}
             </div>
           )}
           <div className="flex-1" />
           <div>
-            <div className="text-sm sm:text-base md:text-lg lg:text-xl font-normal mb-1 font-sansita">
+            <div className="text-xs sm:text-sm md:text-base lg:text-lg font-normal mb-1 font-sansita">
               {block.title}
             </div>
             {block.description && (
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg font-normal opacity-90 leading-relaxed mt-1 sm:mt-2 font-fira-sans">
+              <div className="text-xs sm:text-xs md:text-sm lg:text-base font-normal opacity-95 leading-tight mt-1 sm:mt-2 font-fira-sans">
                 {block.description}
               </div>
             )}

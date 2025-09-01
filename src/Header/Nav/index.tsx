@@ -87,7 +87,11 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
           }
 
           // Render Donate button dynamically
-          if (item.link.label && typeof item.link.label === 'string' && item.link.label.toLowerCase().includes('donate')) {
+          if (
+            item.link.label &&
+            typeof item.link.label === 'string' &&
+            item.link.label.toLowerCase().includes('donate')
+          ) {
             return (
               <LoadingLink
                 key={item.id || idx}
@@ -134,12 +138,14 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                       const hasSubChildren = child.children && child.children.length > 0
 
                       // Check if this child has a valid URL (if not, render as label)
-                      const hasValidUrl = child.link.url || 
-                        (child.link.reference &&
-                        typeof child.link.reference === 'object' &&
-                        child.link.reference.value &&
-                        typeof child.link.reference.value === 'object' &&
-                        'slug' in child.link.reference.value)
+                      const hasValidUrl =
+                        child.link.type !== 'none' &&
+                        (child.link.url ||
+                          (child.link.reference &&
+                            typeof child.link.reference === 'object' &&
+                            child.link.reference.value &&
+                            typeof child.link.reference.value === 'object' &&
+                            'slug' in child.link.reference.value))
 
                       if (hasSubChildren) {
                         return (
@@ -232,6 +238,27 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
             )
           }
           // Default nav item (including Home)
+          // Check if this item has a valid URL (if not, render as label)
+          const hasValidUrl =
+            item.link.type !== 'none' &&
+            (item.link.url ||
+              (item.link.reference &&
+                typeof item.link.reference === 'object' &&
+                item.link.reference.value &&
+                typeof item.link.reference.value === 'object' &&
+                'slug' in item.link.reference.value))
+
+          if (!hasValidUrl) {
+            return (
+              <div
+                key={item.id || idx}
+                className="font-light text-sm text-gray-700 px-2 py-2 rounded-lg flex items-center"
+              >
+                {item.link.label}
+              </div>
+            )
+          }
+
           const href =
             item.link.url ||
             (item.link.reference &&
@@ -283,7 +310,11 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
               }
 
               // Donate button
-              if (item.link.label && typeof item.link.label === 'string' && item.link.label.toLowerCase().includes('donate')) {
+              if (
+                item.link.label &&
+                typeof item.link.label === 'string' &&
+                item.link.label.toLowerCase().includes('donate')
+              ) {
                 return (
                   <LoadingLink
                     key={item.id || idx}
@@ -331,6 +362,16 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                           const hasSubChildren = child.children && child.children.length > 0
                           const isSubDropdownOpen = mobileSubDropdownOpen === child.link.label
 
+                          // Check if this child has a valid URL (if not, render as label)
+                          const hasValidUrl =
+                            child.link.type !== 'none' &&
+                            (child.link.url ||
+                              (child.link.reference &&
+                                typeof child.link.reference === 'object' &&
+                                child.link.reference.value &&
+                                typeof child.link.reference.value === 'object' &&
+                                'slug' in child.link.reference.value))
+
                           if (hasSubChildren) {
                             return (
                               <div key={child.id || childIdx} className="relative">
@@ -363,6 +404,27 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                                           ? `/${grandChild.link.reference.value.slug}`
                                           : '#')
 
+                                      // Check if grandchild has a valid URL
+                                      const grandChildHasValidUrl =
+                                        grandChild.link.type !== 'none' &&
+                                        (grandChild.link.url ||
+                                          (grandChild.link.reference &&
+                                            typeof grandChild.link.reference === 'object' &&
+                                            grandChild.link.reference.value &&
+                                            typeof grandChild.link.reference.value === 'object' &&
+                                            'slug' in grandChild.link.reference.value))
+
+                                      if (!grandChildHasValidUrl) {
+                                        return (
+                                          <div
+                                            key={grandChild.id || grandChildIdx}
+                                            className="w-full text-left px-2 py-1.5 sm:py-2 text-sm font-semibold text-gray-700 bg-gray-50 rounded"
+                                          >
+                                            {grandChild.link.label}
+                                          </div>
+                                        )
+                                      }
+
                                       return (
                                         <button
                                           key={grandChild.id || grandChildIdx}
@@ -388,6 +450,18 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                             )
                           }
 
+                          // For items without sub-children, render as button only if they have a valid URL
+                          if (!hasValidUrl) {
+                            return (
+                              <div
+                                key={child.id || childIdx}
+                                className="w-full text-left px-2 py-1.5 sm:py-2 text-sm font-semibold text-gray-700 bg-gray-50 rounded"
+                              >
+                                {child.link.label}
+                              </div>
+                            )
+                          }
+
                           return (
                             <button
                               key={child.id || childIdx}
@@ -408,6 +482,27 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
                 )
               }
               // Default nav item (including Home)
+              // Check if this item has a valid URL (if not, render as label)
+              const hasValidUrl =
+                item.link.type !== 'none' &&
+                (item.link.url ||
+                  (item.link.reference &&
+                    typeof item.link.reference === 'object' &&
+                    item.link.reference.value &&
+                    typeof item.link.reference.value === 'object' &&
+                    'slug' in item.link.reference.value))
+
+              if (!hasValidUrl) {
+                return (
+                  <div
+                    key={item.id || idx}
+                    className="font-light text-sm text-gray-700 px-2 py-2 rounded-lg flex items-center"
+                  >
+                    {item.link.label}
+                  </div>
+                )
+              }
+
               const href =
                 item.link.url ||
                 (item.link.reference &&
