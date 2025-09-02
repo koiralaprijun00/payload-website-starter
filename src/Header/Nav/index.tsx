@@ -20,6 +20,10 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
   // Reset loading state when pathname changes (navigation completes)
   React.useEffect(() => {
     setLoadingLink(null)
+    // Close mobile menu and any open dropdowns on route change
+    setMobileMenuOpen(false)
+    setMobileDropdownOpen(null)
+    setMobileSubDropdownOpen(null)
   }, [pathname])
 
   const handleMouseEnter = (navLabel: string) => {
@@ -35,6 +39,12 @@ export default function HeaderNav({ navItems }: { navItems: NonNullable<HeaderTy
 
   const handleLinkClick = (href: string, label: string) => {
     setLoadingLink(label)
+    // If on mobile, close the menu before navigating
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false)
+      setMobileDropdownOpen(null)
+      setMobileSubDropdownOpen(null)
+    }
     router.push(href)
   }
 
