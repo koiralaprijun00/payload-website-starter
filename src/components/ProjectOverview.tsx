@@ -1,12 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
+// Client-only map is wrapped in a dedicated client component
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import type { Media } from '@/payload-types'
-const InteractiveMap = dynamic(() => import('./InteractiveMap'), {
-  ssr: false,
-  loading: () => <div className="h-[700px] lg:h-[800px] bg-gray-100 rounded-lg shadow-sm" />,
-})
+import InteractiveMap from './InteractiveMapDynamic.client'
 
 interface Species {
   species: string
