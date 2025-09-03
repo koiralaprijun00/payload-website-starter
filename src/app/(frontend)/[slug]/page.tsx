@@ -238,7 +238,7 @@ export default async function Page({ params: paramsPromise }: Args) {
               a.heroImage && typeof a.heroImage === 'object' && a.heroImage.url
                 ? { url: a.heroImage.url as string }
                 : undefined,
-            bullets: (a.highlights || []).map((h) => h.text),
+            bullets: (a.highlights || []).map((h: { text?: string | null }) => h?.text || ''),
             ctaText: a.ctaText || 'Learn more',
           }))}
         />
