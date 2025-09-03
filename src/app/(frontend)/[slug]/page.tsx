@@ -81,11 +81,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // Fetch all theme pages for conservation section tab images using cached version
   let themePages: ThemePage[] = []
-  if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
-    themePages = await getCachedThemePages()()
-  }
-
-  // Fetch posts for homepage only
   type CarouselPost = {
     id: string
     title: string
@@ -93,14 +88,44 @@ export default async function Page({ params: paramsPromise }: Args) {
     heroImage?: { url: string; alt?: string }
   }
   let posts: CarouselPost[] = []
+  let achievements: any[] = [] // Using any[] for achievements as type is local to the component
+
   if (slug === 'home') {
-    const fetched = await getPosts()
-    posts = fetched.map((p) => ({
-      id: p.id,
-      title: p.title,
-      slug: p.slug,
-      heroImage: p.heroImage ? { url: p.heroImage.url, alt: p.heroImage.alt } : undefined,
-    }))
+    const promises = []
+
+    // Promise for theme pages
+    if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
+      promises.push(getCachedThemePages()())
+    } else {
+      promises.push(Promise.resolve([])) // Ensure promise array has a value at this index
+    }
+
+    // Promise for posts
+    promises.push(
+      getPosts().then((fetched) =>
+        fetched.map((p) => ({
+          id: p.id,
+          title: p.title,
+          slug: p.slug,
+          heroImage: p.heroImage ? { url: p.heroImage.url, alt: p.heroImage.alt } : undefined,
+        })),
+      ),
+    )
+
+    // Promise for achievements
+    promises.push(getAchievements())
+
+    // Await all promises in parallel
+    const [themePagesResult, postsResult, achievementsResult] = await Promise.all(promises)
+
+    themePages = themePagesResult
+    posts = postsResult
+    achievements = achievementsResult
+  } else {
+    // Fallback for non-homepage slugs if necessary
+    if (nonNullPage.conservationSection && nonNullPage.conservationSection.enableSection !== false) {
+      themePages = await getCachedThemePages()()
+    }
   }
 
   return (
@@ -205,7 +230,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       )}
       {slug === 'home' && (
         <HomePageAchievementsTabs
-          items={(await getAchievements()).map((a) => ({
+          items={achievements.map((a) => ({
             slug: a.slug,
             title: a.title,
             description: a.summary || '',
