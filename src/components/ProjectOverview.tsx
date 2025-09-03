@@ -1,8 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import type { Media } from '@/payload-types'
-import InteractiveMap from './InteractiveMap'
+const InteractiveMap = dynamic(() => import('./InteractiveMap'), {
+  ssr: false,
+  loading: () => <div className="h-[700px] lg:h-[800px] bg-gray-100 rounded-lg shadow-sm" />,
+})
 
 interface Species {
   species: string
