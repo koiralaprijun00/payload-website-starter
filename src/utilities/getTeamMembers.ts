@@ -99,7 +99,7 @@ async function getTeamMembersByType(
 export const getCachedStaffMembers = () =>
   unstable_cache(async () => getTeamMembersByType('staff'), ['team-members-staff'], {
     tags: ['team-members', 'team-members-staff'],
-    revalidate: 0, // Instant updates
+    revalidate: false, // Instant updates
   })
 
 /**
@@ -108,7 +108,7 @@ export const getCachedStaffMembers = () =>
 export const getCachedAlumniMembers = () =>
   unstable_cache(async () => getTeamMembersByType('alumni'), ['team-members-alumni'], {
     tags: ['team-members', 'team-members-alumni'],
-    revalidate: 0, // Instant updates
+    revalidate: false, // Instant updates
   })
 
 /**
@@ -117,5 +117,5 @@ export const getCachedAlumniMembers = () =>
 export const getCachedExecutiveMembers = () =>
   unstable_cache(async () => getTeamMembersByType('executive'), ['team-members-executive'], {
     tags: ['team-members', 'team-members-executive'],
-    revalidate: 0, // Instant updates
+    revalidate: false, // Instant updates
   })
