@@ -14,10 +14,12 @@ const TeamMembers: CollectionConfig = {
     afterChange: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating team pages`)
+          payload.logger.info(`Revalidating team pages and individual member page`)
           revalidatePath('/executive-team')
           revalidatePath('/staff')
           revalidatePath('/alumni')
+          // Revalidate the individual team member page
+          revalidatePath(`/team-members/${doc.slug}`)
         }
         return doc
       },
@@ -29,6 +31,8 @@ const TeamMembers: CollectionConfig = {
           revalidatePath('/executive-team')
           revalidatePath('/staff')
           revalidatePath('/alumni')
+          // Revalidate the individual team member page
+          revalidatePath(`/team-members/${doc.slug}`)
         }
         return doc
       },
