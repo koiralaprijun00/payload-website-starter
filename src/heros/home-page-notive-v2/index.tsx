@@ -11,7 +11,10 @@ import Link from 'next/link'
 
 export interface Notice {
   id: string
-  category: string
+  category?: string
+  // categories can be an array of slugs or populated objects with slug/title
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  categories?: any
   title: string
   summary: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,6 +67,13 @@ const categoryConfig: Record<
     textColor: 'text-blue-700',
     hoverColor: 'hover:bg-blue-500',
   },
+  biodiversity: {
+    label: 'Biodiversity',
+    color: 'bg-green-500',
+    bgColor: 'bg-green-50',
+    textColor: 'text-green-700',
+    hoverColor: 'hover:bg-green-500',
+  },
   community: {
     label: 'Community',
     color: 'bg-purple-500',
@@ -77,6 +87,13 @@ const categoryConfig: Record<
     bgColor: 'bg-amber-50',
     textColor: 'text-amber-700',
     hoverColor: 'hover:bg-amber-500',
+  },
+  news: {
+    label: 'News',
+    color: 'bg-sky-500',
+    bgColor: 'bg-sky-50',
+    textColor: 'text-sky-700',
+    hoverColor: 'hover:bg-sky-500',
   },
 }
 
@@ -259,13 +276,44 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
             {/* Notices List */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {notices.map((notice, index) => {
-                const config = (categoryConfig[notice.category] ?? categoryConfig.ecosystem) as {
-                  label: string
-                  color: string
-                  bgColor: string
-                  textColor: string
-                  hoverColor: string
-                }
+                // Derive first category from array if available; otherwise use single category
+                const rawCats = notice.categories
+                  ? Array.isArray(notice.categories)
+                    ? notice.categories
+                    : [notice.categories]
+                  : notice.category
+                    ? [notice.category]
+                    : []
+
+                const categories = rawCats
+                  .map((c: unknown) => {
+                    if (typeof c === 'string') return { slug: c, title: c }
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const obj = c as any
+                    return {
+                      slug: obj?.slug || obj?.id || '',
+                      title: obj?.title || obj?.slug || '',
+                    }
+                  })
+                  .filter((c) => c.slug)
+
+                const first = categories[0]
+                const config =
+                  first && categoryConfig[first.slug]
+                    ? (categoryConfig[first.slug] as {
+                        label: string
+                        color: string
+                        bgColor: string
+                        textColor: string
+                        hoverColor: string
+                      })
+                    : {
+                        label: first?.title || 'General',
+                        color: 'bg-gray-400',
+                        bgColor: 'bg-gray-50',
+                        textColor: 'text-gray-700',
+                        hoverColor: 'hover:bg-gray-500',
+                      }
 
                 return (
                   <article
@@ -283,9 +331,19 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
                   >
                     {/* Header */}
                     <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                        <span className={`w-2 h-2 rounded-full ${config.color}`} />
-                        <span>{config.label}</span>
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 flex-wrap">
+                        {categories.map((cat) => {
+                          const cfg = (categoryConfig[cat.slug] ?? {
+                            label: cat.title,
+                            color: 'bg-gray-400',
+                          }) as { label: string; color: string }
+                          return (
+                            <span key={cat.slug} className="inline-flex items-center gap-2 mr-2">
+                              <span className={`w-2 h-2 rounded-full ${cfg.color}`} />
+                              <span>{cfg.label}</span>
+                            </span>
+                          )
+                        })}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Clock className="w-3 h-3" />
@@ -335,7 +393,32 @@ export const EnhancedHeroSection: React.FC<EnhancedHeroSectionProps> = ({
       </div>
 
       {/* Detail Sidebar */}
-      <NoticeSidebar open={sidebarOpen} onClose={handleSidebarClose} notice={selectedNotice} />
+      <NoticeSidebar
+        open={sidebarOpen}
+        onClose={handleSidebarClose}
+        notice={(() => {
+          if (!selectedNotice) return null
+          const firstCategory = selectedNotice.categories
+            ? Array.isArray(selectedNotice.categories)
+              ? selectedNotice.categories[0]
+              : selectedNotice.categories
+            : selectedNotice.category
+
+          const categorySlug = firstCategory
+            ? typeof firstCategory === 'string'
+              ? firstCategory
+              : firstCategory.slug || firstCategory.id || ''
+            : ''
+
+          return {
+            title: selectedNotice.title,
+            category: categorySlug,
+            categories: selectedNotice.categories,
+            summary: selectedNotice.summary,
+            image: selectedNotice.image,
+          }
+        })()}
+      />
 
       {/* Toggle Button */}
       {isHeroInView && (

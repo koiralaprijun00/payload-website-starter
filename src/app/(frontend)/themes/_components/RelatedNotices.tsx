@@ -90,21 +90,22 @@ export default function RelatedNotices({
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {notices.map((notice) => {
-            // Get the first category for display
-            const firstCategory = Array.isArray(notice.categories)
-              ? notice.categories[0]
+            const rawCats = Array.isArray(notice.categories)
+              ? notice.categories
               : notice.categories
-
-            const categorySlug =
-              typeof firstCategory === 'string' ? firstCategory : firstCategory?.slug || ''
-
-            const categoryTitle =
-              typeof firstCategory === 'string' ? firstCategory : firstCategory?.title || ''
-
-            const config = categoryConfig[categorySlug] || {
-              label: categoryTitle,
-              color: 'bg-gray-400',
-            }
+                ? [notice.categories]
+                : []
+            const cats = rawCats
+              .map((c: any) =>
+                typeof c === 'string'
+                  ? { slug: c, title: c }
+                  : { slug: c?.slug || c?.id || '', title: c?.title || c?.slug || '' },
+              )
+              .filter((c: any) => c.slug)
+            const first = cats[0]
+            const config = first
+              ? categoryConfig[first.slug] || { label: first.title, color: 'bg-gray-400' }
+              : { label: '', color: 'bg-gray-400' }
 
             return (
               <article
@@ -122,12 +123,21 @@ export default function RelatedNotices({
                 )}
 
                 <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span
-                      className={`text-xs font-bold uppercase px-3 py-1 ${config.color} text-white rounded-full`}
-                    >
-                      {config.label}
-                    </span>
+                  <div className="flex items-center gap-3 mb-3 flex-wrap">
+                    {cats.map((cat: any) => {
+                      const cfg = categoryConfig[cat.slug] || {
+                        label: cat.title,
+                        color: 'bg-gray-400',
+                      }
+                      return (
+                        <span
+                          key={cat.slug}
+                          className={`text-xs font-bold uppercase px-3 py-1 ${cfg.color} text-white rounded-full`}
+                        >
+                          {cfg.label}
+                        </span>
+                      )
+                    })}
                     {notice.publishedAt && (
                       <span className="text-xs text-gray-500 font-medium">
                         {new Date(notice.publishedAt).toLocaleDateString('en-US', {

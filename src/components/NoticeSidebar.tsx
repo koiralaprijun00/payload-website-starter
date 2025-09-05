@@ -7,18 +7,24 @@ interface NoticeSidebarProps {
   onClose: () => void
   notice: {
     title: string
-    category: string
+    category?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    categories?: any
     summary?: string
-    image?: never
-    content?: never
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    image?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    content?: any
   } | null
 }
 
 const categoryLabel: Record<string, string> = {
   ecosystem: 'Ecosystem',
   species: 'Species',
+  biodiversity: 'Biodiversity',
   community: 'Community',
   policy: 'Policy',
+  news: 'News',
 }
 
 export const NoticeSidebar: React.FC<NoticeSidebarProps> = ({ open, onClose, notice }) => {
@@ -107,9 +113,38 @@ export const NoticeSidebar: React.FC<NoticeSidebarProps> = ({ open, onClose, not
         {notice && (
           <div className="p-8 pt-14 overflow-x-hidden">
             <div className="mb-4">
-              <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">
-                {categoryLabel[notice.category] || notice.category}
-              </span>
+              <div className="flex items-center gap-2 flex-wrap">
+                {(() => {
+                  const rawCats = notice.categories
+                    ? Array.isArray(notice.categories)
+                      ? notice.categories
+                      : [notice.categories]
+                    : notice.category
+                      ? [notice.category]
+                      : []
+
+                  const cats = rawCats
+                    .map((c: unknown) => {
+                      if (typeof c === 'string') return { slug: c, title: c }
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      const obj = c as any
+                      return {
+                        slug: obj?.slug || obj?.id || '',
+                        title: obj?.title || obj?.slug || '',
+                      }
+                    })
+                    .filter((c) => c.slug)
+
+                  return cats.map((cat) => (
+                    <span
+                      key={cat.slug}
+                      className="text-xs font-semibold uppercase tracking-wider text-blue-600"
+                    >
+                      {categoryLabel[cat.slug] || cat.title || 'General'}
+                    </span>
+                  ))
+                })()}
+              </div>
               <h2 className="mt-1 text-2xl font-bold text-mainBlue break-words">{notice.title}</h2>
             </div>
             {notice.summary && <p className="mb-4 text-gray-600 text-base">{notice.summary}</p>}

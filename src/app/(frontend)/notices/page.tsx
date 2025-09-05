@@ -126,29 +126,22 @@ export default function NoticesPage() {
             </li>
           )}
           {filteredNotices.map((notice: any) => {
-            // Get the first category for display
-            const firstCategory = notice.categories
+            const rawCats = notice.categories
               ? Array.isArray(notice.categories)
-                ? notice.categories[0]
-                : notice.categories
-              : null
-
-            const categorySlug = firstCategory
-              ? typeof firstCategory === 'string'
-                ? firstCategory
-                : firstCategory.slug || firstCategory.id
-              : ''
-
-            const categoryTitle = firstCategory
-              ? typeof firstCategory === 'string'
-                ? firstCategory
-                : firstCategory.title || categorySlug
-              : ''
-
-            const config = categoryConfig[categorySlug] || {
-              label: categoryTitle,
-              color: 'bg-gray-400',
-            }
+                ? notice.categories
+                : [notice.categories]
+              : []
+            const cats = rawCats
+              .map((c: any) =>
+                typeof c === 'string'
+                  ? { slug: c, title: c }
+                  : { slug: c?.slug || c?.id || '', title: c?.title || c?.slug || '' },
+              )
+              .filter((c: any) => c.slug)
+            const first = cats[0]
+            const config = first
+              ? categoryConfig[first.slug] || { label: first.title, color: 'bg-gray-400' }
+              : { label: '', color: 'bg-gray-400' }
             return (
               <li
                 key={notice.id}
@@ -160,12 +153,21 @@ export default function NoticesPage() {
                   </div>
                 )}
                 <div className="flex-1 flex flex-col p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span
-                      className={`text-xs font-bold uppercase px-3 py-1 ${config.color} text-white`}
-                    >
-                      {config.label}
-                    </span>
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
+                    {cats.map((cat: any) => {
+                      const cfg = categoryConfig[cat.slug] || {
+                        label: cat.title,
+                        color: 'bg-gray-400',
+                      }
+                      return (
+                        <span
+                          key={cat.slug}
+                          className={`text-xs font-bold uppercase px-3 py-1 ${cfg.color} text-white`}
+                        >
+                          {cfg.label}
+                        </span>
+                      )
+                    })}
                     {notice.publishedAt && (
                       <span className="text-xs text-gray-500 font-semibold ml-2">
                         {new Date(notice.publishedAt).toLocaleDateString('en-US', {
