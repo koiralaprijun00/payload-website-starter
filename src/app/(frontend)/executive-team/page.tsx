@@ -9,7 +9,7 @@ import {
 } from '@/utilities/getTeamMembers'
 
 // Convert to ISR with 5-minute revalidation
-export const revalidate = 300
+export const revalidate = 0
 
 function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
