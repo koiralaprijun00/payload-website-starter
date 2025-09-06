@@ -13,6 +13,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import RelatedPosts from './RelatedPosts'
 
 export async function generateStaticParams() {
   try {
@@ -163,6 +164,14 @@ export default async function Post({ params: paramsPromise }: Args) {
             <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
           </div>
         </div>
+
+        {/* Related Posts */}
+        <RelatedPosts
+          currentPostId={post.id}
+          categoryIds={(post.categories || [])
+            .map((c: any) => (typeof c === 'object' && c ? c.id : c))
+            .filter(Boolean)}
+        />
       </article>
     )
   } catch (error) {
