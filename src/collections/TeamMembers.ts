@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { anyone } from '../access/anyone'
 
 const TeamMembers: CollectionConfig = {
@@ -14,12 +14,18 @@ const TeamMembers: CollectionConfig = {
     afterChange: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating team pages and individual member page`)
+          payload.logger.info(`Revalidating team pages, caches, and individual member page`)
+          // Invalidate route caches
           revalidatePath('/executive-team')
           revalidatePath('/staff')
           revalidatePath('/alumni')
-          // Revalidate the individual team member page
           revalidatePath(`/team-members/${doc.slug}`)
+
+          // Invalidate unstable_cache by tags for instant updates
+          revalidateTag('team-members')
+          revalidateTag('team-members-executive')
+          revalidateTag('team-members-staff')
+          revalidateTag('team-members-alumni')
         }
         return doc
       },
@@ -27,12 +33,18 @@ const TeamMembers: CollectionConfig = {
     afterDelete: [
       ({ doc, req: { payload, context } }) => {
         if (!context.disableRevalidate) {
-          payload.logger.info(`Revalidating team pages after delete`)
+          payload.logger.info(`Revalidating team pages and caches after delete`)
+          // Invalidate route caches
           revalidatePath('/executive-team')
           revalidatePath('/staff')
           revalidatePath('/alumni')
-          // Revalidate the individual team member page
           revalidatePath(`/team-members/${doc.slug}`)
+
+          // Invalidate unstable_cache by tags
+          revalidateTag('team-members')
+          revalidateTag('team-members-executive')
+          revalidateTag('team-members-staff')
+          revalidateTag('team-members-alumni')
         }
         return doc
       },
