@@ -7,7 +7,10 @@ import Image from 'next/image'
 
 import type { Post } from '@/payload-types'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'heroImage' | 'publishedAt' | 'populatedAuthors'>
+export type CardPostData = Pick<
+  Post,
+  'slug' | 'categories' | 'meta' | 'title' | 'heroImage' | 'publishedAt' | 'populatedAuthors'
+>
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -24,16 +27,19 @@ export const Card: React.FC<{
   const { description } = meta || {}
 
   // Format publish date
-  const publishDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  }) : null
+  const publishDate = publishedAt
+    ? new Date(publishedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : null
 
   // Get first author
-  const author = populatedAuthors && Array.isArray(populatedAuthors) && populatedAuthors.length > 0
-    ? populatedAuthors[0]?.name || 'Anonymous'
-    : null
+  const author =
+    populatedAuthors && Array.isArray(populatedAuthors) && populatedAuthors.length > 0
+      ? populatedAuthors[0]?.name || 'Anonymous'
+      : null
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
@@ -111,7 +117,7 @@ export const Card: React.FC<{
             <p>{sanitizedDescription}</p>
           </div>
         )}
-        
+
         {/* Metadata: Author and Date */}
         {(author || publishDate) && (
           <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">

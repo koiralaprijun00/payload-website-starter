@@ -33,17 +33,16 @@ export default async function Page() {
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      
+
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-blue-50 to-green-50 py-16 mb-16">
+      <div className="bg-[linear-gradient(to_right,theme(colors.mainBlue)_0%,theme(colors.mainBlue)_60%,white_100%)] py-16 mb-16">
         <div className="container">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Latest Stories
-            </h1>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              Discover insights, updates, and stories from our conservation work in Bardiya National Park and beyond. 
-              Stay informed about biodiversity, community initiatives, and environmental preservation efforts.
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Latest Stories</h1>
+            <p className="text-lg text-white/90 leading-relaxed">
+              Discover insights, updates, and stories from our conservation work in Bardiya National
+              Park and beyond. Stay informed about biodiversity, community initiatives, and
+              environmental preservation efforts.
             </p>
           </div>
         </div>
