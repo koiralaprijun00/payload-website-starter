@@ -31,14 +31,33 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    select: {
+      title: true,
+      slug: true,
+      categories: true,
+      meta: true,
+      heroImage: true,
+      publishedAt: true,
+      populatedAuthors: true,
+    },
   })
 
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+      
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-blue-50 to-green-50 py-16 mb-16">
+        <div className="container">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Latest Stories
+            </h1>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              Discover insights, updates, and stories from our conservation work in Bardiya National Park and beyond. 
+              Stay informed about biodiversity, community initiatives, and environmental preservation efforts.
+            </p>
+          </div>
         </div>
       </div>
 

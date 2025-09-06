@@ -2,12 +2,12 @@
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
-import React, { Fragment } from 'react'
+import React from 'react'
 import Image from 'next/image'
 
 import type { Post } from '@/payload-types'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'heroImage'>
+export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'heroImage' | 'publishedAt' | 'populatedAuthors'>
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -20,8 +20,20 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title } = doc || {}
+  const { slug, categories, meta, title, publishedAt, populatedAuthors } = doc || {}
   const { description } = meta || {}
+
+  // Format publish date
+  const publishDate = publishedAt ? new Date(publishedAt).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  }) : null
+
+  // Get first author
+  const author = populatedAuthors && Array.isArray(populatedAuthors) && populatedAuthors.length > 0
+    ? populatedAuthors[0]?.name || 'Anonymous'
+    : null
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
@@ -96,7 +108,15 @@ export const Card: React.FC<{
         )}
         {description && (
           <div className="mt-2 text-slate-600 text-sm">
-            {description && <p>{sanitizedDescription}</p>}
+            <p>{sanitizedDescription}</p>
+          </div>
+        )}
+        
+        {/* Metadata: Author and Date */}
+        {(author || publishDate) && (
+          <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+            {author && <span>By {author}</span>}
+            {publishDate && <span>{publishDate}</span>}
           </div>
         )}
       </div>
