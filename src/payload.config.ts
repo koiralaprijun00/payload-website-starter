@@ -1,5 +1,4 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { nodemailerTransport } from './email'
 
 import sharp from 'sharp' // sharp-import
@@ -94,15 +93,7 @@ export default buildConfig({
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, About, ProjectsPageSettings, LearnMore],
-  plugins: [
-    ...plugins,
-    vercelBlobStorage({
-      collections: {
-        media: true,
-      },
-      token: process.env.BLOB_READ_WRITE_TOKEN || '',
-    }),
-  ],
+  plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET || '',
   sharp,
   typescript: {
