@@ -2,6 +2,8 @@
 import React from 'react'
 import { Project, Category } from '@/payload-types'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProjectsHero from '@/components/ProjectsHero'
@@ -29,25 +31,23 @@ async function fetchProjects({
   status?: string[]
 }): Promise<Project[]> {
   try {
-    const params = new URLSearchParams()
-    if (search) params.append('where[title][contains]', search)
-    if (categories.length) params.append('where[categories][in]', categories.join(','))
-    if (area.length) params.append('where[area][in]', area.join(','))
-    if (year.length) params.append('where[year][in]', year.join(','))
-    if (status.length) params.append('where[status][in]', status.join(','))
-    params.append('depth', '2')
+    const payload = await getPayload({ config: configPromise })
+    const and = []
 
-    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-    if (!baseUrl) {
-      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty projects')
-      return []
-    }
+    if (search) and.push({ title: { contains: search } })
+    if (categories.length) and.push({ categories: { in: categories } })
+    if (area.length) and.push({ area: { in: area } })
+    if (year.length) and.push({ year: { in: year } })
+    if (status.length) and.push({ status: { in: status } })
 
-    const url = `${baseUrl}/api/projects?${params.toString()}`
-    const req = await fetch(url, { next: { revalidate: 86400 } })
-    if (!req.ok) return []
-    const { docs } = await req.json()
-    return docs
+    const req = await payload.find({
+      collection: 'projects',
+      where: and.length > 0 ? { and } : undefined,
+      depth: 2,
+      draft: false,
+    })
+    
+    return req.docs as Project[]
   } catch (error) {
     console.warn('Failed to fetch projects during build, returning empty array:', error)
     return []
@@ -56,18 +56,12 @@ async function fetchProjects({
 
 async function fetchCategories(): Promise<Category[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-    if (!baseUrl) {
-      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning empty categories')
-      return []
-    }
-
-    const req = await fetch(`${baseUrl}/api/categories`, {
-      next: { revalidate: 86400 },
+    const payload = await getPayload({ config: configPromise })
+    const req = await payload.find({
+      collection: 'categories',
+      draft: false,
     })
-    if (!req.ok) return []
-    const { docs } = await req.json()
-    return docs
+    return req.docs as Category[]
   } catch (error) {
     console.warn('Failed to fetch categories during build, returning empty array:', error)
     return []
@@ -76,17 +70,8 @@ async function fetchCategories(): Promise<Category[]> {
 
 async function fetchProjectsPageSettings() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_PAYLOAD_URL
-    if (!baseUrl) {
-      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning null for projects page settings')
-      return null
-    }
-
-    const req = await fetch(`${baseUrl}/api/globals/projects-page-settings`, {
-      next: { revalidate: 86400 },
-    })
-    if (!req.ok) return null
-    return await req.json()
+    const payload = await getPayload({ config: configPromise })
+    return await payload.findGlobal({ slug: 'projects-page-settings', draft: false })
   } catch (error) {
     console.warn('Failed to fetch projects page settings during build, returning null:', error)
     return null

@@ -3,15 +3,17 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { notFound } from 'next/navigation'
 
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
 async function getNotice(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/notices?where[slug][equals]=${slug}`,
-    {
-      next: { revalidate: 86400 },
-    },
-  )
-  const json = await res.json()
-  return json?.docs?.[0]
+  const payload = await getPayload({ config: configPromise })
+  const req = await payload.find({
+    collection: 'notices',
+    where: { slug: { equals: slug } },
+    draft: false,
+  })
+  return req.docs?.[0] || null
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

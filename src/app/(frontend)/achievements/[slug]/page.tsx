@@ -3,20 +3,21 @@ import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import RichText from '@/components/RichText'
 
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
 async function getAchievement(slug: string) {
   try {
-    const base = process.env.NEXT_PUBLIC_PAYLOAD_URL
-    if (!base) {
-      console.warn('NEXT_PUBLIC_PAYLOAD_URL is not set, returning null for achievement')
-      return null
-    }
-
-    const res = await fetch(`${base}/api/achievements?where[slug][equals]=${slug}&depth=1`, {
-      next: { revalidate: 600 },
+    const payload = await getPayload({ config: configPromise })
+    const req = await payload.find({
+      collection: 'achievements',
+      where: {
+        slug: { equals: slug },
+      },
+      depth: 1,
+      draft: false,
     })
-    if (!res.ok) return null
-    const json = await res.json()
-    return json.docs?.[0] || null
+    return req.docs?.[0] || null
   } catch (error) {
     console.warn('Failed to fetch achievement during build, returning null:', error)
     return null

@@ -4,13 +4,17 @@ import Hero from './_components/Hero'
 import FeaturesGrid from './_components/FeaturesGrid'
 import VolunteerCTA from './_components/VolunteerCTA'
 
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
 // Helper to fetch the about-us page from Payload
 async function getAboutPageData() {
-  const aboutPageReq = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/globals/about-page`,
-    { next: { revalidate: 86400 } },
-  )
-  const aboutPageData = await aboutPageReq.json()
+  const payload = await getPayload({ config: configPromise })
+  
+  const aboutPageData = await payload.findGlobal({
+    slug: 'about-page',
+    draft: false,
+  })
 
   return { aboutPageData }
 }

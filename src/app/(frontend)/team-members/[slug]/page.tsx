@@ -1,16 +1,21 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
 export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {
   // Await the params Promise
   const { slug } = await params
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/api/team-members?where[slug][equals]=${slug}&depth=1`,
-    { next: { revalidate: 0 } }, // Instant updates
-  )
-  const data = await res.json()
-  const member = data.docs?.[0]
+  const payload = await getPayload({ config: configPromise })
+  const req = await payload.find({
+    collection: 'team-members',
+    where: { slug: { equals: slug } },
+    depth: 1,
+    draft: false,
+  })
+  const member = req.docs?.[0]
   if (!member) return notFound()
 
   // Board badge label
