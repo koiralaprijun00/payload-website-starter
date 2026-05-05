@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload'
+import { CollectionConfig, CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 import { revalidatePath } from 'next/cache'
 
 const Publications: CollectionConfig = {
@@ -19,22 +19,22 @@ const Publications: CollectionConfig = {
   },
   hooks: {
     afterChange: [
-      ({ doc, req: { payload, context } }) => {
+      (({ doc, req: { payload, context } }: Parameters<CollectionAfterChangeHook>[0]) => {
         if (!context.disableRevalidate) {
           payload.logger.info(`Revalidating publications page`)
           revalidatePath('/publications')
         }
         return doc
-      },
+      }) as CollectionAfterChangeHook,
     ],
     afterDelete: [
-      ({ doc, req: { payload, context } }) => {
+      (({ doc, req: { payload, context } }: Parameters<CollectionAfterDeleteHook>[0]) => {
         if (!context.disableRevalidate) {
           payload.logger.info(`Revalidating publications page after delete`)
           revalidatePath('/publications')
         }
         return doc
-      },
+      }) as CollectionAfterDeleteHook,
     ],
   },
   fields: [
