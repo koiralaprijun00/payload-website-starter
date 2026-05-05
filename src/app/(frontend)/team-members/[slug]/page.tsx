@@ -18,13 +18,13 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
   const member = req.docs?.[0]
   if (!member) return notFound()
 
-  // Board badge label
+  // Board badge label — valid boardType values: 'executive' | 'staff' | 'alumni'
   const boardLabel =
-    member.boardType === 'advisory'
-      ? 'Board of Directors'
-      : member.boardType === 'executive'
-        ? 'Executive Board'
-        : 'Staff Member'
+    member.boardType === 'executive'
+      ? 'Executive Board'
+      : member.boardType === 'staff'
+        ? 'Staff Member'
+        : 'Alumni'
 
   return (
     <div className="w-full max-w-6xl mx-auto pt-4 pb-16 px-4 sm:px-6 lg:px-8">
@@ -56,7 +56,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
           <div className="relative w-full sm:w-[320px] lg:w-[380px] xl:w-[420px] h-[300px] sm:h-[400px] lg:h-[480px] xl:h-[520px] hidden md:block">
             <div className="absolute top-4 sm:top-6 left-4 sm:left-6 w-full h-full bg-[#174A67] rounded-xl -z-10" />
             <Image
-              src={member.profileImage.url}
+              src={typeof member.profileImage === 'object' && member.profileImage !== null ? (member.profileImage.url ?? '') : ''}
               alt={member.name}
               fill
               className="object-cover rounded-xl border-4 border-white shadow-xl"
@@ -68,7 +68,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
             <div className="relative w-[280px] sm:w-[320px] h-[220px] sm:h-[280px]">
               <div className="absolute top-2 left-2 w-full h-full bg-[#174A67] rounded-xl -z-10" />
               <Image
-                src={member.profileImage.url}
+                src={typeof member.profileImage === 'object' && member.profileImage !== null ? (member.profileImage.url ?? '') : ''}
                 alt={member.name}
                 fill
                 className="object-cover rounded-xl border-4 border-white shadow-xl"
